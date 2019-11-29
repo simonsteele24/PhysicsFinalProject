@@ -17,6 +17,7 @@ public class CollisionManager3D : MonoBehaviour
     {
         // Vector2's
         public Vector3 normal;
+        public Vector3 contactPoint;
 
         // Floats
         public float separatingVelocity;
@@ -48,6 +49,30 @@ public class CollisionManager3D : MonoBehaviour
             // Based on collision hulls, calculate the rest of the values
             separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a,b);
             normal = (b.GetPosition() - a.GetPosition()).normalized;
+            penetration = _penetration;
+        }
+
+        // This function intializes the collision info class based on given information
+        public CollisionInfo(CollisionHull3D _a, CollisionHull3D _b, float _penetration, Vector3 _normal, Vector3 _contactPoint)
+        {
+            // Is collision A's collision type have less priority to collision B? 
+            if (_a.collisionType > _b.collisionType)
+            {
+                // If yes, then switch their priorities
+                a = _b;
+                b = _a;
+            }
+            else
+            {
+                // If no, then keep them as so
+                a = _a;
+                b = _b;
+            }
+
+
+            // Based on collision hulls, calculate the rest of the values
+            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a, b);
+            normal = _normal;
             penetration = _penetration;
         }
 
@@ -357,7 +382,7 @@ public class CollisionManager3D : MonoBehaviour
         }
 
         // Return full details of the Collision list if the two collide
-        return new CollisionInfo(a, b, penetration);
+        return new CollisionInfo(a, b, penetration, (closestPointToCircle - relativeCentre).normalized, closestPointToCircle);
     }
 
 
