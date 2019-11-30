@@ -144,7 +144,7 @@ public class CollisionResolution : MonoBehaviour
     public static float GetFinalPenetration(List<float> overlaps)
     {
         // Initialize values
-        float penetration = -Mathf.Infinity;
+        float penetration = Mathf.Infinity;
 
 
         for (int i = 0; i < overlaps.Count; i++)

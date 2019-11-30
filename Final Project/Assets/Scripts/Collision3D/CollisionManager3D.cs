@@ -215,83 +215,8 @@ public class CollisionManager3D : MonoBehaviour
     // This function computes AABB to AABB collisions
     public static CollisionInfo AABBToAABBCollision(CollisionHull3D a, CollisionHull3D b)
     {
-        // Get the penetration values for both axes
-        float penetration = 0.0f;
-
-        // Calculate half extents along x axis for each object
-        float a_extent = a.GetDimensions();
-        float b_extent = b.GetDimensions();
-
-        // Get the distance between a and b
-        Vector3 n = (b.GetPosition() - a.GetPosition());
-        n = new Vector3(Mathf.Abs(n.x), Mathf.Abs(n.y), Mathf.Abs(n.z));
-
-        // Calculate overlap on x axis
-        float x_overlap = a_extent + b_extent - Mathf.Abs(n.x);
-
-        // SAT test on x axis
-        if (x_overlap > 0)
-        {
-            // Calculate half extents along x axis for each object
-            a_extent = a.GetDimensions();
-            b_extent = b.GetDimensions();
-
-            // Calculate overlap on y axis
-            float y_overlap = a_extent + b_extent - Mathf.Abs(n.y);
-
-            // SAT test on y axis
-            if (y_overlap > 0)
-            {
-                a_extent = a.GetDimensions();
-                b_extent = b.GetDimensions();
-
-                float z_overlap = a_extent + b_extent - Mathf.Abs(n.z);
-
-                if (z_overlap > 0)
-                {
-                    // Find out which axis is axis of least penetration
-                    if (x_overlap > y_overlap && x_overlap > z_overlap)
-                    {
-                        // If it is Y, then return Y's overlap
-                        penetration = y_overlap;
-                    }
-                    else if (y_overlap > z_overlap)
-                    {
-                        // If it is Y, then return X's overlap
-                        penetration = x_overlap;
-                    }
-                    else
-                    {
-                        penetration = z_overlap;
-                    }
-                }
-            }
-        }
-
-        // Do the two checks pass?
-        if (penetration > 0)
-        {
-            // If yes, then inform the parents of the complex shape object (if applicable)
-            ReportCollisionToParent(a, b);
-        }
-        else
-        {
-            // If no, return nothing
-            return null;
-        }
-
-        // Return full details of the Collision list if the two collide
-        return new CollisionInfo(a, b, penetration);
-    }
-
-
-
-
-
-    // This function computes AABB to OBBB collisions
-    public static CollisionInfo AABBToOBBCollision(CollisionHull3D a, CollisionHull3D b)
-    {
         List<float> overlaps = new List<float>();
+        List<Vector3> axes = new List<Vector3>();
 
         // Get the transform values for each axis for each shape
         Vector3 x1 = a.GetComponent<Particle3D>().transformMatrix.GetColumn(0);
@@ -303,54 +228,393 @@ public class CollisionManager3D : MonoBehaviour
         Vector3 z2 = b.GetComponent<Particle3D>().transformMatrix.GetColumn(2);
 
         // Go through and check through all overlapping axes
+
+        // Face/Face Object 1
         overlaps.Add(CheckOBBAxis(a, b, x1));
+        axes.Add(x1);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, y1));
+        axes.Add(y1);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, z1));
+        axes.Add(z1);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
+
+        // Face/Face Object 2
         overlaps.Add(CheckOBBAxis(a, b, x2));
+        axes.Add(x2);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, y2));
+        axes.Add(y2);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, z2));
+        axes.Add(z2);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
+
+        // Edge/Edge
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, x2)));
+        axes.Add(Vector3.Cross(x1, x2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, y2)));
+        axes.Add(Vector3.Cross(x1, y2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, z2)));
+        axes.Add(Vector3.Cross(x1, z2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, x2)));
+        axes.Add(Vector3.Cross(y1, x2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, y2)));
+        axes.Add(Vector3.Cross(y1, y2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, z2)));
+        axes.Add(Vector3.Cross(y1, z2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, x2)));
+        axes.Add(Vector3.Cross(z1, x2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, y2)));
+        axes.Add(Vector3.Cross(z1, y2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, z2)));
+        axes.Add(Vector3.Cross(z1, z2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
-        // If all axis are overlaping, then we have a collision
-        ReportCollisionToParent(a, b);
-        return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps));
+        float bestOverlap = Mathf.Infinity;
+        int bestIndex = 0;
+        for (int i = 0; i < overlaps.Count; i++)
+        {
+            if (overlaps[i] < bestOverlap && overlaps[i] != bestOverlap && axes[i] != Vector3.zero)
+            {
+                bestOverlap = overlaps[i];
+                bestIndex = i;
+            }
+        }
+
+        if (bestIndex < 3)
+        {
+            Vector3 normal = axes[bestIndex];
+            Vector3 axis = axes[bestIndex];
+            if (Vector3.Dot(axis, (b.GetPosition() - a.GetPosition())) > 0)
+            {
+                axis *= -1;
+            }
+
+            Vector3 vertex = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(2), normal) > 0) vertex.z = -vertex.z;
+
+            vertex = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(vertex);
+
+            // If all axis are overlaping, then we have a collision
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+
+        }
+        else if (bestIndex < 6)
+        {
+            Vector3 normal = axes[bestIndex];
+            Vector3 axis = axes[bestIndex];
+            if (Vector3.Dot(axis, (b.GetPosition() - a.GetPosition())) > 0)
+            {
+                axis *= -1;
+            }
+
+            Vector3 vertex = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(2), normal) > 0) vertex.z = -vertex.z;
+
+            vertex = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(vertex);
+
+            // If all axis are overlaping, then we have a collision
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+        }
+        else
+        {
+            int index = bestIndex - 6;
+            int oneIndex = index / 3;
+            int twoIndex = index % 3;
+
+            Vector3 oneAxis = axes[oneIndex];
+            Vector3 twoAxis = axes[twoIndex];
+
+            Vector3 axis = axes[bestIndex].normalized;
+
+            if (Vector3.Dot(axis, b.GetPosition() - a.GetPosition()) > 0) axis *= -1;
+
+            Vector3 pointOnOneEdge = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+            Vector3 pointOnTwoEdge = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+
+            if (oneIndex == 0) pointOnOneEdge.x = 0;
+            else if (Vector2.Dot(x1, axis) > 0) pointOnOneEdge.x = -pointOnOneEdge.x;
+
+            if (twoIndex == 3) pointOnTwoEdge.x = 0;
+            else if (Vector2.Dot(x2, axis) > 0) pointOnTwoEdge.x = -pointOnTwoEdge.x;
+
+            if (oneIndex == 1) pointOnOneEdge.y = 0;
+            else if (Vector2.Dot(y1, axis) > 0) pointOnOneEdge.y = -pointOnOneEdge.y;
+
+            if (twoIndex == 4) pointOnTwoEdge.y = 0;
+            else if (Vector2.Dot(y2, axis) > 0) pointOnTwoEdge.y = -pointOnTwoEdge.y;
+
+            if (oneIndex == 2) pointOnOneEdge.z = 0;
+            else if (Vector2.Dot(z1, axis) > 0) pointOnOneEdge.z = -pointOnOneEdge.z;
+
+            if (twoIndex == 5) pointOnTwoEdge.z = 0;
+            else if (Vector2.Dot(z2, axis) > 0) pointOnTwoEdge.z = -pointOnTwoEdge.z;
+
+            pointOnOneEdge = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnOneEdge);
+            pointOnTwoEdge = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnTwoEdge);
+
+            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions(), pointOnTwoEdge, twoAxis, b.GetDimensions(), bestIndex > 2);
+
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axes[bestIndex], contactPoint);
+        }
+    }
+
+
+
+
+
+    // This function computes AABB to OBBB collisions
+    public static CollisionInfo AABBToOBBCollision(CollisionHull3D a, CollisionHull3D b)
+    {
+        List<float> overlaps = new List<float>();
+        List<Vector3> axes = new List<Vector3>();
+
+        // Get the transform values for each axis for each shape
+        Vector3 x1 = a.GetComponent<Particle3D>().transformMatrix.GetColumn(0);
+        Vector3 y1 = a.GetComponent<Particle3D>().transformMatrix.GetColumn(1);
+        Vector3 z1 = a.GetComponent<Particle3D>().transformMatrix.GetColumn(2);
+
+        Vector3 x2 = b.GetComponent<Particle3D>().transformMatrix.GetColumn(0);
+        Vector3 y2 = b.GetComponent<Particle3D>().transformMatrix.GetColumn(1);
+        Vector3 z2 = b.GetComponent<Particle3D>().transformMatrix.GetColumn(2);
+
+        // Go through and check through all overlapping axes
+
+        // Face/Face Object 1
+        overlaps.Add(CheckOBBAxis(a, b, x1));
+        axes.Add(x1);
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, y1));
+        axes.Add(y1);
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, z1));
+        axes.Add(z1);
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+
+        // Face/Face Object 2
+        overlaps.Add(CheckOBBAxis(a, b, x2));
+        axes.Add(x2);
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, y2));
+        axes.Add(y2);
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, z2));
+        axes.Add(z2);
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+
+        // Edge/Edge
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, x2)));
+        axes.Add(Vector3.Cross(x1, x2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, y2)));
+        axes.Add(Vector3.Cross(x1, y2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, z2)));
+        axes.Add(Vector3.Cross(x1, z2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, x2)));
+        axes.Add(Vector3.Cross(y1, x2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, y2)));
+        axes.Add(Vector3.Cross(y1, y2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, z2)));
+        axes.Add(Vector3.Cross(y1, z2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, x2)));
+        axes.Add(Vector3.Cross(z1, x2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, y2)));
+        axes.Add(Vector3.Cross(z1, y2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, z2)));
+        axes.Add(Vector3.Cross(z1, z2));
+        if (overlaps[overlaps.Count - 1] < 0) { return null; }
+
+        float bestOverlap = Mathf.Infinity;
+        int bestIndex = 0;
+        for (int i = 0; i < overlaps.Count; i++)
+        {
+            if (overlaps[i] < bestOverlap)
+            {
+                bestOverlap = overlaps[i];
+                bestIndex = i;
+            }
+        }
+
+        if (bestIndex > 3)
+        {
+            Vector3 normal = -axes[bestIndex];
+            Vector3 axis = axes[bestIndex];
+            if (Vector3.Dot(axis,(b.GetPosition()- a.GetPosition())) > 0)
+            {
+                axis *= -1;
+            }
+
+            Vector3 vertex = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(2), normal) > 0) vertex.z = -vertex.z;
+
+            vertex = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(vertex);
+
+            // If all axis are overlaping, then we have a collision
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps),normal,vertex);
+
+        }
+        else if (bestIndex > 6)
+        {
+            Vector3 normal = -axes[bestIndex];
+            Vector3 axis = axes[bestIndex];
+            if (Vector3.Dot(axis, (b.GetPosition() - a.GetPosition())) > 0)
+            {
+                axis *= -1;
+            }
+
+            Vector3 vertex = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(2), normal) > 0) vertex.z = -vertex.z;
+
+            vertex = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(vertex);
+
+            // If all axis are overlaping, then we have a collision
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+        }
+        else
+        {
+            int index = bestIndex - 6;
+            int oneIndex = index / 3;
+            int twoIndex = index % 3;
+
+            Vector3 oneAxis = axes[oneIndex];
+            Vector3 twoAxis = axes[twoIndex];
+
+            Vector3 axis = axes[bestIndex].normalized;
+
+            if (Vector3.Dot(axis, b.GetPosition() - a.GetPosition()) > 0) axis *= -1;
+
+            Vector3 pointOnOneEdge = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+            Vector3 pointOnTwoEdge = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+
+            if (oneIndex == 0) pointOnOneEdge.x = 0;
+            else if (Vector2.Dot(x1, axis) > 0) pointOnOneEdge.x = -pointOnOneEdge.x;
+
+            if (twoIndex == 3) pointOnTwoEdge.x = 0;
+            else if (Vector2.Dot(x2, axis) > 0) pointOnTwoEdge.x = -pointOnTwoEdge.x;
+
+            if (oneIndex == 1) pointOnOneEdge.y = 0;
+            else if (Vector2.Dot(y1, axis) > 0) pointOnOneEdge.y = -pointOnOneEdge.y;
+
+            if (twoIndex == 4) pointOnTwoEdge.y = 0;
+            else if (Vector2.Dot(y2, axis) > 0) pointOnTwoEdge.y = -pointOnTwoEdge.y;
+
+            if (oneIndex == 2) pointOnOneEdge.z = 0;
+            else if (Vector2.Dot(z1, axis) > 0) pointOnOneEdge.z = -pointOnOneEdge.z;
+
+            if (twoIndex == 5) pointOnTwoEdge.z = 0;
+            else if (Vector2.Dot(z2, axis) > 0) pointOnTwoEdge.z = -pointOnTwoEdge.z;
+
+            pointOnOneEdge = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnOneEdge);
+            pointOnTwoEdge = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnTwoEdge);
+
+            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions(), pointOnTwoEdge, twoAxis, b.GetDimensions(), bestIndex > 2);
+
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint);
+        }
+    }
+
+    public static Vector3 GetCollisionPoint (Vector3 pOne, Vector3 dOne, float oneSize, Vector3 pTwo, Vector3 dTwo, float twoSize, bool useOne)
+    {
+        float smOne = dOne.sqrMagnitude;
+        float smTwo = dTwo.sqrMagnitude;
+        float dpOneTwo = Vector3.Dot(dTwo,dOne);
+
+        Vector3 toSt = pOne - pTwo;
+        float dpStaOne = Vector3.Dot(dOne, toSt);
+        float dpStaTwo = Vector3.Dot(dTwo, toSt);
+
+        float denom = smOne * smTwo - dpOneTwo * dpOneTwo;
+
+        // Zero denominator indicates parrallel lines
+        if (Mathf.Abs(denom) < 0.0001f)
+        {
+            return useOne ? pOne : pTwo;
+        }
+
+        float mua = (dpOneTwo * dpStaTwo - smTwo * dpStaOne) / denom;
+        float mub = (smOne * dpStaTwo - dpOneTwo * dpStaOne) / denom;
+
+        // If either of the edges has the nearest point out
+        // of bounds, then the edges aren't crossed, we have
+        // an edge-face contact. Our point is on the edge, which
+        // we know from the useOne parameter.
+        if (mua > oneSize ||
+            mua < -oneSize ||
+            mub > twoSize ||
+            mub < -twoSize)
+        {
+            return useOne ? pOne : pTwo;
+        }
+        else
+        {
+            Vector3 cOne = pOne + dOne * mua;
+            Vector3 cTwo = pTwo + dTwo * mub;
+
+            return cOne * 0.5f + cTwo * 0.5f;
+        }
     }
 
 
@@ -425,6 +689,7 @@ public class CollisionManager3D : MonoBehaviour
     public static CollisionInfo OBBToOBBCollision(CollisionHull3D a, CollisionHull3D b)
     {
         List<float> overlaps = new List<float>();
+        List<Vector3> axes = new List<Vector3>();
 
         // Get the transform values for each axis for each shape
         Vector3 x1 = a.GetComponent<Particle3D>().transformMatrix.GetColumn(0);
@@ -436,54 +701,168 @@ public class CollisionManager3D : MonoBehaviour
         Vector3 z2 = b.GetComponent<Particle3D>().transformMatrix.GetColumn(2);
 
         // Go through and check through all overlapping axes
+
+        // Face/Face Object 1
         overlaps.Add(CheckOBBAxis(a, b, x1));
+        axes.Add(x1);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, y1));
+        axes.Add(y1);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, z1));
+        axes.Add(z1);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
+
+        // Face/Face Object 2
         overlaps.Add(CheckOBBAxis(a, b, x2));
+        axes.Add(x2);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, y2));
+        axes.Add(y2);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, z2));
+        axes.Add(z2);
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
+
+        // Edge/Edge
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, x2)));
+        axes.Add(Vector3.Cross(x1, x2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, y2)));
+        axes.Add(Vector3.Cross(x1, y2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(x1, z2)));
+        axes.Add(Vector3.Cross(x1, z2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, x2)));
+        axes.Add(Vector3.Cross(y1, x2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, y2)));
+        axes.Add(Vector3.Cross(y1, y2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(y1, z2)));
+        axes.Add(Vector3.Cross(y1, z2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, x2)));
+        axes.Add(Vector3.Cross(z1, x2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, y2)));
+        axes.Add(Vector3.Cross(z1, y2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
         overlaps.Add(CheckOBBAxis(a, b, Vector3.Cross(z1, z2)));
+        axes.Add(Vector3.Cross(z1, z2));
         if (overlaps[overlaps.Count - 1] < 0) { return null; }
 
-        // If all axis are overlaping, then we have a collision
-        ReportCollisionToParent(a, b);
-        return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps));
+        float bestOverlap = Mathf.Infinity;
+        int bestIndex = 0;
+        for (int i = 0; i < overlaps.Count; i++)
+        {
+            if (overlaps[i] < bestOverlap)
+            {
+                bestOverlap = overlaps[i];
+                bestIndex = i;
+            }
+        }
+
+        if (bestIndex > 3)
+        {
+            Vector3 normal = axes[bestIndex];
+            Vector3 axis = axes[bestIndex];
+            if (Vector3.Dot(axis, (b.GetPosition() - a.GetPosition())) > 0)
+            {
+                axis *= -1;
+            }
+
+            Vector3 vertex = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
+            if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(2), normal) > 0) vertex.z = -vertex.z;
+
+            vertex = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(vertex);
+
+            // If all axis are overlaping, then we have a collision
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+
+        }
+        else if (bestIndex > 6)
+        {
+            Vector3 normal = axes[bestIndex];
+            Vector3 axis = axes[bestIndex];
+            if (Vector3.Dot(axis, (b.GetPosition() - a.GetPosition())) > 0)
+            {
+                axis *= -1;
+            }
+
+            Vector3 vertex = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
+            if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(2), normal) > 0) vertex.z = -vertex.z;
+
+            vertex = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(vertex);
+
+            // If all axis are overlaping, then we have a collision
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+        }
+        else
+        {
+            int index = bestIndex - 6;
+            int oneIndex = index / 3;
+            int twoIndex = index % 3;
+
+            Vector3 oneAxis = axes[oneIndex];
+            Vector3 twoAxis = axes[twoIndex];
+
+            Vector3 axis = axes[bestIndex].normalized;
+
+            if (Vector3.Dot(axis, b.GetPosition() - a.GetPosition()) > 0) axis *= -1;
+
+            Vector3 pointOnOneEdge = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+            Vector3 pointOnTwoEdge = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+
+            if (oneIndex == 0) pointOnOneEdge.x = 0;
+            else if (Vector2.Dot(x1, axis) > 0) pointOnOneEdge.x = -pointOnOneEdge.x;
+
+            if (twoIndex == 3) pointOnTwoEdge.x = 0;
+            else if (Vector2.Dot(x2, axis) > 0) pointOnTwoEdge.x = -pointOnTwoEdge.x;
+
+            if (oneIndex == 1) pointOnOneEdge.y = 0;
+            else if (Vector2.Dot(y1, axis) > 0) pointOnOneEdge.y = -pointOnOneEdge.y;
+
+            if (twoIndex == 4) pointOnTwoEdge.y = 0;
+            else if (Vector2.Dot(y2, axis) > 0) pointOnTwoEdge.y = -pointOnTwoEdge.y;
+
+            if (oneIndex == 2) pointOnOneEdge.z = 0;
+            else if (Vector2.Dot(z1, axis) > 0) pointOnOneEdge.z = -pointOnOneEdge.z;
+
+            if (twoIndex == 5) pointOnTwoEdge.z = 0;
+            else if (Vector2.Dot(z2, axis) > 0) pointOnTwoEdge.z = -pointOnTwoEdge.z;
+
+            pointOnOneEdge = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnOneEdge);
+            pointOnTwoEdge = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnTwoEdge);
+
+            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions(), pointOnTwoEdge, twoAxis, b.GetDimensions(), bestIndex > 2);
+
+            ReportCollisionToParent(a, b);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint);
+        }
     }
 
 
