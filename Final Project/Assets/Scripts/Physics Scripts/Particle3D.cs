@@ -43,7 +43,7 @@ public class Particle3D : MonoBehaviour
     public bool isGoingDownSlope = false;
     public GameObject slope;
 
-    private float Mass
+    public float Mass
     {
         set
         {
@@ -111,16 +111,6 @@ public class Particle3D : MonoBehaviour
             updateRotationEulerExplicit(Time.fixedDeltaTime);
             updatePositionKinematic(Time.deltaTime);
         }
-
-        // Add a force at a point
-        //if (isGoingDownSlope)
-        //{
-        //    AddForceAtPoint(new Vector3(0.5f, 0.5f, 0.0f), Mass * getSlopeNormal());
-        //}
-        //else
-        //{
-        //    AddForceAtPoint(new Vector3(0.1f, 0.1f, 0.0f), Mass * Vector3.right);
-        //}
 
         // Update accelerations
         UpdateAcceleration();
@@ -203,7 +193,7 @@ public class Particle3D : MonoBehaviour
 
 
     // This function add a specific point with a new force
-    void AddForceAtPoint(Vector3 point, Vector3 newForce)
+    public void AddForceAtPoint(Vector3 point, Vector3 newForce)
     {
         // Calculate the centre of mass and world position
         Vector3 worldCentreOfMass = transform.position;
