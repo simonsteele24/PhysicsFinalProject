@@ -28,5 +28,5 @@ public abstract class CollisionHull3D : MonoBehaviour
 
     public bool GetCollidingChecker() { return isAlreadyColliding; }
 
-    public abstract float GetDimensions();
+    public abstract Vector3 GetDimensions();
 }

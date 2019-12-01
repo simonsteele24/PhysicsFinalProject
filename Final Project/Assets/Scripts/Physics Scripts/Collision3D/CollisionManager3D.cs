@@ -120,7 +120,7 @@ public class CollisionManager3D : MonoBehaviour
         for (int i = 0; i < particles.Count; i++)
         {
             particles[i].ResetCollidingChecker();
-            particles[i].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            //particles[i].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         }
 
         // Iterate through all particles
@@ -158,8 +158,8 @@ public class CollisionManager3D : MonoBehaviour
 
                         if (!isDuplicate)
                         {
-                            collision.a.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-                            collision.b.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+                            //collision.a.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+                            //collision.b.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
 
                             collisions.Add(collision);
                         }
@@ -190,7 +190,7 @@ public class CollisionManager3D : MonoBehaviour
         // Calculate the distance between both colliders
         Vector3 distance = a.GetPosition() - b.GetPosition();
 
-        float penetration = a.GetDimensions() + b.GetDimensions() * (a.GetDimensions() + b.GetDimensions()) - Vector3.Dot(distance, distance);
+        float penetration = a.GetDimensions().x + b.GetDimensions().x * (a.GetDimensions().x + b.GetDimensions().x) - Vector3.Dot(distance, distance);
 
         // Are the Radii less than or equal to the distance between both circles?
         if (penetration > 0)
@@ -314,7 +314,7 @@ public class CollisionManager3D : MonoBehaviour
                 axis *= -1;
             }
 
-            Vector3 vertex = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+            Vector3 vertex = a.GetDimensions();
 
             if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
             if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
@@ -336,7 +336,7 @@ public class CollisionManager3D : MonoBehaviour
                 axis *= -1;
             }
 
-            Vector3 vertex = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+            Vector3 vertex = b.GetDimensions();
 
             if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
             if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
@@ -361,8 +361,8 @@ public class CollisionManager3D : MonoBehaviour
 
             if (Vector3.Dot(axis, b.GetPosition() - a.GetPosition()) > 0) axis *= -1;
 
-            Vector3 pointOnOneEdge = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
-            Vector3 pointOnTwoEdge = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+            Vector3 pointOnOneEdge = a.GetDimensions();
+            Vector3 pointOnTwoEdge = b.GetDimensions();
 
             if (oneIndex == 0) pointOnOneEdge.x = 0;
             else if (Vector2.Dot(x1, axis) > 0) pointOnOneEdge.x = -pointOnOneEdge.x;
@@ -385,7 +385,7 @@ public class CollisionManager3D : MonoBehaviour
             pointOnOneEdge = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnOneEdge);
             pointOnTwoEdge = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnTwoEdge);
 
-            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions(), pointOnTwoEdge, twoAxis, b.GetDimensions(), bestIndex > 2);
+            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions().x, pointOnTwoEdge, twoAxis, b.GetDimensions().x, bestIndex > 2);
 
             ReportCollisionToParent(a, b);
             return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axes[bestIndex], contactPoint);
@@ -498,7 +498,7 @@ public class CollisionManager3D : MonoBehaviour
                 axis *= -1;
             }
 
-            Vector3 vertex = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+            Vector3 vertex = a.GetDimensions();
 
             if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
             if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
@@ -520,7 +520,7 @@ public class CollisionManager3D : MonoBehaviour
                 axis *= -1;
             }
 
-            Vector3 vertex = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+            Vector3 vertex = b.GetDimensions();
 
             if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
             if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
@@ -545,8 +545,8 @@ public class CollisionManager3D : MonoBehaviour
 
             if (Vector3.Dot(axis, b.GetPosition() - a.GetPosition()) > 0) axis *= -1;
 
-            Vector3 pointOnOneEdge = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
-            Vector3 pointOnTwoEdge = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+            Vector3 pointOnOneEdge = a.GetDimensions();
+            Vector3 pointOnTwoEdge = b.GetDimensions();
 
             if (oneIndex == 0) pointOnOneEdge.x = 0;
             else if (Vector2.Dot(x1, axis) > 0) pointOnOneEdge.x = -pointOnOneEdge.x;
@@ -569,7 +569,7 @@ public class CollisionManager3D : MonoBehaviour
             pointOnOneEdge = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnOneEdge);
             pointOnTwoEdge = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnTwoEdge);
 
-            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions(), pointOnTwoEdge, twoAxis, b.GetDimensions(), bestIndex > 2);
+            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions().x, pointOnTwoEdge, twoAxis, b.GetDimensions().x, bestIndex > 2);
 
             ReportCollisionToParent(a, b);
             return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint);
@@ -631,7 +631,7 @@ public class CollisionManager3D : MonoBehaviour
 
         Vector3 distance = relativeCentre - closestPointToCircle;
         float distanceSquared = Vector3.Dot(distance, distance);
-        float penetration = a.GetDimensions() - Mathf.Sqrt(distanceSquared);
+        float penetration = a.GetDimensions().x - Mathf.Sqrt(distanceSquared);
 
         // Is the penetration a positive value
         if (penetration >= 0)
@@ -656,16 +656,16 @@ public class CollisionManager3D : MonoBehaviour
     // This function calculate Circle to ABB collisions
     public static CollisionInfo CircleToOBBCollision(CollisionHull3D a, CollisionHull3D b)
     {
-        // Find the relative centre by transforming the center of the circle to the local space of the OBB
+        // Find the relative centre by transforming the center of the circle to the local space of the AABB
         Vector3 relativeCentre = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(a.GetPosition());
 
         Vector3 closestPointToCircle = new Vector3(Math.Max(b.GetMinimumCorner().x, Math.Min(relativeCentre.x, b.GetMaximumCorner().x)), Math.Max(b.GetMinimumCorner().y, Math.Min(relativeCentre.y, b.GetMaximumCorner().y)), Math.Max(b.GetMinimumCorner().z, Math.Min(relativeCentre.z, b.GetMaximumCorner().z)));
 
         Vector3 distance = relativeCentre - closestPointToCircle;
         float distanceSquared = Vector3.Dot(distance, distance);
-        float penetration = a.GetDimensions() - Mathf.Sqrt(distanceSquared);
+        float penetration = a.GetDimensions().x - Mathf.Sqrt(distanceSquared);
 
-        // Does the check pass?
+        // Is the penetration a positive value
         if (penetration >= 0)
         {
             // If yes, then inform the parents of the complex shape object (if applicable)
@@ -678,7 +678,7 @@ public class CollisionManager3D : MonoBehaviour
         }
 
         // Return full details of the Collision list if the two collide
-        return new CollisionInfo(a, b, penetration);
+        return new CollisionInfo(a, b, penetration, (closestPointToCircle - relativeCentre).normalized, closestPointToCircle);
     }
 
 
@@ -787,7 +787,7 @@ public class CollisionManager3D : MonoBehaviour
                 axis *= -1;
             }
 
-            Vector3 vertex = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
+            Vector3 vertex = a.GetDimensions();
 
             if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
             if (Vector3.Dot(a.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
@@ -809,7 +809,7 @@ public class CollisionManager3D : MonoBehaviour
                 axis *= -1;
             }
 
-            Vector3 vertex = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+            Vector3 vertex = b.GetDimensions();
 
             if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(0), normal) > 0) vertex.x = -vertex.x;
             if (Vector3.Dot(b.GetComponent<Particle3D>().transformMatrix.GetColumn(1), normal) > 0) vertex.y = -vertex.y;
@@ -834,8 +834,8 @@ public class CollisionManager3D : MonoBehaviour
 
             if (Vector3.Dot(axis, b.GetPosition() - a.GetPosition()) > 0) axis *= -1;
 
-            Vector3 pointOnOneEdge = new Vector3(a.GetDimensions(), a.GetDimensions(), a.GetDimensions());
-            Vector3 pointOnTwoEdge = new Vector3(b.GetDimensions(), b.GetDimensions(), b.GetDimensions());
+            Vector3 pointOnOneEdge = a.GetDimensions();
+            Vector3 pointOnTwoEdge = b.GetDimensions();
 
             if (oneIndex == 0) pointOnOneEdge.x = 0;
             else if (Vector2.Dot(x1, axis) > 0) pointOnOneEdge.x = -pointOnOneEdge.x;
@@ -858,7 +858,7 @@ public class CollisionManager3D : MonoBehaviour
             pointOnOneEdge = a.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnOneEdge);
             pointOnTwoEdge = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(pointOnTwoEdge);
 
-            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions(), pointOnTwoEdge, twoAxis, b.GetDimensions(), bestIndex > 2);
+            Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions().x, pointOnTwoEdge, twoAxis, b.GetDimensions().x, bestIndex > 2);
 
             ReportCollisionToParent(a, b);
             return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint);
@@ -902,8 +902,8 @@ public class CollisionManager3D : MonoBehaviour
 
     public static float transformToOBBAxis(CollisionHull3D shape, Vector3 rotationAxis)
     {
-        return shape.GetDimensions() * Mathf.Abs(Vector3.Dot(shape.GetComponent<Particle3D>().transformMatrix.GetColumn(0), rotationAxis)) +
-               shape.GetDimensions() * Mathf.Abs(Vector3.Dot(shape.GetComponent<Particle3D>().transformMatrix.GetColumn(1), rotationAxis)) +
-               shape.GetDimensions() * Mathf.Abs(Vector3.Dot(shape.GetComponent<Particle3D>().transformMatrix.GetColumn(2), rotationAxis));
+        return shape.GetDimensions().x * Mathf.Abs(Vector3.Dot(shape.GetComponent<Particle3D>().transformMatrix.GetColumn(0), rotationAxis)) +
+               shape.GetDimensions().y * Mathf.Abs(Vector3.Dot(shape.GetComponent<Particle3D>().transformMatrix.GetColumn(1), rotationAxis)) +
+               shape.GetDimensions().z * Mathf.Abs(Vector3.Dot(shape.GetComponent<Particle3D>().transformMatrix.GetColumn(2), rotationAxis));
     }
 }

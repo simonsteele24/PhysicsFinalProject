@@ -18,7 +18,7 @@ public class Sphere : CollisionHull3D
         CollisionManager3D.manager.InsertToParticleList(this);
     }
 
-    public override float GetDimensions() { return radius; }
+    public override Vector3 GetDimensions() { return new Vector3(radius, radius, radius); }
 
     // Update is called once per frame
     void Update()

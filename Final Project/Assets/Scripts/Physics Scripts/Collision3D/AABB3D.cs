@@ -2,33 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OBB3D : CollisionHull3D
+public class AABB3D : CollisionHull3D
 {
-    // Floats
-    public float halfSize = 0.5f;
+    public Vector3 halfSize;
 
     // Start is called before the first frame update
     void Start()
     {
-        collisionType = CollisionHullType3D.OBBB;
+        collisionType = CollisionHullType3D.AABB;
+
+        
 
         // Initialize position of Collision hull
         position = transform.position;
 
-        minCorner = new Vector3(-halfSize, -halfSize, -halfSize);
-        maxCorner = new Vector3(halfSize, halfSize, halfSize);
+        halfSize = transform.localScale / 2.0f;
+        minCorner = -halfSize;
+        maxCorner = halfSize;
 
         // Add hull to hull list
         CollisionManager3D.manager.InsertToParticleList(this);
     }
 
-
-    public override float GetDimensions() { return halfSize; }
+    public override Vector3 GetDimensions() { return halfSize; }
 
     // Update is called once per frame
     void Update()
     {
         position = transform.position;
-        rotation = transform.eulerAngles.z;
     }
 }
