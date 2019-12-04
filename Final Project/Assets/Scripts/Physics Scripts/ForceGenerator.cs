@@ -72,9 +72,9 @@ public class ForceGenerator : MonoBehaviour
 
     // The following force generates a drag force based on a particle's velocity, the fluid velocity
     //  of the thing that is applying the drag, the cross section of the particle, and a drag coefficient
-    public static Vector2 GenerateForce_drag(Vector2 particleVelocity, Vector2 fluidVelocity, float fluidDensity, float objectArea_crossSection, float objectDragCoefficient)
+    public static Vector3 GenerateForce_drag(Vector3 particleVelocity, Vector3 fluidVelocity, float fluidDensity, float objectArea_crossSection, float objectDragCoefficient)
     {
-        Vector2 f_drag = (fluidDensity * particleVelocity * particleVelocity * objectArea_crossSection * objectDragCoefficient) / 2.0f;
+        Vector3 f_drag = (fluidDensity * Vector3.Scale(particleVelocity , fluidVelocity) * objectArea_crossSection * objectDragCoefficient) / 2.0f;
         return f_drag;
     }
 

@@ -183,6 +183,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -357,6 +362,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -531,6 +541,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -705,6 +720,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -977,6 +997,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1151,6 +1176,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1382,6 +1412,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1650,6 +1685,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1837,6 +1877,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2011,6 +2056,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2323,6 +2373,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2450,6 +2505,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2624,6 +2684,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2771,6 +2836,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 1
+  enabledByDragForce: 1
+  dragCoefficient: 1
+  objCrossSection: 1
+  fluidDensity: 1
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2986,6 +3056,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 0
+  enabledByDragForce: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}

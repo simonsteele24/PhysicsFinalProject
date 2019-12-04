@@ -7,6 +7,12 @@ public class Particle3D : MonoBehaviour
     // Booleans
     public bool isUsingKinematicFormula = false;
     public bool isUsingGravity = false;
+    public bool enabledByDragForce = false;
+
+    public float dragCoefficient;
+    public float objCrossSection;
+    public float fluidDensity;
+    public Vector3 fluidVelocity;
 
     // Inertia - specific variables
     public Vector3 centreOfMass;
@@ -86,6 +92,10 @@ public class Particle3D : MonoBehaviour
         if (isUsingGravity)
         {
             AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, GRAVITATIONAL_CONSTANT, Vector3.up));
+        }
+        if (enabledByDragForce)
+        {
+            AddForce(ForceGenerator.GenerateForce_drag(velocity, fluidVelocity, fluidDensity, objCrossSection, dragCoefficient));
         }
 
         // Set the transformation matrices
