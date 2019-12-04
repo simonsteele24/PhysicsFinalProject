@@ -5,6 +5,7 @@ using UnityEngine;
 public class Sphere : CollisionHull3D
 {
     public float radius;
+    public bool hasAResolution;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,8 @@ public class Sphere : CollisionHull3D
     }
 
     public override Vector3 GetDimensions() { return new Vector3(radius, radius, radius); }
+
+    public override bool GetHasResolution() { return hasAResolution; }
 
     // Update is called once per frame
     void Update()

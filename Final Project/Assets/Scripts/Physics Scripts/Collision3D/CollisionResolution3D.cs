@@ -25,7 +25,7 @@ public class CollisionResolution3D : MonoBehaviour
         for (int i = 0; i < collisions.Count; i++)
         {
             // Are the two particles moving towards each other
-            if (collisions[i].separatingVelocity > 0)
+            if (collisions[i].separatingVelocity > 0 && collisions[i].a.GetHasResolution() == false && collisions[i].b.GetHasResolution() == false)
             {
                 // If yes, then resolve collision
                 ResolvePenetration(collisions[i]);

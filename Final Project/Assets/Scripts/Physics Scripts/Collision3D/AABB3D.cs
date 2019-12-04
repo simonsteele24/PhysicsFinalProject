@@ -5,6 +5,7 @@ using UnityEngine;
 public class AABB3D : CollisionHull3D
 {
     public Vector3 halfSize;
+    public bool hasAResolution;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,8 @@ public class AABB3D : CollisionHull3D
     }
 
     public override Vector3 GetDimensions() { return halfSize; }
+
+    public override bool GetHasResolution() { return hasAResolution; }
 
     // Update is called once per frame
     void Update()

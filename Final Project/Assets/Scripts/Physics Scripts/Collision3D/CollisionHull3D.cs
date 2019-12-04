@@ -7,6 +7,8 @@ public abstract class CollisionHull3D : MonoBehaviour
 
     // Vector 2's
     protected bool isAlreadyColliding;
+    protected bool isColliding;
+    protected bool hasResolution;
     protected float rotation;
     protected Vector3 minCorner;
     protected Vector3 maxCorner;
@@ -28,5 +30,11 @@ public abstract class CollisionHull3D : MonoBehaviour
 
     public bool GetCollidingChecker() { return isAlreadyColliding; }
 
+    public void CheckColliding() { isColliding = true; }
+
+    public void ResetColliding() { isColliding = false; }
+
     public abstract Vector3 GetDimensions();
+
+    public abstract bool GetHasResolution();
 }

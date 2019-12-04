@@ -120,6 +120,7 @@ public class CollisionManager3D : MonoBehaviour
         for (int i = 0; i < particles.Count; i++)
         {
             particles[i].ResetCollidingChecker();
+            particles[i].ResetColliding();
             //particles[i].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         }
 
@@ -147,6 +148,19 @@ public class CollisionManager3D : MonoBehaviour
 
                     if (collision != null)
                     {
+                        collision.a.CheckColliding();
+                        collision.b.CheckColliding();
+
+                        if (collision.a.GetComponent<WindZoneScript>() != null)
+                        {
+                            collision.b.GetComponent<Particle3D>().AddForce(collision.a.GetComponent<WindZoneScript>().force);
+                        }
+                        else if (collision.b.GetComponent<WindZoneScript>() != null)
+                        {
+                            collision.a.GetComponent<Particle3D>().AddForce(collision.b.GetComponent<WindZoneScript>().force);
+                        }
+
+
                         bool isDuplicate = false;
                         for (int i = 0; i < collisions.Count; i++)
                         {
@@ -638,6 +652,7 @@ public class CollisionManager3D : MonoBehaviour
         {
             // If yes, then inform the parents of the complex shape object (if applicable)
             ReportCollisionToParent(a, b);
+            Debug.Log("Hitting");
         }
         else
         {
