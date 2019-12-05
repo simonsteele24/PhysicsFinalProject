@@ -84,10 +84,13 @@ public class ForceGenerator : MonoBehaviour
     // position, the spring's rest position, and the stiffness of the spring
     public static Vector3 GenerateForce_spring(Vector3 particlePosition, Vector3 anchorPosition, float springRestingLength, float springStiffnessCoefficient)
     {
-        Vector3 dir = (anchorPosition - particlePosition).normalized;
-        float f_spring = -springStiffnessCoefficient * ((anchorPosition - particlePosition).magnitude - springRestingLength);
+        Vector3 force = (particlePosition - anchorPosition);
+        float magnitude = force.magnitude;
+        magnitude = (springRestingLength - magnitude) * springStiffnessCoefficient;
 
-        return dir * f_spring;
+        force = force.normalized;
+
+        return force * magnitude;
     }
 
 
