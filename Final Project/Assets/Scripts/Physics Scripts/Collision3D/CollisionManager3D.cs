@@ -891,11 +891,11 @@ public class CollisionManager3D : MonoBehaviour
         if (shapeA.transform.parent != null)
         {
 
-            shapeA.GetComponentInParent<ParentCollisionScript3D>().ReportCollisionToParent();
+            //shapeA.GetComponentInParent<ParentCollisionScript3D>().ReportCollisionToParent();
         }
         if (shapeB.transform.parent != null)
         {
-            shapeB.GetComponentInParent<ParentCollisionScript3D>().ReportCollisionToParent();
+            //shapeB.GetComponentInParent<ParentCollisionScript3D>().ReportCollisionToParent();
         }
     }
 

@@ -9,6 +9,11 @@ public class Particle3D : MonoBehaviour
     public bool isUsingGravity = false;
     public bool enabledByDragForce = false;
 
+    public bool isAnchoredSpring = false;
+    public GameObject anchor;
+    public float springRestingLength;
+    public float springCoefficient;
+
     public float dragCoefficient;
     public float objCrossSection;
     public float fluidDensity;
@@ -97,6 +102,10 @@ public class Particle3D : MonoBehaviour
         {
             AddForce(ForceGenerator.GenerateForce_drag(velocity, fluidVelocity, fluidDensity, objCrossSection, dragCoefficient));
         }
+        if (isAnchoredSpring)
+        {
+            AddForce(ForceGenerator.GenerateForce_spring(position, anchor.transform.position, springRestingLength, springCoefficient));
+        }
 
         // Set the transformation matrices
         transformMatrix = Matrix4x4.TRS(transform.position, rotation, new Vector3(1,1,1));
@@ -113,13 +122,13 @@ public class Particle3D : MonoBehaviour
         {
             // If yes, then do so
             updateRotationKinematic(Time.fixedDeltaTime);
-            updatePositionEulerExplicit(Time.fixedDeltaTime);
+            updatePositionKinematic(Time.fixedDeltaTime);
         }
         else
         {
             // If no, then use the Euler Explicit formula
             updateRotationEulerExplicit(Time.fixedDeltaTime);
-            updatePositionKinematic(Time.deltaTime);
+            updatePositionEulerExplicit(Time.deltaTime);
         }
 
         // Update accelerations
@@ -212,6 +221,14 @@ public class Particle3D : MonoBehaviour
         // Get the cross product of the positional vector and the new force and then apply it
         torque = Vector3.Cross((pointWorldPosition - worldCentreOfMass), newForce);
         force += newForce;
+    }
+
+
+
+
+    public void ApplyTorque(Vector3 newTorque)
+    {
+        torque = newTorque;
     }
 
 

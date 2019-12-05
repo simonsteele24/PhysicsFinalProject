@@ -82,9 +82,9 @@ public class ForceGenerator : MonoBehaviour
 
     // The following function generates a spring force on a particle based on the particle's position, the anchor's
     // position, the spring's rest position, and the stiffness of the spring
-    public static Vector2 GenerateForce_spring(Vector2 particlePosition, Vector2 anchorPosition, float springRestingLength, float springStiffnessCoefficient)
+    public static Vector3 GenerateForce_spring(Vector3 particlePosition, Vector3 anchorPosition, float springRestingLength, float springStiffnessCoefficient)
     {
-        Vector2 dir = (anchorPosition - particlePosition).normalized;
+        Vector3 dir = (anchorPosition - particlePosition).normalized;
         float f_spring = -springStiffnessCoefficient * ((anchorPosition - particlePosition).magnitude - springRestingLength);
 
         return dir * f_spring;
