@@ -6,6 +6,7 @@ public class Sphere : CollisionHull3D
 {
     public float radius;
     public bool hasAResolution;
+    public bool hasCollided;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class Sphere : CollisionHull3D
     // Update is called once per frame
     void Update()
     {
+        hasCollided = isColliding;
         position = transform.position;
         minCorner = new Vector3(position.x - radius, position.y - radius, position.z - radius);
         maxCorner = new Vector3(position.x + radius, position.y + radius, position.z + radius);

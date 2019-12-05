@@ -19,6 +19,8 @@ public class PlayerScript : MonoBehaviour
         float inputAmountY = Mathf.Abs(Input.GetAxis("Vertical"));
 
         GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(inputAmountX + inputAmountY, 0, 1), 0.1f, Time.deltaTime);
+        GetComponentInChildren<Animator>().SetBool("OnGround", GetComponent<Sphere>().hasCollided);
+        GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
         if (Input.GetKey(KeyCode.W))
         {

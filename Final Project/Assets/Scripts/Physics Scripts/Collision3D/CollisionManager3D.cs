@@ -148,8 +148,7 @@ public class CollisionManager3D : MonoBehaviour
 
                     if (collision != null)
                     {
-                        collision.a.CheckColliding();
-                        collision.b.CheckColliding();
+                        
 
                         if (collision.a.GetComponent<WindZoneScript>() != null)
                         {
@@ -172,6 +171,8 @@ public class CollisionManager3D : MonoBehaviour
 
                         if (!isDuplicate)
                         {
+                            collision.a.CheckColliding();
+                            collision.b.CheckColliding();
                             //collision.a.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
                             //collision.b.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
 
