@@ -34,6 +34,8 @@ public abstract class CollisionHull3D : MonoBehaviour
 
     public void ResetColliding() { isColliding = false; }
 
+    public bool GetColliding() { return isColliding; }
+
     public abstract Vector3 GetDimensions();
 
     public abstract bool GetHasResolution();

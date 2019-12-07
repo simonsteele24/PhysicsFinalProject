@@ -22,7 +22,6 @@ public class BoatControllerScript : MonoBehaviour
     void Update()
     {
         GetComponent<Particle3D>().AddForce(ForceGenerator.GenerateForce_buoyancy(transform.position, waterHeight, maxDepth, volume, liquidDensity));
-        Debug.Log(ForceGenerator.GenerateForce_buoyancy(transform.position, waterHeight, maxDepth, volume, liquidDensity));
 
         if (Input.GetKey(KeyCode.W))
         {

@@ -24,22 +24,22 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            GetComponent<Particle3D>().AddForceAtPoint(new Vector3(0.0f, 0.0f, 0.1f), GetComponent<Particle3D>().Mass * Vector3.forward);
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.forward);
             transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            GetComponent<Particle3D>().AddForceAtPoint(new Vector3(-0.1f, 0.0f, 0.0f), GetComponent<Particle3D>().Mass * Vector3.left);
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.left);
             transform.GetChild(0).localEulerAngles = new Vector3(0, 270, 0);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            GetComponent<Particle3D>().AddForceAtPoint(new Vector3(0.0f, 0.0f, -0.1f), GetComponent<Particle3D>().Mass * Vector3.back);
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.back);
             transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            GetComponent<Particle3D>().AddForceAtPoint(new Vector3(0.1f, 0.0f, 0.0f), GetComponent<Particle3D>().Mass * Vector3.right);
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.right);
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
         }
         if (Input.GetKeyDown(KeyCode.Space))

@@ -8,6 +8,9 @@ public class Particle3D : MonoBehaviour
     public bool isUsingKinematicFormula = false;
     public bool isUsingGravity = false;
     public bool enabledByDragForce = false;
+    public bool isCharacterController;
+    public float controllerLevitationValue = 0.0f;
+    public GameObject collidingGameObject;
 
     public bool isAnchoredSpring = false;
     public GameObject anchor;
@@ -18,6 +21,7 @@ public class Particle3D : MonoBehaviour
     public float objCrossSection;
     public float fluidDensity;
     public Vector3 fluidVelocity;
+    public float damping = 1.0f;
 
     // Inertia - specific variables
     public Vector3 centreOfMass;
@@ -160,6 +164,7 @@ public class Particle3D : MonoBehaviour
     {
         position += velocity * dt;
         velocity += acceleration * dt;
+        velocity *= Mathf.Pow(damping, dt);
     }
 
 
@@ -172,6 +177,7 @@ public class Particle3D : MonoBehaviour
     {
         position += velocity * dt + 0.5f * acceleration * Mathf.Pow(dt, 2);
         velocity += acceleration * dt;
+        velocity *= Mathf.Pow(damping, dt);
     }
 
 

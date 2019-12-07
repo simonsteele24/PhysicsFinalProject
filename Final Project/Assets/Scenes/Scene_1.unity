@@ -184,6 +184,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -192,6 +195,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -367,6 +371,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -375,6 +382,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -498,7 +506,6 @@ GameObject:
   - component: {fileID: 132059527}
   - component: {fileID: 132059526}
   - component: {fileID: 132059525}
-  - component: {fileID: 132059524}
   - component: {fileID: 132059523}
   m_Layer: 0
   m_Name: Cube (2)
@@ -522,19 +529,6 @@ MonoBehaviour:
   collisionType: 0
   halfSize: {x: 0, y: 0, z: 0}
   hasAResolution: 0
---- !u!65 &132059524
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 132059522}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &132059525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,6 +544,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -558,6 +555,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -663,8 +661,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132059522}
   m_LocalRotation: {x: -0, y: -0, z: -0.24816018, w: 0.96871907}
-  m_LocalPosition: {x: 9.033, y: 2.3124998, z: 1.382}
-  m_LocalScale: {x: 15.25, y: 6.483, z: 7.7500796}
+  m_LocalPosition: {x: 9.286, y: 2.174, z: 1.382}
+  m_LocalScale: {x: 14.6705, y: 6.483, z: 7.7500796}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -689,7 +687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &137595248
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -733,6 +731,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -741,6 +742,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -885,7 +887,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionType: 0
   radius: 1
-  hasAResolution: 0
+  hasAResolution: 1
+  hasCollided: 0
 --- !u!114 &182053258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,6 +917,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 1
   enabledByDragForce: 0
+  isCharacterController: 1
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -922,6 +928,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1008,6 +1015,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 1
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 1
   anchor: {fileID: 2011578329}
   springRestingLength: 7
@@ -1016,6 +1026,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 0.5
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1134,7 +1145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 284236837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.79, y: 6.317499, z: 0}
+  m_LocalPosition: {x: 37, y: 9.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1238,6 +1249,208 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToFollow: {fileID: 182053256}
   cameraOffset: {x: 0, y: 4, z: -4}
+--- !u!1 &316796921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 316796927}
+  - component: {fileID: 316796926}
+  - component: {fileID: 316796925}
+  - component: {fileID: 316796924}
+  - component: {fileID: 316796923}
+  - component: {fileID: 316796922}
+  - component: {fileID: 316796928}
+  m_Layer: 0
+  m_Name: Cube (8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &316796922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6b12abc9b684d4ba4bf59d87a3cd52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionType: 0
+  halfSize: {x: 0, y: 0, z: 0}
+  hasAResolution: 0
+--- !u!114 &316796923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfa2619c0bcfc546a4245faee366836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUsingKinematicFormula: 0
+  isUsingGravity: 1
+  enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
+  isAnchoredSpring: 0
+  anchor: {fileID: 0}
+  springRestingLength: 0
+  springCoefficient: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
+  centreOfMass: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  acceleration: {x: 0, y: 0, z: 0}
+  transformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  invTransformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  width: 0
+  height: 0
+  depth: 0
+  radius: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  shape: 0
+  isHollow: 0
+  angularVelocity: {x: 0, y: 0, z: 0}
+  angularAcceleration: {x: 0, y: 0, z: 0}
+  mass: 3
+  invMass: 0
+  isGoingDownSlope: 0
+  slope: {fileID: 0}
+--- !u!65 &316796924
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796921}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &316796925
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796921}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &316796926
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796921}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &316796927
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 40, y: 1.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &316796928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316796921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855d65fe849eddd45978d78dd5a8abc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLength: 2.1
+  parent: {fileID: 1437892867}
 --- !u!1 &343629034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1258,7 +1471,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &343629035
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1302,6 +1515,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -1310,6 +1526,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1421,6 +1638,193 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &344653229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 344653235}
+  - component: {fileID: 344653234}
+  - component: {fileID: 344653233}
+  - component: {fileID: 344653232}
+  - component: {fileID: 344653231}
+  - component: {fileID: 344653230}
+  m_Layer: 0
+  m_Name: Cube (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &344653230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344653229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6b12abc9b684d4ba4bf59d87a3cd52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionType: 0
+  halfSize: {x: 0, y: 0, z: 0}
+  hasAResolution: 0
+--- !u!114 &344653231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344653229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfa2619c0bcfc546a4245faee366836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUsingKinematicFormula: 0
+  isUsingGravity: 0
+  enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
+  isAnchoredSpring: 0
+  anchor: {fileID: 0}
+  springRestingLength: 0
+  springCoefficient: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
+  centreOfMass: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  acceleration: {x: 0, y: 0, z: 0}
+  transformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  invTransformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  width: 0
+  height: 0
+  depth: 0
+  radius: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  shape: 0
+  isHollow: 0
+  angularVelocity: {x: 0, y: 0, z: 0}
+  angularAcceleration: {x: 0, y: 0, z: 0}
+  mass: 0
+  invMass: 1e+10
+  isGoingDownSlope: 0
+  slope: {fileID: 0}
+--- !u!65 &344653232
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344653229}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &344653233
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344653229}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &344653234
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344653229}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &344653235
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344653229}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 36, y: 1.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &371461117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,6 +1889,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -1493,6 +1900,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -1725,6 +2133,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -1733,6 +2144,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2002,6 +2414,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -2010,6 +2425,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2154,7 +2570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &568861459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2198,6 +2614,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -2206,6 +2625,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2382,6 +2802,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 1
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -2390,6 +2813,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 0.8
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2524,6 +2948,193 @@ MonoBehaviour:
   maxDepth: 0
   volume: 1
   liquidDensity: 5.65
+--- !u!1 &1111292435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1111292441}
+  - component: {fileID: 1111292440}
+  - component: {fileID: 1111292439}
+  - component: {fileID: 1111292438}
+  - component: {fileID: 1111292437}
+  - component: {fileID: 1111292436}
+  m_Layer: 0
+  m_Name: Cube (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1111292436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111292435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6b12abc9b684d4ba4bf59d87a3cd52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionType: 0
+  halfSize: {x: 0, y: 0, z: 0}
+  hasAResolution: 0
+--- !u!114 &1111292437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111292435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfa2619c0bcfc546a4245faee366836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUsingKinematicFormula: 0
+  isUsingGravity: 0
+  enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
+  isAnchoredSpring: 0
+  anchor: {fileID: 0}
+  springRestingLength: 0
+  springCoefficient: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
+  centreOfMass: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  acceleration: {x: 0, y: 0, z: 0}
+  transformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  invTransformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  width: 0
+  height: 0
+  depth: 0
+  radius: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  shape: 0
+  isHollow: 0
+  angularVelocity: {x: 0, y: 0, z: 0}
+  angularAcceleration: {x: 0, y: 0, z: 0}
+  mass: 0
+  invMass: 1e+10
+  isGoingDownSlope: 0
+  slope: {fileID: 0}
+--- !u!65 &1111292438
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111292435}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1111292439
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111292435}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1111292440
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111292435}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1111292441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111292435}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 44, y: 1.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1113831941
 GameObject:
   m_ObjectHideFlags: 0
@@ -2560,6 +3171,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -2568,6 +3182,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2707,6 +3322,208 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1117993154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1117993161}
+  - component: {fileID: 1117993160}
+  - component: {fileID: 1117993159}
+  - component: {fileID: 1117993158}
+  - component: {fileID: 1117993157}
+  - component: {fileID: 1117993156}
+  - component: {fileID: 1117993155}
+  m_Layer: 0
+  m_Name: Cube (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1117993155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117993154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855d65fe849eddd45978d78dd5a8abc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLength: 2.1
+  parent: {fileID: 1111292435}
+--- !u!114 &1117993156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117993154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6b12abc9b684d4ba4bf59d87a3cd52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionType: 0
+  halfSize: {x: 0, y: 0, z: 0}
+  hasAResolution: 0
+--- !u!114 &1117993157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117993154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfa2619c0bcfc546a4245faee366836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUsingKinematicFormula: 0
+  isUsingGravity: 1
+  enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
+  isAnchoredSpring: 0
+  anchor: {fileID: 0}
+  springRestingLength: 0
+  springCoefficient: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
+  centreOfMass: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  acceleration: {x: 0, y: 0, z: 0}
+  transformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  invTransformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  width: 0
+  height: 0
+  depth: 0
+  radius: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  shape: 0
+  isHollow: 0
+  angularVelocity: {x: 0, y: 0, z: 0}
+  angularAcceleration: {x: 0, y: 0, z: 0}
+  mass: 3
+  invMass: 0
+  isGoingDownSlope: 0
+  slope: {fileID: 0}
+--- !u!65 &1117993158
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117993154}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1117993159
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117993154}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1117993160
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117993154}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1117993161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117993154}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 42, y: 1.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1171474458
 GameObject:
   m_ObjectHideFlags: 0
@@ -2811,7 +3628,6 @@ GameObject:
   - component: {fileID: 1241991989}
   - component: {fileID: 1241991992}
   - component: {fileID: 1241991988}
-  - component: {fileID: 1241991993}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -2909,6 +3725,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -2917,6 +3736,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -2968,19 +3788,194 @@ MonoBehaviour:
   invMass: 3.4028235e+38
   isGoingDownSlope: 0
   slope: {fileID: 0}
---- !u!65 &1241991993
-BoxCollider:
+--- !u!1 &1437892867
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241991987}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1437892873}
+  - component: {fileID: 1437892872}
+  - component: {fileID: 1437892871}
+  - component: {fileID: 1437892870}
+  - component: {fileID: 1437892869}
+  - component: {fileID: 1437892868}
+  m_Layer: 0
+  m_Name: Cube (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1437892868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437892867}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855d65fe849eddd45978d78dd5a8abc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLength: 2.1
+  parent: {fileID: 344653229}
+--- !u!114 &1437892869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437892867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfa2619c0bcfc546a4245faee366836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUsingKinematicFormula: 0
+  isUsingGravity: 1
+  enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
+  isAnchoredSpring: 0
+  anchor: {fileID: 0}
+  springRestingLength: 0
+  springCoefficient: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
+  centreOfMass: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  acceleration: {x: 0, y: 0, z: 0}
+  transformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  invTransformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  width: 0
+  height: 0
+  depth: 0
+  radius: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  shape: 0
+  isHollow: 0
+  angularVelocity: {x: 0, y: 0, z: 0}
+  angularAcceleration: {x: 0, y: 0, z: 0}
+  mass: 3
+  invMass: 0
+  isGoingDownSlope: 0
+  slope: {fileID: 0}
+--- !u!114 &1437892870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437892867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6b12abc9b684d4ba4bf59d87a3cd52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionType: 0
+  halfSize: {x: 0, y: 0, z: 0}
+  hasAResolution: 0
+--- !u!23 &1437892871
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437892867}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1437892872
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437892867}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1437892873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437892867}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38, y: 1.88, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1497236764
 GameObject:
   m_ObjectHideFlags: 0
@@ -2996,7 +3991,7 @@ GameObject:
   - component: {fileID: 1497236766}
   - component: {fileID: 1497236765}
   m_Layer: 0
-  m_Name: Cube (7)
+  m_Name: Cube (70)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3045,6 +4040,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -3053,6 +4051,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -3287,6 +4286,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -3295,6 +4297,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -3470,6 +4473,9 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -3478,6 +4484,7 @@ MonoBehaviour:
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -3675,7 +4682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011578329}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.79, y: 11.867499, z: 0}
+  m_LocalPosition: {x: 38.63, y: 9.190001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4201,6 +5208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Firework
+      objectReference: {fileID: 0}
+    - target: {fileID: 2883378737366205858, guid: 8d1085f6a5123174395f57b775a5eeea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8477714039047978283, guid: 8d1085f6a5123174395f57b775a5eeea,
         type: 3}

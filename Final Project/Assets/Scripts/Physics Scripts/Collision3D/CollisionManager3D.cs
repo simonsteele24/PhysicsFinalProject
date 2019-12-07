@@ -121,6 +121,7 @@ public class CollisionManager3D : MonoBehaviour
         {
             particles[i].ResetCollidingChecker();
             particles[i].ResetColliding();
+            
             //particles[i].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         }
 
@@ -148,35 +149,38 @@ public class CollisionManager3D : MonoBehaviour
 
                     if (collision != null)
                     {
-                        
-
-                        if (collision.a.GetComponent<WindZoneScript>() != null)
+                        if ((collision.a.GetComponent<Particle3D>().isCharacterController && !collision.a.GetComponent<Particle3D>().isUsingGravity) || (collision.b.GetComponent<Particle3D>().isCharacterController && !collision.b.GetComponent<Particle3D>().isUsingGravity))
                         {
-                            collision.b.GetComponent<Particle3D>().AddForce(collision.a.GetComponent<WindZoneScript>().force);
+
                         }
-                        else if (collision.b.GetComponent<WindZoneScript>() != null)
+                        else
                         {
-                            collision.a.GetComponent<Particle3D>().AddForce(collision.b.GetComponent<WindZoneScript>().force);
-                        }
-
-
-                        bool isDuplicate = false;
-                        for (int i = 0; i < collisions.Count; i++)
-                        {
-                            if ((collisions[i].a == particles[y] && collisions[i].b == particles[x]) || (collisions[i].a == particles[x] && collisions[i].b == particles[y]))
+                            if (collision.a.GetComponent<WindZoneScript>() != null)
                             {
-                                isDuplicate = true;
+                                collision.b.GetComponent<Particle3D>().AddForce(collision.a.GetComponent<WindZoneScript>().force);
                             }
-                        }
+                            else if (collision.b.GetComponent<WindZoneScript>() != null)
+                            {
+                                collision.a.GetComponent<Particle3D>().AddForce(collision.b.GetComponent<WindZoneScript>().force);
+                            }
 
-                        if (!isDuplicate)
-                        {
-                            collision.a.CheckColliding();
-                            collision.b.CheckColliding();
-                            //collision.a.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-                            //collision.b.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
 
-                            collisions.Add(collision);
+                            bool isDuplicate = false;
+                            for (int i = 0; i < collisions.Count; i++)
+                            {
+                                if ((collisions[i].a == particles[y] && collisions[i].b == particles[x]) || (collisions[i].a == particles[x] && collisions[i].b == particles[y]))
+                                {
+                                    isDuplicate = true;
+                                }
+                            }
+
+                            if (!isDuplicate)
+                            {
+                                //collision.a.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+                                //collision.b.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+
+                                collisions.Add(collision);
+                            }
                         }
                     }
                 }
@@ -653,7 +657,6 @@ public class CollisionManager3D : MonoBehaviour
         {
             // If yes, then inform the parents of the complex shape object (if applicable)
             ReportCollisionToParent(a, b);
-            Debug.Log("Hitting");
         }
         else
         {
@@ -794,7 +797,7 @@ public class CollisionManager3D : MonoBehaviour
             }
         }
 
-        if (bestIndex > 3)
+        if (bestIndex > 2)
         {
             Vector3 normal = axes[bestIndex];
             Vector3 axis = axes[bestIndex];
@@ -816,11 +819,11 @@ public class CollisionManager3D : MonoBehaviour
             return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
 
         }
-        else if (bestIndex > 6)
+        else if (bestIndex > 5)
         {
             Vector3 normal = axes[bestIndex];
             Vector3 axis = axes[bestIndex];
-            if (Vector3.Dot(axis, (b.GetPosition() - a.GetPosition())) > 0)
+            if (Vector3.Dot(axis, (a.GetPosition() - b.GetPosition())) > 0)
             {
                 axis *= -1;
             }
