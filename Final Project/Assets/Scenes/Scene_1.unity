@@ -902,6 +902,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 100
+  bulletSpeed: 50
+  bullet: {fileID: 7243505693088405389, guid: fdc272f49e8f4ba47a154df8317fc051, type: 3}
 --- !u!114 &182053261
 MonoBehaviour:
   m_ObjectHideFlags: 0

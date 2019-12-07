@@ -232,6 +232,7 @@ public class Particle3D : MonoBehaviour
 
 
 
+
     public void ApplyTorque(Vector3 newTorque)
     {
         torque = newTorque;

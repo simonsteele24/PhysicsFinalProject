@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public float jumpForce;
+    public float bulletSpeed;
+    public GameObject bullet;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,14 @@ public class PlayerScript : MonoBehaviour
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.right);
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            var newBullet = Instantiate(bullet, transform.position + Vector3.forward * 2.0f, transform.rotation);
+            newBullet.GetComponent<Particle3D>().position = transform.position + Vector3.forward * 2.0f;
+            newBullet.GetComponent<Particle3D>().velocity = Vector3.forward * bulletSpeed;
+            //newBullet.SetActive(true);
+            
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
