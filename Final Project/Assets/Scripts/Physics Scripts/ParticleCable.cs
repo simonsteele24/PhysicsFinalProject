@@ -22,7 +22,6 @@ public class ParticleCable : MonoBehaviour
     void Update()
     {
         float length = getLength();
-        Debug.Log(length);
 
         if (length > maxLength)
         {
@@ -34,7 +33,7 @@ public class ParticleCable : MonoBehaviour
 
             CollisionManager3D.CollisionInfo newCollision = new CollisionManager3D.CollisionInfo(GetComponent<AABB3D>(), parent.GetComponent<AABB3D>(), penetration, collisionNormal, Vector3.zero); ;
             CollisionResolution3D.ResolvePenetration(newCollision);
-            CollisionResolution3D.ResolveVelocities(newCollision, Time.fixedDeltaTime);
+            CollisionResolution3D.ResolveVelocities(newCollision, Time.deltaTime);
         }
     }
 }

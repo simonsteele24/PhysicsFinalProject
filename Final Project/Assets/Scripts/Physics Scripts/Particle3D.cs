@@ -57,6 +57,7 @@ public class Particle3D : MonoBehaviour
     // Bonus - related variables
     public bool isGoingDownSlope = false;
     public GameObject slope;
+    public bool isAttemptingToMove = false;
 
     public float Mass
     {
@@ -98,6 +99,14 @@ public class Particle3D : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (collidingGameObject != null)
+        {
+            if (collidingGameObject.GetComponent<PhysicsMaterialScript>() != null)
+            {
+                AddForce(ForceGenerator.GenerateForce_friction_kinetic(-velocity, velocity, collidingGameObject.GetComponent<PhysicsMaterialScript>().frictionValue));
+            }
+        }
+
         if (isUsingGravity)
         {
             AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, GRAVITATIONAL_CONSTANT, Vector3.up));
@@ -289,5 +298,39 @@ public class Particle3D : MonoBehaviour
 
         // Change Angular velocity as well
         angularVelocity += angularAcceleration * dt;
+    }
+
+
+
+
+
+    public Vector3 GetRightwardVector()
+    {
+        if (collidingGameObject != null)
+        {
+            Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, collidingGameObject.GetComponent<Particle3D>().rotation, new Vector3(1, 1, 1));
+            return rotationMatrix.MultiplyPoint(Vector3.right);
+        }
+        else
+        {
+            return Vector3.right;
+        }
+    }
+
+
+
+
+
+    public Vector3 GetForwardVector()
+    {
+        if (collidingGameObject != null)
+        {
+            Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, collidingGameObject.GetComponent<Particle3D>().rotation, new Vector3(1, 1, 1));
+            return rotationMatrix.MultiplyPoint(Vector3.forward);
+        }
+        else
+        {
+            return Vector3.forward;
+        }
     }
 }

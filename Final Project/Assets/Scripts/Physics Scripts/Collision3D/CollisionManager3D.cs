@@ -121,8 +121,7 @@ public class CollisionManager3D : MonoBehaviour
         {
             particles[i].ResetCollidingChecker();
             particles[i].ResetColliding();
-            
-            //particles[i].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            particles[i].GetComponent<Particle3D>().collidingGameObject = null;
         }
 
         // Iterate through all particles
@@ -176,9 +175,6 @@ public class CollisionManager3D : MonoBehaviour
 
                             if (!isDuplicate)
                             {
-                                //collision.a.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-                                //collision.b.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-
                                 collisions.Add(collision);
                             }
                         }

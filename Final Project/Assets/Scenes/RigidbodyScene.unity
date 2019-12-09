@@ -254,6 +254,7 @@ MonoBehaviour:
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -396,6 +397,7 @@ MonoBehaviour:
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -553,6 +555,7 @@ MonoBehaviour:
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -709,6 +712,7 @@ MonoBehaviour:
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -879,6 +883,7 @@ MonoBehaviour:
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -1204,6 +1209,7 @@ MonoBehaviour:
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0
@@ -1361,6 +1367,7 @@ MonoBehaviour:
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
   anchor: {fileID: 0}
   springRestingLength: 0

@@ -63,9 +63,9 @@ public class ForceGenerator : MonoBehaviour
 
     // The following function generates a kinetic frictional force based on a normalized force,
     // a particle's velocity, and kinetic friction coefficient
-    public static Vector2 GenerateForce_friction_kinetic(Vector2 f_normal, Vector2 particleVelocity, float frictionCoefficient_kinetic)
+    public static Vector3 GenerateForce_friction_kinetic(Vector3 f_normal, Vector3 particleVelocity, float frictionCoefficient_kinetic)
     {
-        Vector2 f_friction_k = -frictionCoefficient_kinetic * f_normal.magnitude * particleVelocity.normalized;
+        Vector3 f_friction_k = -frictionCoefficient_kinetic * f_normal.magnitude * particleVelocity.normalized;
         return f_friction_k;
     }
 

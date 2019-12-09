@@ -78,8 +78,7 @@ public class CollisionResolution3D : MonoBehaviour
             return;
         }
 
-        collision.a.CheckColliding();
-        collision.b.CheckColliding();
+        
 
         // Get the impulse of the collision
         float impulse = deltaVelocity / totalInverseMass;
@@ -87,8 +86,14 @@ public class CollisionResolution3D : MonoBehaviour
 
         if (collision.a.GetComponent<Particle3D>().isCharacterController)
         {
-            collision.a.GetComponent<Particle3D>().velocity.y = 0;
-
+            if (collision.a.GetComponent<Particle3D>().isAttemptingToMove)
+            {
+                collision.a.GetComponent<Particle3D>().isAttemptingToMove = false;
+            }
+            else
+            {
+                collision.a.GetComponent<Particle3D>().velocity.y = 0;
+            }
         }
         else
         {
@@ -96,16 +101,28 @@ public class CollisionResolution3D : MonoBehaviour
         }
         if (collision.b.GetComponent<Particle3D>().isCharacterController)
         {
-            collision.b.GetComponent<Particle3D>().velocity.y = 0;
+            if (collision.b.GetComponent<Particle3D>().isAttemptingToMove)
+            {
+                collision.b.GetComponent<Particle3D>().isAttemptingToMove = false;
+            }
+            else
+            {
+                collision.b.GetComponent<Particle3D>().velocity.y = 0;
+            }
         }
         else
         {
             collision.b.GetComponent<Particle3D>().velocity = collision.b.GetComponent<Particle3D>().velocity + impulsePerIMass * -collision.b.GetComponent<Particle3D>().invMass;
         }
 
+
+        collision.a.CheckColliding();
+        collision.a.GetComponent<Particle3D>().collidingGameObject = collision.b.gameObject;
+        collision.b.CheckColliding();
+        collision.b.GetComponent<Particle3D>().collidingGameObject = collision.a.gameObject;
         // Apply the new velocities to both particles
-        
-        
+
+
 
     }
 

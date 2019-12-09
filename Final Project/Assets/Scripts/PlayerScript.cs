@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
     public float jumpForce;
     public float bulletSpeed;
     public GameObject bullet;
+    public float movementSpeed = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -26,30 +27,34 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.forward);
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
+            GetComponent<Particle3D>().isAttemptingToMove = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.left);
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 270, 0);
+            GetComponent<Particle3D>().isAttemptingToMove = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.back);
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
+            GetComponent<Particle3D>().isAttemptingToMove = true;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.right);
+            Debug.Log(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
+            GetComponent<Particle3D>().isAttemptingToMove = true;
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             var newBullet = Instantiate(bullet, transform.position + Vector3.forward * 2.0f, transform.rotation);
             newBullet.GetComponent<Particle3D>().position = transform.position + Vector3.forward * 2.0f;
             newBullet.GetComponent<Particle3D>().velocity = Vector3.forward * bulletSpeed;
-            //newBullet.SetActive(true);
             
         }
         if (Input.GetKeyDown(KeyCode.Space))
