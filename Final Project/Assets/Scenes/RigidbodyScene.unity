@@ -315,6 +315,8 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!23 &237682685
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -393,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
-  isUsingGravity: 1
+  isUsingGravity: 0
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
@@ -458,6 +460,8 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!23 &684988687
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -551,7 +555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
-  isUsingGravity: 1
+  isUsingGravity: 0
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
@@ -616,6 +620,8 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!23 &1199841646
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -708,7 +714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
-  isUsingGravity: 1
+  isUsingGravity: 0
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
@@ -773,6 +779,8 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!23 &1292579177
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -944,6 +952,8 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!23 &1386786053
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -990,6 +1000,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1386786050}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1681924814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1681924816}
+  - component: {fileID: 1681924815}
+  m_Layer: 0
+  m_Name: Joint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1681924815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681924814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 992f9f76f7187284899f28d6229533cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lengthX: 0
+  lengthY: 0
+  lengthZ: 0
+--- !u!4 &1681924816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681924814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.31, y: 1.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1927817123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,6 +1149,7 @@ GameObject:
   - component: {fileID: 2010610480}
   - component: {fileID: 2010610479}
   - component: {fileID: 2010610478}
+  - component: {fileID: 2010610481}
   m_Layer: 0
   m_Name: Left Hand
   m_TagString: Untagged
@@ -1173,39 +1230,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2010610476}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2033422518
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2033422522}
-  - component: {fileID: 2033422521}
-  - component: {fileID: 2033422520}
-  - component: {fileID: 2033422519}
-  m_Layer: 0
-  m_Name: Torso
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2033422519
+--- !u!114 &2010610481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033422518}
+  m_GameObject: {fileID: 2010610476}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcfa2619c0bcfc546a4245faee366836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
-  isUsingGravity: 1
+  isUsingGravity: 0
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
@@ -1270,6 +1308,107 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 1681924814}
+  isAttemptingToMove: 0
+--- !u!1 &2033422518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2033422522}
+  - component: {fileID: 2033422521}
+  - component: {fileID: 2033422520}
+  - component: {fileID: 2033422519}
+  m_Layer: 0
+  m_Name: Torso
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2033422519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033422518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcfa2619c0bcfc546a4245faee366836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUsingKinematicFormula: 0
+  isUsingGravity: 0
+  enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
+  isAnchoredSpring: 0
+  anchor: {fileID: 0}
+  springRestingLength: 0
+  springCoefficient: 0
+  dragCoefficient: 0
+  objCrossSection: 0
+  fluidDensity: 0
+  fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
+  centreOfMass: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  acceleration: {x: 0, y: 0, z: 0}
+  transformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  invTransformMatrix:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+  width: 0
+  height: 0
+  depth: 0
+  radius: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  shape: 0
+  isHollow: 0
+  angularVelocity: {x: 0, y: 0, z: 0}
+  angularAcceleration: {x: 0, y: 0, z: 0}
+  mass: 3
+  invMass: 0
+  isGoingDownSlope: 0
+  slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!23 &2033422520
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1363,7 +1502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
-  isUsingGravity: 1
+  isUsingGravity: 0
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
@@ -1428,6 +1567,8 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!23 &2063866989
 MeshRenderer:
   m_ObjectHideFlags: 0

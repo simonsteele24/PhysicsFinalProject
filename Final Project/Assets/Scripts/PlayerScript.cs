@@ -9,6 +9,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject bullet;
     public float movementSpeed = 1;
     public float raycastCheckHit = 1;
+    public bool isAttemptingToJump = false;
+    public bool isGrounded = true;
 
     // Start is called before the first frame update
     void Start()
@@ -22,16 +24,17 @@ public class PlayerScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position,Vector3.down,out hit,raycastCheckHit))
         {
-            Debug.Log("Hitting");
             GetComponent<Particle3D>().velocity.y = 0;
             GetComponent<Particle3D>().isUsingGravity = false;
+            isAttemptingToJump = false;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
-            GetComponentInChildren<Animator>().SetBool("OnGround", true);
+            isGrounded = true;
         }
         else
         {
             GetComponent<Particle3D>().isUsingGravity = true;
-            GetComponentInChildren<Animator>().SetBool("OnGround", false);
+            GetComponent<Particle3D>().collidingGameObject = null;
+            isGrounded = false;
         }
 
 
@@ -39,6 +42,7 @@ public class PlayerScript : MonoBehaviour
         float inputAmountY = Mathf.Abs(Input.GetAxis("Vertical"));
 
         GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(inputAmountX + inputAmountY, 0, 1), 0.1f, Time.deltaTime);
+        GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded);
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
         if (Input.GetKey(KeyCode.W))
@@ -73,9 +77,11 @@ public class PlayerScript : MonoBehaviour
             newBullet.GetComponent<Particle3D>().velocity = Vector3.forward * bulletSpeed;
             
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce);
+            GetComponent<Particle3D>().position.y += 0.5f;
+            isAttemptingToJump = true;
         }
     }
 }

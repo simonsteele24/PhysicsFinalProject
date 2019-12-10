@@ -86,9 +86,11 @@ public class CollisionResolution3D : MonoBehaviour
 
         if (collision.a.GetComponent<Particle3D>().isCharacterController)
         {
-            if (collision.a.GetComponent<Particle3D>().isAttemptingToMove)
+            if (collision.a.GetComponent<Particle3D>().isAttemptingToMove || collision.a.GetComponent<PlayerScript>().isAttemptingToJump)
             {
+                //collision.a.GetComponent<PlayerScript>().isAttemptingToJump = false;
                 collision.a.GetComponent<Particle3D>().isAttemptingToMove = false;
+                return;
             }
             else
             {
@@ -101,9 +103,11 @@ public class CollisionResolution3D : MonoBehaviour
         }
         if (collision.b.GetComponent<Particle3D>().isCharacterController)
         {
-            if (collision.b.GetComponent<Particle3D>().isAttemptingToMove)
+            if (collision.b.GetComponent<Particle3D>().isAttemptingToMove || collision.b.GetComponent<PlayerScript>().isAttemptingToJump)
             {
+                //collision.b.GetComponent<PlayerScript>().isAttemptingToJump = false;
                 collision.b.GetComponent<Particle3D>().isAttemptingToMove = false;
+                return;
             }
             else
             {

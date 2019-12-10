@@ -57,6 +57,7 @@ public class Particle3D : MonoBehaviour
     // Bonus - related variables
     public bool isGoingDownSlope = false;
     public GameObject slope;
+    public GameObject joint;
     public bool isAttemptingToMove = false;
 
     public float Mass
@@ -147,6 +148,14 @@ public class Particle3D : MonoBehaviour
         // Update accelerations
         UpdateAcceleration();
         UpdateAngularAcceleration();
+
+
+        if (joint != null)
+        {
+            CalculateJointConstraints();
+            UpdateAcceleration();
+            updatePositionEulerExplicit(Time.deltaTime);
+        }
     }
 
 
@@ -331,6 +340,29 @@ public class Particle3D : MonoBehaviour
         else
         {
             return Vector3.forward;
+        }
+    }
+
+
+
+
+    void CalculateJointConstraints()
+    {
+        Vector3 constraintOffset;
+
+        Vector3 position = transform.position - joint.transform.position;
+
+        if (position.x != joint.GetComponent<JointScript>().lengthX)
+        {
+            constraintOffset.x = position.x;
+        }
+        if (position.y != joint.GetComponent<JointScript>().lengthX)
+        {
+            constraintOffset.y = position.y;
+        }
+        if (position.z != joint.GetComponent<JointScript>().lengthX)
+        {
+            constraintOffset.z = position.z;
         }
     }
 }
