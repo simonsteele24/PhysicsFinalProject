@@ -509,6 +509,8 @@ GameObject:
   - component: {fileID: 132059526}
   - component: {fileID: 132059525}
   - component: {fileID: 132059523}
+  - component: {fileID: 132059524}
+  - component: {fileID: 132059529}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -531,6 +533,19 @@ MonoBehaviour:
   collisionType: 0
   halfSize: {x: 0, y: 0, z: 0}
   hasAResolution: 0
+--- !u!65 &132059524
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132059522}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.99999994}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &132059525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,12 +679,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132059522}
   m_LocalRotation: {x: -0, y: -0, z: -0.24816018, w: 0.96871907}
-  m_LocalPosition: {x: 9.286, y: 2.174, z: 1.382}
-  m_LocalScale: {x: 14.6705, y: 6.483, z: 7.7500796}
+  m_LocalPosition: {x: 9.16, y: 2.243, z: 1.382}
+  m_LocalScale: {x: 14.963909, y: 6.483, z: 7.7500796}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28.737001}
+--- !u!114 &132059529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132059522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frictionValue: 10
 --- !u!1 &137595247
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,7 +919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionType: 0
   radius: 1
-  hasAResolution: 1
+  hasAResolution: 0
   hasCollided: 0
 --- !u!114 &182053258
 MonoBehaviour:
@@ -909,6 +937,7 @@ MonoBehaviour:
   bulletSpeed: 50
   bullet: {fileID: 7243505693088405389, guid: fdc272f49e8f4ba47a154df8317fc051, type: 3}
   movementSpeed: 7
+  raycastCheckHit: 1
 --- !u!114 &182053261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3619,6 +3648,7 @@ GameObject:
   - component: {fileID: 1241991992}
   - component: {fileID: 1241991988}
   - component: {fileID: 1241991993}
+  - component: {fileID: 1241991994}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -3793,6 +3823,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frictionValue: 10
+--- !u!65 &1241991994
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241991987}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.0000001, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1437892867
 GameObject:
   m_ObjectHideFlags: 0
@@ -4244,7 +4287,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692555444}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}

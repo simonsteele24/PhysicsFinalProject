@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     public float bulletSpeed;
     public GameObject bullet;
     public float movementSpeed = 1;
+    public float raycastCheckHit = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +19,26 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position,Vector3.down,out hit,raycastCheckHit))
+        {
+            Debug.Log("Hitting");
+            GetComponent<Particle3D>().velocity.y = 0;
+            GetComponent<Particle3D>().isUsingGravity = false;
+            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+            GetComponentInChildren<Animator>().SetBool("OnGround", true);
+        }
+        else
+        {
+            GetComponent<Particle3D>().isUsingGravity = true;
+            GetComponentInChildren<Animator>().SetBool("OnGround", false);
+        }
+
+
         float inputAmountX = Mathf.Abs(Input.GetAxis("Horizontal"));
         float inputAmountY = Mathf.Abs(Input.GetAxis("Vertical"));
 
         GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(inputAmountX + inputAmountY, 0, 1), 0.1f, Time.deltaTime);
-        GetComponentInChildren<Animator>().SetBool("OnGround", GetComponent<Sphere>().hasCollided);
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
         if (Input.GetKey(KeyCode.W))

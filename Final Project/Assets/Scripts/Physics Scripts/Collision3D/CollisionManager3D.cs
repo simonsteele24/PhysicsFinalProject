@@ -121,7 +121,7 @@ public class CollisionManager3D : MonoBehaviour
         {
             particles[i].ResetCollidingChecker();
             particles[i].ResetColliding();
-            particles[i].GetComponent<Particle3D>().collidingGameObject = null;
+            //particles[i].GetComponent<Particle3D>().collidingGameObject = null;
         }
 
         // Iterate through all particles

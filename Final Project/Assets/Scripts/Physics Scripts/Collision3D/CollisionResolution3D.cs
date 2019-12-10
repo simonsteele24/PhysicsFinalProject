@@ -188,12 +188,12 @@ public class CollisionResolution3D : MonoBehaviour
 
         // Apply movement to particle A
         collision.a.transform.position += particleMovementA;
-        collision.a.GetComponent<Particle3D>().position = collision.a.transform.position;
+        collision.a.GetComponent<Particle3D>().position += particleMovementA;
         collision.a.SetPosition(collision.a.transform.position);
 
         // Apply movement to particle B
         collision.b.transform.position += particleMovementB;
-        collision.b.GetComponent<Particle3D>().position = collision.b.transform.position;
+        collision.b.GetComponent<Particle3D>().position += particleMovementB;
         collision.b.SetPosition(collision.b.transform.position);
     }
 
