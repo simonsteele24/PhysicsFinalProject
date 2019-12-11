@@ -13,7 +13,7 @@ public class Particle3D : MonoBehaviour
     public GameObject collidingGameObject;
 
     public bool isAnchoredSpring = false;
-    public GameObject anchor;
+    public GameObject [] anchors;
     public float springRestingLength;
     public float springCoefficient;
 
@@ -118,7 +118,10 @@ public class Particle3D : MonoBehaviour
         }
         if (isAnchoredSpring)
         {
-            AddForce(ForceGenerator.GenerateForce_spring(position, anchor.transform.position, springRestingLength, springCoefficient));
+            for (int i = 0; i < anchors.Length; i++)
+            {
+                AddForce(ForceGenerator.GenerateForce_spring(position, anchors[i].transform.position, springRestingLength, springCoefficient));
+            }
         }
 
         // Set the transformation matrices
