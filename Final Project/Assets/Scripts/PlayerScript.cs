@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject bullet;
     public float movementSpeed = 1;
     public float raycastCheckHit = 1;
+    public float movementCheckRaycatHit = 3;
     public bool isAttemptingToJump = false;
     public bool isGrounded = true;
 
@@ -37,6 +38,14 @@ public class PlayerScript : MonoBehaviour
             isGrounded = false;
         }
 
+        if (GetComponent<Particle3D>().collidingGameObject != null)
+        {
+            if (GetComponent<Particle3D>().collidingGameObject.gameObject.tag == "Dynamic Object" && !isAttemptingToJump)
+            {
+                GetComponent<Particle3D>().velocity.y = GetComponent<Particle3D>().collidingGameObject.GetComponent<Particle3D>().velocity.y;
+            }
+        }
+
 
         float inputAmountX = Mathf.Abs(Input.GetAxis("Horizontal"));
         float inputAmountY = Mathf.Abs(Input.GetAxis("Vertical"));
@@ -45,25 +54,25 @@ public class PlayerScript : MonoBehaviour
         GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded);
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && !Physics.Raycast(transform.position, Vector3.forward, out hit, movementCheckRaycatHit))
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && !Physics.Raycast(transform.position, Vector3.left, out hit, movementCheckRaycatHit))
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 270, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) && !Physics.Raycast(transform.position, Vector3.back, out hit, movementCheckRaycatHit))
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && !Physics.Raycast(transform.position, Vector3.right, out hit, movementCheckRaycatHit))
         {
             Debug.Log(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
