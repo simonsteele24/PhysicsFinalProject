@@ -52,16 +52,16 @@ public class CollisionResolution3D : MonoBehaviour
         // Check the velocity buildup due to acceleration only.
         Vector3 accCausedVelocity = collision.a.GetComponent<Particle3D>().acceleration - collision.b.GetComponent<Particle3D>().acceleration;
         float accCausedSepVelocity = Vector3.Dot(accCausedVelocity, collision.normal) * Time.fixedDeltaTime;
-        //newSeperatingVelocity *= accCausedSepVelocity;
+        newSeperatingVelocity *= accCausedSepVelocity;
 
 
         // If we’ve got a closing velocity due to aceleration buildup,
         // remove it from the new separating velocity.
-        //if (accCausedSepVelocity < 0)
-        //{
-        //    
-        //    if (newSeperatingVelocity < 0) newSeperatingVelocity = 0;
-        //}
+        if (accCausedSepVelocity < 0)
+        {
+            
+            if (newSeperatingVelocity < 0) newSeperatingVelocity = 0;
+        }
 
 
         // Get the delta velocity between the new and old seperating velocity
@@ -77,47 +77,14 @@ public class CollisionResolution3D : MonoBehaviour
             // If yes, exit the function
             return;
         }
-
         
 
         // Get the impulse of the collision
         float impulse = deltaVelocity / totalInverseMass;
         Vector3 impulsePerIMass = collision.normal * impulse;
 
-        if (collision.a.GetComponent<Particle3D>().isCharacterController)
-        {
-            if (collision.a.GetComponent<Particle3D>().isAttemptingToMove || collision.a.GetComponent<PlayerScript>().isAttemptingToJump)
-            {
-                //collision.a.GetComponent<PlayerScript>().isAttemptingToJump = false;
-                collision.a.GetComponent<Particle3D>().isAttemptingToMove = false;
-                return;
-            }
-            else
-            {
-                collision.a.GetComponent<Particle3D>().velocity.y = 0;
-            }
-        }
-        else
-        {
-            collision.a.GetComponent<Particle3D>().velocity = collision.a.GetComponent<Particle3D>().velocity + impulsePerIMass * collision.a.GetComponent<Particle3D>().invMass;
-        }
-        if (collision.b.GetComponent<Particle3D>().isCharacterController)
-        {
-            if (collision.b.GetComponent<Particle3D>().isAttemptingToMove || collision.b.GetComponent<PlayerScript>().isAttemptingToJump)
-            {
-                //collision.b.GetComponent<PlayerScript>().isAttemptingToJump = false;
-                collision.b.GetComponent<Particle3D>().isAttemptingToMove = false;
-                return;
-            }
-            else
-            {
-                collision.b.GetComponent<Particle3D>().velocity.y = 0;
-            }
-        }
-        else
-        {
-            collision.b.GetComponent<Particle3D>().velocity = collision.b.GetComponent<Particle3D>().velocity + impulsePerIMass * -collision.b.GetComponent<Particle3D>().invMass;
-        }
+        collision.a.GetComponent<Particle3D>().velocity = collision.a.GetComponent<Particle3D>().velocity + impulsePerIMass * collision.a.GetComponent<Particle3D>().invMass;
+        collision.b.GetComponent<Particle3D>().velocity = collision.b.GetComponent<Particle3D>().velocity + impulsePerIMass * -collision.b.GetComponent<Particle3D>().invMass;
 
 
         collision.a.CheckColliding();
