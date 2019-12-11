@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionType: 0
-  radius: 0
+  radius: 0.5
   hasAResolution: 0
   hasCollided: 0
 --- !u!114 &5397896802910971667

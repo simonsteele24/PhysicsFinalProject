@@ -660,7 +660,7 @@ public class CollisionManager3D : MonoBehaviour
         }
 
         // Return full details of the Collision list if the two collide
-        return new CollisionInfo(a, b, penetration, (b.GetPosition() - relativeCentre).normalized, closestPointToCircle);
+        return new CollisionInfo(a, b, penetration, (closestPointToCircle - relativeCentre).normalized, closestPointToCircle);
     }
 
 

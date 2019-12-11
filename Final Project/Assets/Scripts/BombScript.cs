@@ -9,7 +9,6 @@ public class BombScript : MonoBehaviour
     {
         if (GetComponent<Particle3D>().collidingGameObject != null)
         {
-            Destroy(gameObject);
             Debug.Log("Boom!");
         }
     }

@@ -52,14 +52,13 @@ public class CollisionResolution3D : MonoBehaviour
         // Check the velocity buildup due to acceleration only.
         Vector3 accCausedVelocity = collision.a.GetComponent<Particle3D>().acceleration - collision.b.GetComponent<Particle3D>().acceleration;
         float accCausedSepVelocity = Vector3.Dot(accCausedVelocity, collision.normal) * Time.fixedDeltaTime;
-        newSeperatingVelocity *= accCausedSepVelocity;
 
 
         // If we’ve got a closing velocity due to aceleration buildup,
         // remove it from the new separating velocity.
         if (accCausedSepVelocity < 0)
         {
-            
+            newSeperatingVelocity *= accCausedSepVelocity;
             if (newSeperatingVelocity < 0) newSeperatingVelocity = 0;
         }
 
