@@ -47,7 +47,7 @@ public class CollisionResolution3D : MonoBehaviour
     {
         // Get the new seperating velocity
         float newSeperatingVelocity = -collision.separatingVelocity * CollisionManager.UNIVERSAL_COEFFICIENT_OF_RESTITUTION;
-        newSeperatingVelocity = Mathf.Abs(newSeperatingVelocity);
+        //newSeperatingVelocity = Mathf.Abs(newSeperatingVelocity);
 
         // Check the velocity buildup due to acceleration only.
         Vector3 accCausedVelocity = collision.a.GetComponent<Particle3D>().acceleration - collision.b.GetComponent<Particle3D>().acceleration;
