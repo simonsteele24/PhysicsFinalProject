@@ -75,7 +75,17 @@ public class PlayerScript : MonoBehaviour
             transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
-        if (Input.GetKey(KeyCode.D) && !Physics.Raycast(transform.position, Vector3.right, out hit, movementCheckRaycatHit))
+
+        bool hasBeenHit = !Physics.Raycast(transform.position, Vector3.right, out hit, movementCheckRaycatHit);
+        if (!hasBeenHit && GetComponent<Particle3D>().collidingGameObject != null)
+        {
+            if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
+            {
+                hasBeenHit = true;
+            }
+        }
+        
+        if (Input.GetKey(KeyCode.D) && hasBeenHit)
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
             Debug.Log(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
