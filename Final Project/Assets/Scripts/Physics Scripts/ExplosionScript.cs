@@ -29,6 +29,17 @@ public class ExplosionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameObject [] objects = GameObject.FindGameObjectsWithTag("Destroyable");
+
+        for (int i = 0; i < objects.Length; i++)
+        {
+            
+            if (Vector3.Distance(transform.position, objects[i].transform.position) < implosionMaxRadius)
+            {
+                objects[i].GetComponent<Particle3D>().enabled = true;
+            }
+        }
+
         StartCoroutine(StartExplosion());
     }
 
