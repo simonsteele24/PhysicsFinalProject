@@ -25,7 +25,10 @@ public class PlayerScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position,Vector3.down,out hit,raycastCheckHit))
         {
-            GetComponent<Particle3D>().velocity.y = 0;
+            if (GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0)
+            {
+                GetComponent<Particle3D>().velocity.y = 0;
+            }
             GetComponent<Particle3D>().isUsingGravity = false;
             isAttemptingToJump = false;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
@@ -75,6 +78,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKey(KeyCode.D) && !Physics.Raycast(transform.position, Vector3.right, out hit, movementCheckRaycatHit))
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
+            Debug.Log(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
