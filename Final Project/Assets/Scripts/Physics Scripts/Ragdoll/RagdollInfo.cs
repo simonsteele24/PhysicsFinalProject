@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RagdollInfo : MonoBehaviour
 {
+    // All constraints
     public float rotationXMin;
     public float rotationXMax;
     public float rotationYMin;

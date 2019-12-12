@@ -191,3 +191,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 3311555413010689071, guid: ee52d4fa9a460804e878046730f4bcb3,
     type: 3}
+  explosionOffset: {x: 0, y: 5, z: 0}

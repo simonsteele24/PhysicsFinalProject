@@ -119,8 +119,11 @@ public class CollisionManager3D : MonoBehaviour
         collisions.Clear();
         for (int i = 0; i < particles.Count; i++)
         {
-            particles[i].ResetCollidingChecker();
-            particles[i].ResetColliding();
+            if (particles[i] != null)
+            {
+                particles[i].ResetCollidingChecker();
+                particles[i].ResetColliding();
+            }
         }
 
         // Iterate through all particles
@@ -128,53 +131,56 @@ public class CollisionManager3D : MonoBehaviour
         {
             for (int y = 0; y < particles.Count; y++)
             {
-                // If the one being checked equal to itself?
-                if (x != y && (particles[x].transform.parent != particles[y].transform.parent || particles[x].transform.parent == null))
+                if (particles[x] != null && particles[y] != null)
                 {
-                    CollisionPairKey3D key = new CollisionPairKey3D(particles[y].collisionType, particles[x].collisionType);
-
-                    CollisionInfo collision;
-
-                    if (particles[x].collisionType > particles[y].collisionType)
+                    // If the one being checked equal to itself?
+                    if (x != y && (particles[x].transform.parent != particles[y].transform.parent || particles[x].transform.parent == null))
                     {
-                        collision = _collisionTypeCollisionTestFunctions[key](particles[y], particles[x]);
-                    }
-                    else
-                    {
-                        collision = _collisionTypeCollisionTestFunctions[key](particles[x], particles[y]);
-                    }
+                        CollisionPairKey3D key = new CollisionPairKey3D(particles[y].collisionType, particles[x].collisionType);
 
+                        CollisionInfo collision;
 
-                    if (collision != null)
-                    {
-                        if ((collision.a.GetComponent<Particle3D>().isCharacterController && !collision.a.GetComponent<Particle3D>().isUsingGravity) || (collision.b.GetComponent<Particle3D>().isCharacterController && !collision.b.GetComponent<Particle3D>().isUsingGravity))
+                        if (particles[x].collisionType > particles[y].collisionType)
                         {
-
+                            collision = _collisionTypeCollisionTestFunctions[key](particles[y], particles[x]);
                         }
                         else
                         {
-                            if (collision.a.GetComponent<WindZoneScript>() != null)
-                            {
-                                collision.b.GetComponent<Particle3D>().AddForce(collision.a.GetComponent<WindZoneScript>().force);
-                            }
-                            else if (collision.b.GetComponent<WindZoneScript>() != null)
-                            {
-                                collision.a.GetComponent<Particle3D>().AddForce(collision.b.GetComponent<WindZoneScript>().force);
-                            }
+                            collision = _collisionTypeCollisionTestFunctions[key](particles[x], particles[y]);
+                        }
 
 
-                            bool isDuplicate = false;
-                            for (int i = 0; i < collisions.Count; i++)
+                        if (collision != null)
+                        {
+                            if ((collision.a.GetComponent<Particle3D>().isCharacterController && !collision.a.GetComponent<Particle3D>().isUsingGravity) || (collision.b.GetComponent<Particle3D>().isCharacterController && !collision.b.GetComponent<Particle3D>().isUsingGravity))
                             {
-                                if ((collisions[i].a == particles[y] && collisions[i].b == particles[x]) || (collisions[i].a == particles[x] && collisions[i].b == particles[y]))
+
+                            }
+                            else
+                            {
+                                if (collision.a.GetComponent<WindZoneScript>() != null)
                                 {
-                                    isDuplicate = true;
+                                    collision.b.GetComponent<Particle3D>().AddForce(collision.a.GetComponent<WindZoneScript>().force);
                                 }
-                            }
+                                else if (collision.b.GetComponent<WindZoneScript>() != null)
+                                {
+                                    collision.a.GetComponent<Particle3D>().AddForce(collision.b.GetComponent<WindZoneScript>().force);
+                                }
 
-                            if (!isDuplicate)
-                            {
-                                collisions.Add(collision);
+
+                                bool isDuplicate = false;
+                                for (int i = 0; i < collisions.Count; i++)
+                                {
+                                    if ((collisions[i].a == particles[y] && collisions[i].b == particles[x]) || (collisions[i].a == particles[x] && collisions[i].b == particles[y]))
+                                    {
+                                        isDuplicate = true;
+                                    }
+                                }
+
+                                if (!isDuplicate)
+                                {
+                                    collisions.Add(collision);
+                                }
                             }
                         }
                     }

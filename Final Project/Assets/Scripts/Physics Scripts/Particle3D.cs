@@ -100,6 +100,7 @@ public class Particle3D : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Add a frictional force if particle is on an object
         if (collidingGameObject != null)
         {
             if (collidingGameObject.GetComponent<PhysicsMaterialScript>() != null)
@@ -108,6 +109,7 @@ public class Particle3D : MonoBehaviour
             }
         }
 
+        // Check if particle is affected by any outside forces
         if (isUsingGravity)
         {
             AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, GRAVITATIONAL_CONSTANT, Vector3.up));
@@ -129,7 +131,10 @@ public class Particle3D : MonoBehaviour
         invTransformMatrix = transformMatrix.inverse;
 
         // Change position and rotation to the positional and rotational variables
-        transform.position = position;
+        if (!float.IsNaN(position.x))
+        {
+            transform.position = position;
+        }
         transform.rotation = rotation;
 
         // Update postion and velocity
@@ -151,14 +156,6 @@ public class Particle3D : MonoBehaviour
         // Update accelerations
         UpdateAcceleration();
         UpdateAngularAcceleration();
-
-
-        if (joint != null)
-        {
-            CalculateJointConstraints();
-            UpdateAcceleration();
-            updatePositionEulerExplicit(Time.deltaTime);
-        }
     }
 
 
@@ -316,6 +313,7 @@ public class Particle3D : MonoBehaviour
 
 
 
+    //This function gets the right vector of the object in local space
     public Vector3 GetRightwardVector()
     {
         if (collidingGameObject != null)
@@ -333,6 +331,7 @@ public class Particle3D : MonoBehaviour
 
 
 
+    // This function gets the forward vector of the object in local space
     public Vector3 GetForwardVector()
     {
         if (collidingGameObject != null)
@@ -343,29 +342,6 @@ public class Particle3D : MonoBehaviour
         else
         {
             return Vector3.forward;
-        }
-    }
-
-
-
-
-    void CalculateJointConstraints()
-    {
-        Vector3 constraintOffset;
-
-        Vector3 position = transform.position - joint.transform.position;
-
-        if (position.x != joint.GetComponent<JointScript>().lengthX)
-        {
-            constraintOffset.x = position.x;
-        }
-        if (position.y != joint.GetComponent<JointScript>().lengthX)
-        {
-            constraintOffset.y = position.y;
-        }
-        if (position.z != joint.GetComponent<JointScript>().lengthX)
-        {
-            constraintOffset.z = position.z;
         }
     }
 }

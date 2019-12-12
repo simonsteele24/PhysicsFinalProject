@@ -21,8 +21,10 @@ public class ParticleCable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Get the length of the cable
         float length = getLength();
 
+        // Realign particle if it is outside of boundaries
         if (length > maxLength)
         {
             float penetration = length - maxLength;

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6613995864819456357}
   m_Layer: 0
   m_Name: Firework
-  m_TagString: Untagged
+  m_TagString: Firework
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,14 +95,18 @@ MonoBehaviour:
   isUsingKinematicFormula: 0
   isUsingGravity: 0
   enabledByDragForce: 0
+  isCharacterController: 0
+  controllerLevitationValue: 0
+  collidingGameObject: {fileID: 0}
   isAnchoredSpring: 0
-  anchor: {fileID: 0}
+  anchors: []
   springRestingLength: 0
   springCoefficient: 0
   dragCoefficient: 0
   objCrossSection: 0
   fluidDensity: 0
   fluidVelocity: {x: 0, y: 0, z: 0}
+  damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
@@ -154,6 +158,8 @@ MonoBehaviour:
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
+  joint: {fileID: 0}
+  isAttemptingToMove: 0
 --- !u!114 &6613995864819456357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,9 +173,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireWork: {fileID: 2883378737366205858}
-  fireworksLeft: 5
+  fireworksLeft: 3
   fireworksPerLoad: 5
   minAge: 2
   maxAge: 4
-  minVelocity: {x: -10, y: 10, z: 0}
-  maxVelocity: {x: 10, y: 10, z: 0}
+  minVelocity: {x: 0, y: -10, z: -10}
+  maxVelocity: {x: 0, y: 10, z: 10}

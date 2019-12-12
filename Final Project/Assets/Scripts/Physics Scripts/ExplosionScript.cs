@@ -4,21 +4,28 @@ using UnityEngine;
 
 public class ExplosionScript : MonoBehaviour
 {
+    // Explosion Variables
+    public float explosionRange = 50.0f;
+
+    // Implosion Variables
     public float implosionMaxRadius;
     public float implosionMinRadius;
     public float implosionDuration;
     public float implosionForce;
 
+    // Concussion Variables
     public float shockwaveSpeed;
     public float shockwaveThickness;
     public float peakConcussionForce;
     public float concussionDuration;
 
+    // Convection Variables
     public float peakConvectionForce;
     public float chimneyRadius;
     public float chimneyHeight;
     public float convectionDuraction;
 
+    // General booleans to control explosions
     bool isConcussing;
     bool hasConvection;
 
@@ -29,8 +36,10 @@ public class ExplosionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Find all applicable gameobjects
         GameObject [] objects = GameObject.FindGameObjectsWithTag("Destroyable");
 
+        // Go through all objects and check if objects are within destruction range
         for (int i = 0; i < objects.Length; i++)
         {
             
@@ -40,13 +49,21 @@ public class ExplosionScript : MonoBehaviour
             }
         }
 
+        // Start explosion
         StartCoroutine(StartExplosion());
     }
 
+
+
+
+
+    
     private void Update()
     {
+        // Is the explosion in concussion phase?
         if (isConcussing)
         {
+            // Do all calculations to the objects in shockwave range
             time += Time.deltaTime;
             Particle3D[] temp = (Particle3D[])FindObjectsOfType(typeof(Particle3D));
             for (int i = 0; i < temp.Length; i++)
@@ -71,8 +88,10 @@ public class ExplosionScript : MonoBehaviour
 
         }
 
+        // Is explosion in convection phase?
         if (hasConvection)
         {
+            // Get all particles in range and simulate
             GetAllParticlesWithinRadius(0,chimneyRadius);
             for (int i = 0; i < objectsInRadius.Count; i++)
             {
@@ -90,6 +109,10 @@ public class ExplosionScript : MonoBehaviour
     }
 
 
+
+
+
+    // This coroutine is meant to simulate the explosion
     IEnumerator StartExplosion()
     {
         yield return new WaitForEndOfFrame();
@@ -100,21 +123,27 @@ public class ExplosionScript : MonoBehaviour
 
         yield return new WaitForSeconds(implosionDuration);
 
+        // Concussion
         isConcussing = true;
 
         yield return new WaitForSeconds(concussionDuration);
 
+        // Convection
         isConcussing = false;
         hasConvection = true;
 
         yield return new WaitForSeconds(convectionDuraction);
 
+        // End of explosion
         hasConvection = false;
+        Destroy(gameObject);
     }
 
 
 
 
+
+    // This function gets all of the particles within a certain radius relative to the explosion
     void GetAllParticlesWithinRadius(float minRadius, float maxRadius)
     {
         objectsInRadius = new List<Particle3D>();
@@ -131,6 +160,8 @@ public class ExplosionScript : MonoBehaviour
 
 
 
+
+    // This function gets all of the particles within a certain radius relative to the explosion on the XZ plane
     void GetAllParticlesWithinXZPlane(float minRadius, float maxRadius)
     {
         objectsInRadius = new List<Particle3D>();
@@ -149,6 +180,8 @@ public class ExplosionScript : MonoBehaviour
 
 
 
+
+    // This function adds an implosion force to each object within range
     void AddImplosionForce()
     {
         for (int i = 0; i < objectsInRadius.Count; i++)

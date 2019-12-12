@@ -43,15 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0f6053af96770439001d483a931249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  implosionMaxRadius: 10
+  explosionRange: 20
+  implosionMaxRadius: 20
   implosionMinRadius: 0
-  implosionDuration: 1
-  implosionForce: 20
+  implosionDuration: 2
+  implosionForce: 200
   shockwaveSpeed: 2
   shockwaveThickness: 0
-  peakConcussionForce: 100
-  concussionDuration: 1
-  peakConvectionForce: 10
+  peakConcussionForce: 400
+  concussionDuration: 2
+  peakConvectionForce: 100
   chimneyRadius: 2
   chimneyHeight: 2
-  convectionDuraction: 1
+  convectionDuraction: 2
