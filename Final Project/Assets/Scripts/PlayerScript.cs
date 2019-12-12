@@ -88,7 +88,6 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKey(KeyCode.D) && hasBeenHit)
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
-            Debug.Log(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }

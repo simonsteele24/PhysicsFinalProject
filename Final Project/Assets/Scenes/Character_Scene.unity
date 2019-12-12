@@ -472,7 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!1 &323290528
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,7 +507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!114 &323290530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,7 +727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!114 &368224697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,7 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!114 &490490116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,7 +1318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!1 &601633080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!114 &782642124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2151,7 +2151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!114 &1841637047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2371,7 +2371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 20
+  frictionValue: 10
 --- !u!114 &2079763625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5053,7 +5053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
   isUsingGravity: 1
-  enabledByDragForce: 0
+  enabledByDragForce: 1
   isCharacterController: 0
   controllerLevitationValue: 0
   collidingGameObject: {fileID: 0}
@@ -5061,10 +5061,10 @@ MonoBehaviour:
   anchors: []
   springRestingLength: 0
   springCoefficient: 0
-  dragCoefficient: 0
-  objCrossSection: 0
-  fluidDensity: 0
-  fluidVelocity: {x: 0, y: 0, z: 0}
+  dragCoefficient: 0.01
+  objCrossSection: 0.1
+  fluidDensity: 0.1
+  fluidVelocity: {x: 1, y: 0, z: 1}
   damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
@@ -5309,7 +5309,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
