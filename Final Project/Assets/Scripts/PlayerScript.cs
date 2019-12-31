@@ -8,8 +8,13 @@ public class PlayerScript : MonoBehaviour
     public float movementSpeed = 1;
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
+    public float strongerJumpCooldown = 1;
+    public int strongJumpMaxIndex = 4;
     public bool isAttemptingToJump = false;
     public bool isGrounded = true;
+    bool canDoStrongerJump = false;
+    bool airTriggeredByJump = false;
+    public int strongerJumpKey = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -98,7 +103,7 @@ public class PlayerScript : MonoBehaviour
 
         // Check if there is anything on the right of player that will prevent movement
         hasBeenHit = !Physics.Raycast(transform.position, Vector3.right, out hit, movementCheckRaycatHit);
-        if (!hasBeenHit && GetComponent<Particle3D>().collidingGameObject != null)
+        if (!hasBeenHit /*&& GetComponent<Particle3D>().collidingGameObject != null*/)
         {
             if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
             {
@@ -117,9 +122,21 @@ public class PlayerScript : MonoBehaviour
         // Jump if the character is grounded
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce);
-            GetComponent<Particle3D>().position.y += 0.5f;
+            if (canDoStrongerJump && strongerJumpKey <= strongJumpMaxIndex)
+            {
+                strongerJumpKey++;
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * strongerJumpKey * jumpForce);
+                GetComponent<Particle3D>().position.y += 0.5f;
+            }
+            else
+            {
+                strongerJumpKey = 0;
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce);
+                GetComponent<Particle3D>().position.y += 0.5f;
+            }
             isAttemptingToJump = true;
+            airTriggeredByJump = true;
+            canDoStrongerJump = false;
         }
     }
 
@@ -129,6 +146,15 @@ public class PlayerScript : MonoBehaviour
     // This function checks all physics based values
     void CheckForPhysicsChange()
     {
+        // Check if the colliding object is moving, if so then move with it
+        if (GetComponent<Particle3D>().collidingGameObject != null)
+        {
+            if (GetComponent<Particle3D>().collidingGameObject.gameObject.tag == "Dynamic Object" && !isAttemptingToJump)
+            {
+                GetComponent<Particle3D>().velocity.y = GetComponent<Particle3D>().collidingGameObject.GetComponent<Particle3D>().velocity.y;
+            }
+        }
+
         RaycastHit hit;
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))
@@ -144,6 +170,13 @@ public class PlayerScript : MonoBehaviour
             isAttemptingToJump = false;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             isGrounded = true;
+
+            if (hit.collider.gameObject.tag == "Obstacle" && airTriggeredByJump)
+            {
+                StartCoroutine(StartStrongerJumpWindow());
+            }
+
+            airTriggeredByJump = false;
         }
         else
         {
@@ -152,14 +185,17 @@ public class PlayerScript : MonoBehaviour
             GetComponent<Particle3D>().collidingGameObject = null;
             isGrounded = false;
         }
+    }
 
-        // Check if the colliding object is moving, if so then move with it
-        if (GetComponent<Particle3D>().collidingGameObject != null)
-        {
-            if (GetComponent<Particle3D>().collidingGameObject.gameObject.tag == "Dynamic Object" && !isAttemptingToJump)
-            {
-                GetComponent<Particle3D>().velocity.y = GetComponent<Particle3D>().collidingGameObject.GetComponent<Particle3D>().velocity.y;
-            }
-        }
+
+
+
+
+    // This function triggers whenever the player reaches the ground after jumping
+    IEnumerator StartStrongerJumpWindow()
+    {
+        canDoStrongerJump = true;
+        yield return new WaitForSeconds(strongerJumpCooldown);
+        canDoStrongerJump = false;
     }
 }
