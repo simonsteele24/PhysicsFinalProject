@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     public float punchCooldown = 1;
     public float lastDirectionX;
     public float lastDirectionY;
+    public float punchDistance;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
@@ -134,6 +135,13 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetButtonDown("Xbox_B") && canPunch)
         {
             Debug.Log("Punch");
+            if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
+            {
+                if (hit.collider.gameObject.tag == "Destroyable" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
             StartCoroutine(StartPunchCooldown());
         }
 
@@ -268,7 +276,6 @@ public class PlayerScript : MonoBehaviour
     {
         if (isGroundPounding)
         {
-            Debug.Log("Here");
             GetComponent<Particle3D>().gravitationalConstant = originalGravitationalConstant * groundPoundGravityMultiplier;
         }
         else
@@ -289,6 +296,11 @@ public class PlayerScript : MonoBehaviour
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))
         {
+            if (hit.collider.gameObject.tag == "Destroyable" && isGroundPounding)
+            {
+                Destroy(hit.collider.gameObject);
+                return;
+            }
             // Make sure that we set velocity to zero if the force of gravity is being applied
             if (GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0)
             {
