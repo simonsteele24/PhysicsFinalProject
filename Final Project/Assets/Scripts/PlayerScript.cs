@@ -9,17 +9,23 @@ public class PlayerScript : MonoBehaviour
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public float strongerJumpCooldown = 1;
+    public float punchCooldown = 1;
+    public float lastDirectionX;
+    public float lastDirectionY;
+    float inputAmountX;
+    float inputAmountY;
     public int strongJumpMaxIndex = 4;
     public bool isAttemptingToJump = false;
     public bool isGrounded = true;
     bool canDoStrongerJump = false;
     bool airTriggeredByJump = false;
+    bool canPunch = true;
     public int strongerJumpKey = 1;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(TakeLastInput());
     }
 
     // Update is called once per frame
@@ -39,11 +45,12 @@ public class PlayerScript : MonoBehaviour
         RaycastHit hit;
 
         // Get input
-        float inputAmountX = Mathf.Abs(Input.GetAxis("Horizontal"));
-        float inputAmountY = Mathf.Abs(Input.GetAxis("Vertical"));
+        inputAmountX = Input.GetAxis("Xbox_LeftStick_X");
+        inputAmountY = Input.GetAxis("Xbox_LeftStick_Y");
+        float sprintAmount = 1 + Input.GetAxis("Xbox_RT");
 
         // Set all animations
-        GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(inputAmountX + inputAmountY, 0, 1), 0.1f, Time.deltaTime);
+        GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(Mathf.Abs(inputAmountX) + Mathf.Abs(inputAmountY), 0, 1), 0.1f, Time.deltaTime);
         GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded);
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
@@ -58,7 +65,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Move if nothing is in the way of the player
-        if (Input.GetKey(KeyCode.W) && !Physics.Raycast(transform.position, Vector3.forward, out hit, movementCheckRaycatHit))
+        if (inputAmountY > 0 && !Physics.Raycast(transform.position, Vector3.forward, out hit, movementCheckRaycatHit))
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
@@ -76,7 +83,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Move if nothing is in the way of the player
-        if (Input.GetKey(KeyCode.A) && !Physics.Raycast(transform.position, Vector3.left, out hit, movementCheckRaycatHit))
+        if (inputAmountX < 0 && !Physics.Raycast(transform.position, Vector3.left, out hit, movementCheckRaycatHit))
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 270, 0);
@@ -94,7 +101,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Move if nothing is in the way of the player
-        if (Input.GetKey(KeyCode.S) && !Physics.Raycast(transform.position, Vector3.back, out hit, movementCheckRaycatHit))
+        if (inputAmountY < 0 && !Physics.Raycast(transform.position, Vector3.back, out hit, movementCheckRaycatHit))
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
@@ -103,7 +110,7 @@ public class PlayerScript : MonoBehaviour
 
         // Check if there is anything on the right of player that will prevent movement
         hasBeenHit = !Physics.Raycast(transform.position, Vector3.right, out hit, movementCheckRaycatHit);
-        if (!hasBeenHit /*&& GetComponent<Particle3D>().collidingGameObject != null*/)
+        if (!hasBeenHit)
         {
             if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
             {
@@ -112,16 +119,73 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Move if nothing is in the way of the player
-        if (Input.GetKey(KeyCode.D) && hasBeenHit)
+        if (inputAmountX > 0 && hasBeenHit)
         {
             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
 
-        // Jump if the character is grounded
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetButtonDown("Xbox_B") && canPunch)
         {
+            Debug.Log("Punch");
+            StartCoroutine(StartPunchCooldown());
+        }
+
+        if (Input.GetAxis("Xbox_LT") > 0)
+        {
+            if (!isGrounded)
+            {
+                Debug.Log("Ground Pound");
+            }
+
+            Debug.Log("Crouch");
+
+            if (Input.GetButtonDown("Xbox_A"))
+            {
+                if (Mathf.Abs(inputAmountX) > 0 || Mathf.Abs(inputAmountY) > 0)
+                {
+                    Debug.Log("Longjump");
+                }
+                else
+                {
+                    Debug.Log("Backflip");
+                }
+            }
+        }
+
+        // Jump if the character is grounded
+        if (Input.GetButtonDown("Xbox_A") && isGrounded)
+        {
+            if (inputAmountX < 0)
+            {
+                if (inputAmountX < lastDirectionX && lastDirectionX > 0)
+                {
+                    Debug.Log("Backward Somersault");
+                }
+            }
+            if (inputAmountX > 0)
+            {
+                if (inputAmountX > lastDirectionX && lastDirectionX < 0)
+                {
+                    Debug.Log("Backward Somersault");
+                }
+            }
+            if (inputAmountY > 0)
+            {
+                if (inputAmountY > lastDirectionY && lastDirectionY < 0)
+                {
+                    Debug.Log("Backward Somersault");
+                }
+            }
+            if (inputAmountY < 0)
+            {
+                if (inputAmountY < lastDirectionY && lastDirectionY > 0)
+                {
+                    Debug.Log("Backward Somersault");
+                }
+            }
+
             if (canDoStrongerJump && strongerJumpKey <= strongJumpMaxIndex)
             {
                 strongerJumpKey++;
@@ -138,6 +202,9 @@ public class PlayerScript : MonoBehaviour
             airTriggeredByJump = true;
             canDoStrongerJump = false;
         }
+
+        lastDirectionX = inputAmountX;
+        lastDirectionY = inputAmountY;
     }
 
 
@@ -197,5 +264,31 @@ public class PlayerScript : MonoBehaviour
         canDoStrongerJump = true;
         yield return new WaitForSeconds(strongerJumpCooldown);
         canDoStrongerJump = false;
+    }
+
+
+
+
+
+    // This function triggers whenever the player punches
+    IEnumerator StartPunchCooldown()
+    {
+        canPunch = false;
+        yield return new WaitForSeconds(punchCooldown);
+        canPunch = true;
+    }
+
+
+
+
+
+    IEnumerator TakeLastInput()
+    {
+        while(true)
+        {
+            lastDirectionX = inputAmountX;
+            lastDirectionY = inputAmountY;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }
