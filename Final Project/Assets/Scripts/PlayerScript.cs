@@ -53,7 +53,7 @@ public class PlayerScript : MonoBehaviour
         // Get input
         inputAmountX = Input.GetAxis("Xbox_LeftStick_X");
         inputAmountY = Input.GetAxis("Xbox_LeftStick_Y");
-        float sprintAmount = 1 + Input.GetAxis("Xbox_RT");
+        float sprintAmount = isGrounded ? sprintAmount = 1 + Input.GetAxis("Xbox_RT") : sprintAmount = 1;
 
         // Set all animations
         GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(Mathf.Abs(inputAmountX) + Mathf.Abs(inputAmountY), 0, 1), 0.1f, Time.deltaTime);
@@ -73,7 +73,7 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountY > 0 && !Physics.Raycast(transform.position, Vector3.forward, out hit, movementCheckRaycatHit))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetForwardVector());
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
@@ -91,7 +91,7 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountX < 0 && !Physics.Raycast(transform.position, Vector3.left, out hit, movementCheckRaycatHit))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetRightwardVector());
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 270, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
@@ -109,7 +109,7 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountY < 0 && !Physics.Raycast(transform.position, Vector3.back, out hit, movementCheckRaycatHit))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * -GetComponent<Particle3D>().GetForwardVector());
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -GetComponent<Particle3D>().GetForwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
@@ -127,7 +127,7 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountX > 0 && hasBeenHit)
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * GetComponent<Particle3D>().GetRightwardVector());
+            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().GetRightwardVector());
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
