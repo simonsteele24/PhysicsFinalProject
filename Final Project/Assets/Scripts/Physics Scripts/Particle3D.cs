@@ -51,7 +51,7 @@ public class Particle3D : MonoBehaviour
     public Vector3 angularVelocity;
     public Vector3 angularAcceleration;
     [Range(0, Mathf.Infinity)] public float mass;
-    const float GRAVITATIONAL_CONSTANT = -0.9f;
+    public float gravitationalConstant = -0.9f;
     public float invMass;
 
     // Bonus - related variables
@@ -64,7 +64,7 @@ public class Particle3D : MonoBehaviour
     {
         set
         {
-            mass = mass > 0.0f ? mass : mass = 0.0f;
+            mass = mass > 0.0f ? mass = value : mass = 0.0f;
             invMass = mass > 0.0f ? invMass = 1.0f / mass : invMass = 0.0f;
         }
 
@@ -112,7 +112,7 @@ public class Particle3D : MonoBehaviour
         // Check if particle is affected by any outside forces
         if (isUsingGravity)
         {
-            AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, GRAVITATIONAL_CONSTANT, Vector3.up));
+            AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, gravitationalConstant, Vector3.up));
         }
         if (enabledByDragForce)
         {

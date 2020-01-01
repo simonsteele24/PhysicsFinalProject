@@ -440,6 +440,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
+  gravitationalConstant: -0.9
   invMass: 100000000
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -568,6 +569,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
+  gravitationalConstant: -0.9
   invMass: 100000000
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -788,6 +790,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 4
+  gravitationalConstant: -0.9
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -1008,6 +1011,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 4
+  gravitationalConstant: -0.9
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -1286,6 +1290,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
+  gravitationalConstant: -0.9
   invMass: 999999
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -1414,6 +1419,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
+  gravitationalConstant: -0.9
   invMass: 100000000
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -1617,6 +1623,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
+  gravitationalConstant: -0.9
   invMass: 100000000
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -1820,6 +1827,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
+  gravitationalConstant: -0.9
   invMass: 100000000
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -2212,6 +2220,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
+  gravitationalConstant: -0.9
   invMass: 100000000
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -2432,6 +2441,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 4
+  gravitationalConstant: -0.9
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -5099,6 +5109,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 3
+  gravitationalConstant: -0.9
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -5121,9 +5132,14 @@ MonoBehaviour:
   raycastCheckHit: 1
   movementCheckRaycatHit: 3
   strongerJumpCooldown: 1
+  punchCooldown: 1
+  lastDirectionX: 0
+  lastDirectionY: 0
   strongJumpMaxIndex: 4
+  groundPoundGravityMultiplier: 10
   isAttemptingToJump: 0
   isGrounded: 0
+  strongerJumpKey: 1
 --- !u!4 &8084148982200699060
 Transform:
   m_ObjectHideFlags: 0
