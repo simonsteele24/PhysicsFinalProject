@@ -25,6 +25,7 @@ public class PlayerScript : MonoBehaviour
     bool airTriggeredByJump = false;
     bool canPunch = true;
     bool isTriggerDown = false;
+    public bool canWallJump = false;
     public int strongerJumpKey = 1;
 
     // Start is called before the first frame update
@@ -190,80 +191,89 @@ public class PlayerScript : MonoBehaviour
         {
             isTriggerDown = false;
             // Jump if the character is grounded
-            if (Input.GetButtonDown("Xbox_A") && isGrounded)
+            if (Input.GetButtonDown("Xbox_A"))
             {
-                if (inputAmountX < 0)
+                if (isGrounded)
                 {
-                    if (inputAmountX < lastDirectionX && lastDirectionX > 0)
+                    if (inputAmountX < 0)
                     {
-                        Debug.Log("Backward Somersault");
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
-                        GetComponent<Particle3D>().position.y += 0.5f;
+                        if (inputAmountX < lastDirectionX && lastDirectionX > 0)
+                        {
+                            Debug.Log("Backward Somersault");
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
+                            GetComponent<Particle3D>().position.y += 0.5f;
 
-                        isAttemptingToJump = true;
-                        airTriggeredByJump = true;
-                        canDoStrongerJump = false;
+                            isAttemptingToJump = true;
+                            airTriggeredByJump = true;
+                            canDoStrongerJump = false;
+                        }
                     }
-                }
-                if (inputAmountX > 0)
-                {
-                    if (inputAmountX > lastDirectionX && lastDirectionX < 0)
+                    if (inputAmountX > 0)
                     {
-                        Debug.Log("Backward Somersault");
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
-                        GetComponent<Particle3D>().position.y += 0.5f;
+                        if (inputAmountX > lastDirectionX && lastDirectionX < 0)
+                        {
+                            Debug.Log("Backward Somersault");
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
+                            GetComponent<Particle3D>().position.y += 0.5f;
 
-                        isAttemptingToJump = true;
-                        airTriggeredByJump = true;
-                        canDoStrongerJump = false;
+                            isAttemptingToJump = true;
+                            airTriggeredByJump = true;
+                            canDoStrongerJump = false;
+                        }
                     }
-                }
-                if (inputAmountY > 0)
-                {
-                    if (inputAmountY > lastDirectionY && lastDirectionY < 0)
+                    if (inputAmountY > 0)
                     {
-                        Debug.Log("Backward Somersault");
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
-                        GetComponent<Particle3D>().position.y += 0.5f;
+                        if (inputAmountY > lastDirectionY && lastDirectionY < 0)
+                        {
+                            Debug.Log("Backward Somersault");
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
+                            GetComponent<Particle3D>().position.y += 0.5f;
 
-                        isAttemptingToJump = true;
-                        airTriggeredByJump = true;
-                        canDoStrongerJump = false;
+                            isAttemptingToJump = true;
+                            airTriggeredByJump = true;
+                            canDoStrongerJump = false;
+                        }
                     }
-                }
-                if (inputAmountY < 0)
-                {
-                    if (inputAmountY < lastDirectionY && lastDirectionY > 0)
+                    if (inputAmountY < 0)
                     {
-                        Debug.Log("Backward Somersault");
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
-                        GetComponent<Particle3D>().position.y += 0.5f;
+                        if (inputAmountY < lastDirectionY && lastDirectionY > 0)
+                        {
+                            Debug.Log("Backward Somersault");
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
+                            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
+                            GetComponent<Particle3D>().position.y += 0.5f;
 
-                        isAttemptingToJump = true;
-                        airTriggeredByJump = true;
-                        canDoStrongerJump = false;
+                            isAttemptingToJump = true;
+                            airTriggeredByJump = true;
+                            canDoStrongerJump = false;
+                        }
                     }
-                }
 
-                if (canDoStrongerJump && strongerJumpKey <= strongJumpMaxIndex)
-                {
-                    strongerJumpKey++;
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * strongerJumpKey * jumpForce);
-                    GetComponent<Particle3D>().position.y += 0.5f;
+                    if (canDoStrongerJump && strongerJumpKey <= strongJumpMaxIndex)
+                    {
+                        strongerJumpKey++;
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * strongerJumpKey * jumpForce);
+                        GetComponent<Particle3D>().position.y += 0.5f;
+                    }
+                    else
+                    {
+                        strongerJumpKey = 0;
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce);
+                        GetComponent<Particle3D>().position.y += 0.5f;
+                    }
+                    isAttemptingToJump = true;
+                    airTriggeredByJump = true;
+                    canDoStrongerJump = false;
                 }
-                else
+                else if (canWallJump)
                 {
-                    strongerJumpKey = 0;
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce);
-                    GetComponent<Particle3D>().position.y += 0.5f;
+                    Vector3 normal = transform.position - GetComponent<Particle3D>().collidingGameObject.transform.position;
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * new Vector3(normal.normalized.x, 0, 0) * strongJumpMaxIndex);
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
                 }
-                isAttemptingToJump = true;
-                airTriggeredByJump = true;
-                canDoStrongerJump = false;
             }
         }
     }
@@ -274,6 +284,8 @@ public class PlayerScript : MonoBehaviour
     // This function checks all physics based values
     void CheckForPhysicsChange()
     {
+        RaycastHit hit;
+
         if (isGroundPounding)
         {
             GetComponent<Particle3D>().gravitationalConstant = originalGravitationalConstant * groundPoundGravityMultiplier;
@@ -292,7 +304,6 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        RaycastHit hit;
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))
         {
@@ -327,6 +338,51 @@ public class PlayerScript : MonoBehaviour
             GetComponent<Particle3D>().isUsingGravity = true;
             GetComponent<Particle3D>().collidingGameObject = null;
             isGrounded = false;
+        }
+
+        if (Physics.Raycast(transform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
+        {
+            if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject)
+            {
+                GetComponent<Particle3D>().velocity.z = 0;
+                GetComponent<Particle3D>().velocity.x = 0;
+                GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+                if (!isGrounded)
+                {
+                    canWallJump = true;
+                }
+                else
+                {
+                    canWallJump = false;
+                }
+            }
+            else
+            {
+                canWallJump = false;
+            }
+        }
+        else if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
+        {
+            if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject)
+            {
+                GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+                if (!isGrounded)
+                {
+                    canWallJump = true;
+                }
+                else
+                {
+                    canWallJump = false;
+                }
+            }
+            else
+            {
+                canWallJump = false;
+            }
+        }
+        else
+        {
+            canWallJump = false;
         }
     }
 
