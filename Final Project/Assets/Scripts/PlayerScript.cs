@@ -58,7 +58,7 @@ public class PlayerScript : MonoBehaviour
 
         // Set all animations
         GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(Mathf.Abs(inputAmountX) + Mathf.Abs(inputAmountY), 0, 1), 0.1f, Time.deltaTime);
-        GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded);
+        GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded || (!isAttemptingToJump && (GetComponent<Particle3D>().collidingGameObject != null && !canWallJump)));
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
         // Check if there is anything in front of player that will prevent movement
@@ -336,7 +336,6 @@ public class PlayerScript : MonoBehaviour
         {
             // If in air, set all gravity values
             GetComponent<Particle3D>().isUsingGravity = true;
-            GetComponent<Particle3D>().collidingGameObject = null;
             isGrounded = false;
         }
 
@@ -383,6 +382,15 @@ public class PlayerScript : MonoBehaviour
         else
         {
             canWallJump = false;
+        }
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 2.1f))
+        {
+            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+        }
+        else
+        {
+            GetComponent<Particle3D>().collidingGameObject = null;
         }
     }
 
