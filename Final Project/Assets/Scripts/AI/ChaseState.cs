@@ -21,7 +21,9 @@ public class ChaseState : State
 
     public override void UpdateState()
     {
-        GetComponentInParent<Goomba>().MoveTowardsObject(player.transform.position);
+        Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        transform.parent.LookAt(position);
+        GetComponentInParent<Goomba>().MoveInADirection(transform.forward);
     }
 
     public override void OnEnterState()
