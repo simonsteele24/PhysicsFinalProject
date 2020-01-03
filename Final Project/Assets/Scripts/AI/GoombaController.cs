@@ -9,7 +9,9 @@ public enum States
     CompleteIdle,
     Lunge,
     Return,
-    IdleBeforeReturn
+    IdleBeforeReturn,
+    Prone,
+    Throw
 }
 
 public class GoombaController : MonoBehaviour

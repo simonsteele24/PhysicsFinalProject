@@ -26,6 +26,9 @@ public class PlayerScript : MonoBehaviour
     bool canPunch = true;
     bool isTriggerDown = false;
     public bool canWallJump = false;
+    GameObject carryingObject;
+    public Vector3 carryingOffset;
+    public float throwingOffset = 20;
     public int strongerJumpKey = 1;
 
     // Start is called before the first frame update
@@ -136,8 +139,23 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetButtonDown("Xbox_B") && canPunch)
         {
             Debug.Log("Punch");
+
+            if (carryingObject != null)
+            {
+                carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.forward * throwingOffset);
+                carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.up * throwingOffset);
+                carryingObject = null;
+            }
+
+
             if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
             {
+                if (hit.collider.gameObject.tag == "King Bobomb" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
+                {
+                    carryingObject = hit.collider.gameObject;
+                    hit.collider.gameObject.GetComponent<KingBobomb>().isProne = true;
+                }
+
                 if (hit.collider.gameObject.tag == "Destroyable" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
                 {
                     Destroy(hit.collider.gameObject);
@@ -284,6 +302,11 @@ public class PlayerScript : MonoBehaviour
     // This function checks all physics based values
     void CheckForPhysicsChange()
     {
+        if (carryingObject != null)
+        {
+            carryingObject.GetComponent<Particle3D>().position = transform.position + transform.InverseTransformDirection(carryingOffset);
+        }
+
         RaycastHit hit;
 
         if (isGroundPounding)
