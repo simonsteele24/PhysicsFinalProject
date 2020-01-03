@@ -5,7 +5,10 @@ using UnityEngine;
 public enum States
 {
     Idle,
-    Chase
+    Chase,
+    CompleteIdle,
+    Lunge,
+    Return
 }
 
 public class GoombaController : MonoBehaviour
