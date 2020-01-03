@@ -8,7 +8,8 @@ public enum States
     Chase,
     CompleteIdle,
     Lunge,
-    Return
+    Return,
+    IdleBeforeReturn
 }
 
 public class GoombaController : MonoBehaviour

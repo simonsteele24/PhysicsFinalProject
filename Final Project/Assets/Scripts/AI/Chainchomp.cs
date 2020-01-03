@@ -7,6 +7,7 @@ public class Chainchomp : MonoBehaviour
     public float movementSpeed = 1;
     public float lungeMovementSpeed = 10;
     public float distanceToMoveFromPole = 10;
+    public float distanceToStop;
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public bool isGrounded = true;

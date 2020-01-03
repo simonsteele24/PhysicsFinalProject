@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class LungeState : State
 {
-    public float lungeTime = 2;
-    bool isOverWithLunging = false;
-    GameObject player;
+    Vector3 player;
 
     public override States CheckForTransition()
     {
-        float distance = Mathf.Abs(Vector3.Distance(transform.parent.position, player.transform.position));
+        Debug.Log(Vector3.Distance(transform.parent.position, GetComponentInParent<Chainchomp>().pole.transform.position));
+        Debug.Log(GetComponentInParent<Chainchomp>().distanceToMoveFromPole);
 
-        if (isOverWithLunging)
+        if (Vector3.Distance(transform.parent.position, GetComponentInParent<Chainchomp>().pole.transform.position) > GetComponentInParent<Chainchomp>().distanceToStop)
         {
-            return States.Return;
+            return States.IdleBeforeReturn;
         }
 
         return States.Lunge;
@@ -22,22 +21,16 @@ public class LungeState : State
 
     public override void OnEnterState()
     {
-        player = GameObject.Find("Player");
-        StartCoroutine(StartLungeCooldown());
+        player = GameObject.Find("Player").transform.position;
+        Vector3 position = new Vector3(player.x, transform.position.y, player.z);
+        transform.parent.LookAt(position);
+        GetComponentInParent<Particle3D>().rotation = transform.parent.rotation;
     }
 
     public override void OnExitState() { }
 
     public override void UpdateState()
     {
-        Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.parent.LookAt(position);
-        GetComponentInParent<Chainchomp>().MoveInALungeDirection(transform.forward);
-    }
-
-    IEnumerator StartLungeCooldown()
-    {
-        yield return new WaitForSeconds(lungeTime);
-        isOverWithLunging = true;
+        GetComponentInParent<Chainchomp>().MoveInALungeDirection(transform.parent.forward);
     }
 }
