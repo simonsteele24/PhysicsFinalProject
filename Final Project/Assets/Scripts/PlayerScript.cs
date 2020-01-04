@@ -335,6 +335,13 @@ public class PlayerScript : MonoBehaviour
                 Destroy(hit.collider.gameObject);
                 return;
             }
+
+            if (hit.collider.gameObject.tag == "Goomba")
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * strongJumpMaxIndex);
+                StartCoroutine(hit.collider.gameObject.GetComponent<Goomba>().CommenceDeath());
+            }
+
             // Make sure that we set velocity to zero if the force of gravity is being applied
             if (GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0)
             {

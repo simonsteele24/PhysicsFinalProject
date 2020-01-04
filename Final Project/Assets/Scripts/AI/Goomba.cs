@@ -7,7 +7,9 @@ public class Goomba : MonoBehaviour
     public float movementSpeed;
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
+    public float deathLifeTime = 2;
     public bool isGrounded = true;
+    public bool isDying = false;
 
     public void MoveInADirection(Vector3 direction)
     {
@@ -55,5 +57,12 @@ public class Goomba : MonoBehaviour
         {
             GetComponent<Particle3D>().collidingGameObject = null;
         }
+    }
+
+    public IEnumerator CommenceDeath()
+    {
+        isDying = true;
+        yield return new WaitForSeconds(deathLifeTime);
+        Destroy(gameObject);
     }
 }
