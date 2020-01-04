@@ -11,6 +11,7 @@ public class Chainchomp : MonoBehaviour
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public bool isGrounded = true;
+    public bool isAttacking = false;
     public GameObject pole;
 
     public void MoveInADirection(Vector3 direction)

@@ -21,6 +21,7 @@ public class LungeState : State
 
     public override void OnEnterState()
     {
+        GetComponentInParent<Chainchomp>().isAttacking = true;
         player = GameObject.Find("Player").transform.position;
         Vector3 position = new Vector3(player.x, transform.position.y, player.z);
         transform.parent.LookAt(position);
