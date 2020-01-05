@@ -345,7 +345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322552019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.27, z: 0}
+  m_LocalPosition: {x: -9.21, y: -0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -364,11 +364,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingKinematicFormula: 0
-  isUsingGravity: 1
+  isUsingGravity: 0
   enabledByDragForce: 0
   isCharacterController: 0
   controllerLevitationValue: 0
-  collidingGameObject: {fileID: 0}
+  collidingGameObject: {fileID: 2142394756}
   isAnchoredSpring: 0
   anchors: []
   springRestingLength: 0
@@ -605,13 +605,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2142394756}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.25, y: -0.71, z: 0}
-  m_LocalScale: {x: 10, y: 0.01, z: 10}
+  m_LocalRotation: {x: 0.06162845, y: 0.70441604, z: -0.06162845, w: 0.70441604}
+  m_LocalPosition: {x: -8.01, y: -1.55, z: 0}
+  m_LocalScale: {x: 10, y: 0.01, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 10, y: 90, z: 0}
 --- !u!114 &2142394761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +689,7 @@ MonoBehaviour:
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 0
   gravitationalConstant: -0.9
-  invMass: 1e-22
+  invMass: 1e+16
   isGoingDownSlope: 0
   slope: {fileID: 0}
   joint: {fileID: 0}
