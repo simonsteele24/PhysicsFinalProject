@@ -114,6 +114,7 @@ public class Particle3D : MonoBehaviour
             {
                 AddForce(ForceGenerator.GenerateForce_friction_kinetic(-velocity, velocity, collidingGameObject.GetComponent<PhysicsMaterialScript>().frictionValue));
             }
+            AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, gravitationalConstant, 0), collidingGameObject.transform.forward));
         }
 
         // Check if particle is affected by any outside forces

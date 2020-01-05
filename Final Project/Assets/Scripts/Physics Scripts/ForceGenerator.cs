@@ -31,6 +31,11 @@ public class ForceGenerator : MonoBehaviour
         return f_normal;
     }
 
+    public static Vector3 GenerateForce_normal3D(Vector3 f_gravity, Vector3 surfaceNormal_unit)
+    {
+        Vector3 f_normal = Vector3.Project(f_gravity, surfaceNormal_unit);
+        return f_normal;
+    }
 
     // The following function generates a sliding force based on a gravitional
     // force and a normalized surface direction 
@@ -40,6 +45,12 @@ public class ForceGenerator : MonoBehaviour
         return f_sliding;
     }
 
+
+    public static Vector3 GenerateForce_sliding(Vector3 f_gravity, Vector3 f_normal)
+    {
+        Vector3 f_sliding = f_gravity + f_normal;
+        return f_sliding;
+    }
 
     // The following function generates a static frictional force based on a normalized 
     // force, an opposing forcing, and a static friction coefficient

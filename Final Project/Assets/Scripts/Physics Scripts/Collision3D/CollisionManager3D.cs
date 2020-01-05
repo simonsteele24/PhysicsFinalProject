@@ -7,7 +7,8 @@ public enum CollisionHullType3D
 {
     Sphere,
     AABB,
-    OBBB
+    OBBB,
+    Plane
 }
 
 public class CollisionManager3D : MonoBehaviour
@@ -107,6 +108,7 @@ public class CollisionManager3D : MonoBehaviour
         _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.Sphere, CollisionHullType3D.OBBB), CircleToOBBCollision);
         _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.Sphere, CollisionHullType3D.AABB), CircleToABBCollision);
         _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.AABB, CollisionHullType3D.OBBB), AABBToOBBCollision);
+        _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.Sphere, CollisionHullType3D.Plane), SphereToPlaneCollision);
     }
 
 
@@ -562,7 +564,34 @@ public class CollisionManager3D : MonoBehaviour
     }
 
 
+    public static CollisionInfo SphereToPlaneCollision(CollisionHull3D a, CollisionHull3D b)
+    {
+        // Find the relative centre by transforming the center of the circle to the local space of the AABB
+        Vector3 relativeCentre = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(a.GetPosition());
 
+        Vector3 closestPointToCircle = new Vector3(Math.Max(b.GetMinimumCorner().x, Math.Min(relativeCentre.x, b.GetMaximumCorner().x)), 0 , Math.Max(b.GetMinimumCorner().z, Math.Min(relativeCentre.z, b.GetMaximumCorner().z)));
+
+        // Calculate the distance between both colliders
+        Vector3 distance = relativeCentre - closestPointToCircle;
+
+        float penetration = a.GetDimensions().x  * (a.GetDimensions().x) - Vector3.Dot(distance, distance);
+
+        // Are the Radii less than or equal to the distance between both circles?
+        if (penetration > 0)
+        {
+            // If yes, then inform the parents of the complex shape object (if applicable)
+            ReportCollisionToParent(a, b);
+        }
+        else
+        {
+            // If no, return nothing
+            return null;
+        }
+
+        Debug.Log("Colliding");
+        // Return result
+        return new CollisionInfo(a, b, penetration,  (b.GetComponent<Particle3D>().transformMatrix.MultiplyPoint(closestPointToCircle) - a.GetPosition()).normalized, Vector3.zero);
+    }
 
 
     // This function calculate Circle to ABB collisions
