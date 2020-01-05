@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public float jumpForce;
+    public float angleThreshold = 40;
     public float movementSpeed = 1;
     public float jumpMovementSpeed = 1;
     public float raycastCheckHit = 1;
