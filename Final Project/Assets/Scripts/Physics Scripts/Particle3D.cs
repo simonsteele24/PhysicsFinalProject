@@ -31,6 +31,7 @@ public class Particle3D : MonoBehaviour
 
     // Vector3's
     public Vector3 position;
+    public Vector3 tempRot;
     public Vector3 velocity;
     public Vector3 acceleration;
     private Vector3 force;
@@ -59,6 +60,7 @@ public class Particle3D : MonoBehaviour
     public GameObject slope;
     public GameObject joint;
     public bool isAttemptingToMove = false;
+    public bool hasTempRotation = false;
 
     public float Mass
     {
@@ -87,6 +89,11 @@ public class Particle3D : MonoBehaviour
 
     private void Start()
     {
+        if (tempRot != Vector3.zero)
+        {
+            hasTempRotation = true;
+        }
+
         // Initialize values
         Mass = mass;
         position = transform.position;
@@ -318,8 +325,17 @@ public class Particle3D : MonoBehaviour
     {
         if (collidingGameObject != null)
         {
-            Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, collidingGameObject.GetComponent<Particle3D>().rotation, new Vector3(1, 1, 1));
-            return rotationMatrix.MultiplyPoint(Vector3.right);
+            if (collidingGameObject.GetComponent<Particle3D>().hasTempRotation)
+            {
+                Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(collidingGameObject.GetComponent<Particle3D>().tempRot), new Vector3(1, 1, 1));
+                return rotationMatrix.MultiplyPoint(Vector3.right);
+            }
+            else
+            {
+                Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, collidingGameObject.GetComponent<Particle3D>().rotation, new Vector3(1, 1, 1));
+                return rotationMatrix.MultiplyPoint(Vector3.right);
+            }
+            
         }
         else
         {
@@ -336,8 +352,16 @@ public class Particle3D : MonoBehaviour
     {
         if (collidingGameObject != null)
         {
-            Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, collidingGameObject.GetComponent<Particle3D>().rotation, new Vector3(1, 1, 1));
-            return rotationMatrix.MultiplyPoint(Vector3.forward);
+            if (collidingGameObject.GetComponent<Particle3D>().hasTempRotation)
+            {
+                Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(collidingGameObject.GetComponent<Particle3D>().tempRot), new Vector3(1, 1, 1));
+                return rotationMatrix.MultiplyPoint(Vector3.forward);
+            }
+            else
+            {
+                Matrix4x4 rotationMatrix = Matrix4x4.TRS(Vector3.zero, collidingGameObject.GetComponent<Particle3D>().rotation, new Vector3(1, 1, 1));
+                return rotationMatrix.MultiplyPoint(Vector3.forward);
+            }
         }
         else
         {

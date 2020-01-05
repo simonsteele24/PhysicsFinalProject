@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     public float jumpForce;
     public float movementSpeed = 1;
+    public float jumpMovementSpeed = 1;
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public float strongerJumpCooldown = 1;
@@ -55,8 +56,8 @@ public class PlayerScript : MonoBehaviour
         RaycastHit hit;
 
         // Get input
-        inputAmountX = Input.GetAxis("Xbox_LeftStick_X");
-        inputAmountY = Input.GetAxis("Xbox_LeftStick_Y");
+        inputAmountY = Input.GetAxis("Xbox_LeftStick_X");
+        inputAmountX = -Input.GetAxis("Xbox_LeftStick_Y");
         float sprintAmount = isGrounded ? sprintAmount = 1 + Input.GetAxis("Xbox_RT") : sprintAmount = 1;
 
         // Set all animations
@@ -77,7 +78,15 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountY > 0 && !Physics.Raycast(transform.position, Vector3.forward, out hit, movementCheckRaycatHit))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().GetForwardVector());
+            if (isGrounded)
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().GetForwardVector());
+            }
+            else
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * GetComponent<Particle3D>().GetForwardVector());
+            }
+
             transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
@@ -95,7 +104,15 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountX < 0 && !Physics.Raycast(transform.position, Vector3.left, out hit, movementCheckRaycatHit))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -GetComponent<Particle3D>().GetRightwardVector());
+            if (isGrounded)
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -GetComponent<Particle3D>().GetRightwardVector());
+            }
+            else
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * -GetComponent<Particle3D>().GetRightwardVector());
+            }
+            
             transform.GetChild(0).localEulerAngles = new Vector3(0, 270, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
@@ -113,7 +130,15 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountY < 0 && !Physics.Raycast(transform.position, Vector3.back, out hit, movementCheckRaycatHit))
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -GetComponent<Particle3D>().GetForwardVector());
+            if (isGrounded)
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -GetComponent<Particle3D>().GetForwardVector());
+            }
+            else
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * -GetComponent<Particle3D>().GetForwardVector());
+            }
+
             transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
@@ -131,7 +156,15 @@ public class PlayerScript : MonoBehaviour
         // Move if nothing is in the way of the player
         if (inputAmountX > 0 && hasBeenHit)
         {
-            GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().GetRightwardVector());
+            if (isGrounded)
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().GetRightwardVector());
+            }
+            else
+            {
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * GetComponent<Particle3D>().GetRightwardVector());
+            }
+
             transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
