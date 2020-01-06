@@ -67,7 +67,7 @@ public class PlayerScript : MonoBehaviour
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
         // Check if there is anything in front of player that will prevent movement
-        bool hasBeenHit = !Physics.Raycast(transform.position, Vector3.forward, out hit, movementCheckRaycatHit);
+        bool hasBeenHit = !Physics.Raycast(transform.position, new Vector3 (inputAmountX,0,inputAmountY).normalized, out hit, movementCheckRaycatHit);
         if (!hasBeenHit && GetComponent<Particle3D>().collidingGameObject != null)
         {
             if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
@@ -77,96 +77,21 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Move if nothing is in the way of the player
-        if (inputAmountY > 0 && !Physics.Raycast(transform.position, Vector3.forward, out hit, movementCheckRaycatHit))
+        if (!Physics.Raycast(transform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit))
         {
             if (isGrounded)
             {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * transform.forward /*GetComponent<Particle3D>().GetForwardVector()*/);
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
             }
             else
             {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * transform.forward /*GetComponent<Particle3D>().GetForwardVector()*/);
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
             }
 
-            transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
-            GetComponent<Particle3D>().isAttemptingToMove = true;
-        }
-
-        // Check if there is anything on the left of player that will prevent movement
-        hasBeenHit = !Physics.Raycast(transform.position, Vector3.left, out hit, movementCheckRaycatHit);
-        if (!hasBeenHit && GetComponent<Particle3D>().collidingGameObject != null)
-        {
-            if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
+            if (inputAmountX != 0 || inputAmountY != 0)
             {
-                hasBeenHit = true;
+                transform.GetChild(0).localEulerAngles = new Vector3(0, (Mathf.Atan2(inputAmountX, -inputAmountY) * (180 / Mathf.PI)) + (Camera.main.transform.localEulerAngles.y + 90), 0);
             }
-        }
-
-        // Move if nothing is in the way of the player
-        if (inputAmountX < 0 && !Physics.Raycast(transform.position, Vector3.left, out hit, movementCheckRaycatHit))
-        {
-            if (isGrounded)
-            {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -transform.right /*-GetComponent<Particle3D>().GetRightwardVector()*/);
-            }
-            else
-            {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * -transform.right /*-GetComponent<Particle3D>().GetRightwardVector()*/);
-            }
-            
-            transform.GetChild(0).localEulerAngles = new Vector3(0, 270, 0);
-            GetComponent<Particle3D>().isAttemptingToMove = true;
-        }
-
-        // Check if there is anything in back of player that will prevent movement
-        hasBeenHit = !Physics.Raycast(transform.position, Vector3.back, out hit, movementCheckRaycatHit);
-        if (!hasBeenHit && GetComponent<Particle3D>().collidingGameObject != null)
-        {
-            if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
-            {
-                hasBeenHit = true;
-            }
-        }
-
-        // Move if nothing is in the way of the player
-        if (inputAmountY < 0 && !Physics.Raycast(transform.position, Vector3.back, out hit, movementCheckRaycatHit))
-        {
-            if (isGrounded)
-            {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * -transform.forward /*-GetComponent<Particle3D>().GetForwardVector()*/);
-            }
-            else
-            {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * -transform.forward /*-GetComponent<Particle3D>().GetForwardVector()*/);
-            }
-
-            transform.GetChild(0).localEulerAngles = new Vector3(0, 180, 0);
-            GetComponent<Particle3D>().isAttemptingToMove = true;
-        }
-
-        // Check if there is anything on the right of player that will prevent movement
-        hasBeenHit = !Physics.Raycast(transform.position, Vector3.right, out hit, movementCheckRaycatHit);
-        if (!hasBeenHit)
-        {
-            if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
-            {
-                hasBeenHit = true;
-            }
-        }
-
-        // Move if nothing is in the way of the player
-        if (inputAmountX > 0 && hasBeenHit)
-        {
-            if (isGrounded)
-            {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * transform.right /*GetComponent<Particle3D>().GetRightwardVector()*/);
-            }
-            else
-            {
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * transform.right /*GetComponent<Particle3D>().GetRightwardVector()*/);
-            }
-
-            transform.GetChild(0).localEulerAngles = new Vector3(0, 90, 0);
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
 

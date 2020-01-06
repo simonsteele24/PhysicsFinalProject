@@ -5,16 +5,17 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour
 {
     public GameObject objectToFollow;
-    public Vector3 cameraOffset;
+    public float rotationSpeed;
 
     private void Start()
     {
-        transform.position = objectToFollow.transform.position + cameraOffset;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(objectToFollow.transform.position.x + cameraOffset.x, objectToFollow.transform.position.y + cameraOffset.y, objectToFollow.transform.position.z + cameraOffset.z);
+        float inputX = Input.GetAxis("Xbox_RightStick_X");
+
+        transform.RotateAround(objectToFollow.transform.position, Vector3.up, inputX * rotationSpeed);
     }
 }
