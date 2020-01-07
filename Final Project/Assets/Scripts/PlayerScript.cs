@@ -289,6 +289,11 @@ public class PlayerScript : MonoBehaviour
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit) && (!isAttemptingToJump || GetComponent<Particle3D>().velocity.y < 0))
         {
+            if (hit.collider.gameObject.tag == "TiltingBridge")
+            {
+                hit.collider.GetComponent<Particle3D>().ApplyTorque(new Vector3(0, 0, -hit.collider.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)).x * GetComponent<Particle3D>().mass * Time.deltaTime));
+            }
+
             if (hit.collider.gameObject.tag == "Destroyable" && isGroundPounding)
             {
                 Destroy(hit.collider.gameObject);

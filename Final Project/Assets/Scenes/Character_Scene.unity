@@ -3364,9 +3364,10 @@ GameObject:
   - component: {fileID: 1388229736}
   - component: {fileID: 1388229741}
   - component: {fileID: 1388229740}
+  - component: {fileID: 1388229742}
   m_Layer: 0
   m_Name: Cube (12)
-  m_TagString: Untagged
+  m_TagString: TiltingBridge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3439,7 +3440,7 @@ Transform:
   m_GameObject: {fileID: 1388229735}
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 23.1, y: 24.3, z: 11.76}
-  m_LocalScale: {x: 17.58, y: 1, z: 2.551}
+  m_LocalScale: {x: 16, y: 1, z: 2.551}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 21
@@ -3524,23 +3525,37 @@ MonoBehaviour:
     e31: 0
     e32: 0
     e33: 0
-  width: 0
-  height: 0
-  depth: 0
+  width: 2
+  height: 1
+  depth: 16
   radius: 0
   rotation: {x: 0, y: 0, z: 0, w: 0}
   shape: 0
   isHollow: 0
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
-  mass: 0
+  mass: 10
   gravitationalConstant: -0.9
-  invMass: 100000000
+  invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
   joint: {fileID: 0}
   isAttemptingToMove: 0
   hasTempRotation: 0
+--- !u!114 &1388229742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388229735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f82be6c88631149b6bc39c08441200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minAngle: -0.16
+  maxAngle: 0.16
 --- !u!1 &1428275096
 GameObject:
   m_ObjectHideFlags: 0
