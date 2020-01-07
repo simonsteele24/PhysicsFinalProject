@@ -141,6 +141,7 @@ public class Particle3D : MonoBehaviour
             else
             {
                 AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, gravitationalConstant, 0), collidingGameObject.transform.forward));
+                //AddForce(ForceGenerator.GenerateForce_normal3D(new Vector3(0, gravitationalConstant * 2000, 0), -collidingGameObject.transform.up));
             }
            
         }

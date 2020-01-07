@@ -48,8 +48,8 @@ public class CollisionManager3D : MonoBehaviour
 
 
             // Based on collision hulls, calculate the rest of the values
-            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a,b);
             normal = (b.GetPosition() - a.GetPosition()).normalized;
+            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a,b, normal);
             penetration = _penetration;
         }
 
@@ -72,8 +72,8 @@ public class CollisionManager3D : MonoBehaviour
 
 
             // Based on collision hulls, calculate the rest of the values
-            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a, b);
             normal = _normal;
+            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a, b, normal);
             penetration = _penetration;
         }
 
@@ -125,6 +125,7 @@ public class CollisionManager3D : MonoBehaviour
             {
                 particles[i].ResetCollidingChecker();
                 particles[i].ResetColliding();
+                //particles[i].GetComponent<Particle3D>().collidingGameObject = null;
             }
         }
 
@@ -588,9 +589,8 @@ public class CollisionManager3D : MonoBehaviour
             return null;
         }
 
-        Debug.Log("Colliding");
         // Return result
-        return new CollisionInfo(a, b, penetration,  (b.GetComponent<Particle3D>().transformMatrix.MultiplyPoint(closestPointToCircle) - a.GetPosition()).normalized, Vector3.zero);
+        return new CollisionInfo(a, b, penetration,  (closestPointToCircle - relativeCentre).normalized, Vector3.zero);
     }
 
 

@@ -5,14 +5,13 @@ using UnityEngine;
 public class CollisionResolution3D : MonoBehaviour
 {
     // This function gets the seperating velocity of two particles
-    public static float CalculateSeparatingVelocity(CollisionHull3D shapeA, CollisionHull3D shapeB)
+    public static float CalculateSeparatingVelocity(CollisionHull3D shapeA, CollisionHull3D shapeB, Vector3 contactNormal)
     {
         // Find all required values for calculation
-        Vector3 differenceOfVelocity = (shapeA.gameObject.GetComponent<Particle3D>().velocity - shapeB.gameObject.GetComponent<Particle3D>().velocity) * -1;
-        Vector3 differenceOfPosition = (shapeA.GetPosition() - shapeB.GetPosition()).normalized;
+        Vector3 differenceOfVelocity = (shapeB.gameObject.GetComponent<Particle3D>().velocity - shapeA.gameObject.GetComponent<Particle3D>().velocity);
 
         // Return the dot product of both velocity and position
-        return Mathf.Abs(Vector3.Dot(differenceOfVelocity, differenceOfPosition));
+        return Vector3.Dot(differenceOfVelocity, contactNormal);
     }
 
 
@@ -103,6 +102,8 @@ public class CollisionResolution3D : MonoBehaviour
     // This function resolves the penetration of a collision
     public static void ResolvePenetration(CollisionManager3D.CollisionInfo collision)
     {
+        Debug.Log("Resolved penetration");
+
         // Vector3's
         Vector3 particleMovementA;
         Vector3 particleMovementB;
