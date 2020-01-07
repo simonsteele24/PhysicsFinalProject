@@ -14,6 +14,12 @@ public class Goomba : MonoBehaviour
     public void MoveInADirection(Vector3 direction)
     {
         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * direction * movementSpeed);
+        //transform.localEulerAngles = new Vector3(0, (Mathf.Atan2(direction.x, direction.z) * (180 / Mathf.PI)), 0);
+    }
+
+    public void SprintInADirection(Vector3 direction, float sprintSpeed)
+    {
+        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * direction * sprintSpeed);
     }
 
     private void Update()
@@ -23,19 +29,23 @@ public class Goomba : MonoBehaviour
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))
         {
+
             // Make sure that we set velocity to zero if the force of gravity is being applied
             if (GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0)
             {
                 GetComponent<Particle3D>().velocity.y = 0;
             }
 
+            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit;
+
             // Set all values so player sticks to ground
-            GetComponent<Particle3D>().isUsingGravity = false;
+            //GetComponent<Particle3D>().isUsingGravity = false;
+            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+            isGrounded = true;
         }
         else
         {
             // If in air, set all gravity values
-            GetComponent<Particle3D>().isUsingGravity = true;
             isGrounded = false;
         }
 

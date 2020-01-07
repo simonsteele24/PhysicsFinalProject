@@ -51,8 +51,8 @@ public class BobombAnimationController : MonoBehaviour
                 leftFoot.transform.rotation = leftFootOrientation.rotation;
                 break;
             default:
-                rightFoot.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, Mathf.Abs(Mathf.Sin((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude) - footOffset)) * angleOfWalk);
-                leftFoot.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, Mathf.Abs(Mathf.Cos((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude) + footOffset)) * angleOfWalk);
+                rightFoot.transform.localEulerAngles = new Vector3(Mathf.Abs(Mathf.Sin((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude) - footOffset)) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                leftFoot.transform.localEulerAngles = new Vector3(Mathf.Abs(Mathf.Cos((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude) + footOffset)) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 break;
         }
     }

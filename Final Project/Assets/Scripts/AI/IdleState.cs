@@ -29,7 +29,8 @@ public class IdleState : State
 
     public override void UpdateState()
     {
-        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
-        GetComponentInParent<Goomba>().MoveInADirection(transform.forward);
+        transform.parent.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+        transform.parent.GetComponent<Particle3D>().rotation = transform.parent.rotation;
+        GetComponentInParent<Goomba>().MoveInADirection(transform.parent.forward);
     }
 }

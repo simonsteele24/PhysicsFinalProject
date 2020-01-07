@@ -17,6 +17,7 @@ public class GoombaAnimationController : MonoBehaviour
     public GameObject leftFoot;
 
     public float angleOfWalk = 10.0f;
+    public float speedMagnifier = 2.0f;
     public float footOffset = 0.5f;
     public float deathCycle = 0.99f;
 
@@ -59,8 +60,8 @@ public class GoombaAnimationController : MonoBehaviour
                 transform.localScale = new Vector3(transform.localScale.x,transform.localScale.y * deathCycle, transform.localScale.z);
                 break;
             default:
-                rightFoot.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, Mathf.Sin((Time.time *  new Vector3(GetComponentInParent<Particle3D>().velocity.x,0, GetComponentInParent<Particle3D>().velocity.z).magnitude) - footOffset) * angleOfWalk);
-                leftFoot.transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, Mathf.Cos((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude) + footOffset) * angleOfWalk);
+                rightFoot.transform.localEulerAngles = new Vector3(Mathf.Sin((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude * speedMagnifier) - footOffset) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                leftFoot.transform.localEulerAngles = new Vector3(Mathf.Cos((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude * speedMagnifier) + footOffset) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 break;
         }
     }

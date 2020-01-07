@@ -45,8 +45,8 @@ public class ChainchompAnimationController : MonoBehaviour
         switch (currentAnimationState)
         {
             case ChainchompAnimationStates.Idle:
-                upperMouth.transform.localEulerAngles = new Vector3(transform.parent.transform.localEulerAngles.x, transform.parent.transform.localEulerAngles.y, Mathf.Sin((Time.time * mouthSpeed) - mouthOffset) * angleOfWalk);
-                lowerMouth.transform.localEulerAngles = new Vector3(transform.parent.transform.localEulerAngles.x, transform.parent.transform.localEulerAngles.y, Mathf.Cos((Time.time * mouthSpeed) + mouthOffset) * angleOfWalk);
+                upperMouth.transform.localEulerAngles = new Vector3(Mathf.Sin((Time.time * mouthSpeed) - mouthOffset) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                lowerMouth.transform.localEulerAngles = new Vector3(Mathf.Cos((Time.time * mouthSpeed) + mouthOffset) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 break;
             default:
                 upperMouth.transform.position = upperMouthOrientation.position;

@@ -6,6 +6,7 @@ public class BobombChaseState : State
 {
     public float distanceToLeavePlayer = 10;
     public float bombLifetime = 5;
+    public float chaseSpeed;
     GameObject player;
 
     public override States CheckForTransition()
@@ -24,7 +25,7 @@ public class BobombChaseState : State
     {
         Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
-        GetComponentInParent<Goomba>().MoveInADirection(transform.forward);
+        GetComponentInParent<Goomba>().SprintInADirection(transform.forward, chaseSpeed);
     }
 
     public override void OnEnterState()

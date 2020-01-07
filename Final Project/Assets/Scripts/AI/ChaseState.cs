@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ChaseState : State
 {
-    public float distanceToLeavePlayer = 10; 
+    public float distanceToLeavePlayer = 10;
+    public float chaseSpeed;
     GameObject player;
 
     public override States CheckForTransition()
@@ -23,7 +24,7 @@ public class ChaseState : State
     {
         Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
-        GetComponentInParent<Goomba>().MoveInADirection(transform.forward);
+        GetComponentInParent<Goomba>().SprintInADirection(transform.forward, chaseSpeed);
     }
 
     public override void OnEnterState()
