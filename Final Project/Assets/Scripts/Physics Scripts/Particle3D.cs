@@ -149,7 +149,11 @@ public class Particle3D : MonoBehaviour
         // Check if particle is affected by any outside forces
         if (isUsingGravity)
         {
-            AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, gravitationalConstant, Vector3.up));
+            RaycastHit hit;
+            if (!Physics.Raycast(transform.position, Vector3.down, out hit, 1))
+            {
+                AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, gravitationalConstant, Vector3.up));
+            }
         }
         if (enabledByDragForce)
         {

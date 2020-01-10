@@ -72,8 +72,10 @@ public class GoombaAnimationController : MonoBehaviour
                 transform.localScale = new Vector3(transform.localScale.x,transform.localScale.y * deathCycle, transform.localScale.z);
                 break;
             default:
+                Debug.Log(Mathf.Sin((Time.time * (new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude * speedMagnifier))));
+
                 // Continously move each foot in a wave like movement based on velocity
-                rightFoot.transform.localEulerAngles = new Vector3(Mathf.Sin((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude * speedMagnifier) - footOffset) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                rightFoot.transform.localEulerAngles = new Vector3(Mathf.Sin((Time.time *  speedMagnifier)) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 leftFoot.transform.localEulerAngles = new Vector3(Mathf.Cos((Time.time * new Vector3(GetComponentInParent<Particle3D>().velocity.x, 0, GetComponentInParent<Particle3D>().velocity.z).magnitude * speedMagnifier) + footOffset) * angleOfWalk, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 break;
         }

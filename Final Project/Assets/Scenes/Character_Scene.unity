@@ -1614,7 +1614,7 @@ Transform:
   m_Children:
   - {fileID: 4098518153092218239}
   m_Father: {fileID: 8250164223630827293}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &388913287
 GameObject:
@@ -1642,9 +1642,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7297674068823249792}
   m_Father: {fileID: 8250164223630827293}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &430367167
 GameObject:
@@ -63762,12 +63763,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854032422017398549}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8250164223630827293}
-  m_RootOrder: 3
+  m_Father: {fileID: 388913288}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &7314980517574060091
 MeshFilter:
@@ -70807,14 +70808,14 @@ MonoBehaviour:
   lastDirectionX: 0
   lastDirectionY: 0
   punchDistance: 10
+  throwingOffset: 20
   strongJumpMaxIndex: 4
   groundPoundGravityMultiplier: 10
+  strongerJumpKey: 1
   isAttemptingToJump: 0
   isGrounded: 0
   canWallJump: 0
   carryingOffset: {x: 0, y: 10, z: 0}
-  throwingOffset: 20
-  strongerJumpKey: 1
 --- !u!4 &8021547002393843173
 Transform:
   m_ObjectHideFlags: 0
@@ -72912,9 +72913,8 @@ Transform:
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children:
   - {fileID: 6283083211167475485}
-  - {fileID: 385863909}
   - {fileID: 388913288}
-  - {fileID: 7297674068823249792}
+  - {fileID: 385863909}
   m_Father: {fileID: 1816510043}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
