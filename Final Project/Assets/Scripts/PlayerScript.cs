@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+
+    // Floats
     public float jumpForce;
     public float angleThreshold = 40;
     public float movementSpeed = 1;
@@ -15,11 +17,17 @@ public class PlayerScript : MonoBehaviour
     public float lastDirectionX;
     public float lastDirectionY;
     public float punchDistance;
+    public float throwingOffset = 20;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
+
+    // Integers
     public int strongJumpMaxIndex = 4;
     public int groundPoundGravityMultiplier = 2;
+    public int strongerJumpKey = 1;
+
+    // Booleans
     public bool isAttemptingToJump = false;
     public bool isGrounded = true;
     bool isGroundPounding = false;
@@ -28,10 +36,13 @@ public class PlayerScript : MonoBehaviour
     bool canPunch = true;
     bool isTriggerDown = false;
     public bool canWallJump = false;
+
+    // GameObjects
     GameObject carryingObject;
+
+    // Vector3's
     public Vector3 carryingOffset;
-    public float throwingOffset = 20;
-    public int strongerJumpKey = 1;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -43,13 +54,12 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update Physics
         CheckForPhysicsChange();
+
+        // Check for Player Input
         CheckForInput();
     }
-
-
-
-
 
     // This function checks for all input values and does all appropriate calculations
     void CheckForInput()
@@ -59,6 +69,8 @@ public class PlayerScript : MonoBehaviour
         // Get input
         inputAmountY = Input.GetAxis("Xbox_LeftStick_X");
         inputAmountX = -Input.GetAxis("Xbox_LeftStick_Y");
+
+        // Create sprint amount
         float sprintAmount = isGrounded ? sprintAmount = 1 + Input.GetAxis("Xbox_RT") : sprintAmount = 1;
 
         // Set all animations
@@ -66,72 +78,85 @@ public class PlayerScript : MonoBehaviour
         GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded || (!isAttemptingToJump && (GetComponent<Particle3D>().collidingGameObject != null && !canWallJump)));
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
-        // Check if there is anything in front of player that will prevent movement
-        bool hasBeenHit = !Physics.Raycast(transform.position, new Vector3 (inputAmountX,0,inputAmountY).normalized, out hit, movementCheckRaycatHit);
-        if (!hasBeenHit && GetComponent<Particle3D>().collidingGameObject != null)
-        {
-            if (hit.collider.gameObject == GetComponent<Particle3D>().collidingGameObject)
-            {
-                hasBeenHit = true;
-            }
-        }
-
         // Move if nothing is in the way of the player
         if (!Physics.Raycast(transform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit))
         {
+            // Is the player grounded?
             if (isGrounded)
             {
+                // If yes, then move the player in the direction given by controller input
                 GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
             }
             else
             {
+                // If no, then move the player in the direction given by controller input but directed by a jump speed
                 GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
             }
 
+            // Has the player put in any sort of input?
             if (inputAmountX != 0 || inputAmountY != 0)
             {
+                // If yes, then rotate the object appropriatly
                 transform.GetChild(0).localEulerAngles = new Vector3(0, (Mathf.Atan2(inputAmountX, -inputAmountY) * (180 / Mathf.PI)) + (Camera.main.transform.localEulerAngles.y + 90), 0);
             }
+
             GetComponent<Particle3D>().isAttemptingToMove = true;
         }
 
+        // Is the player pressing the punch button and are they allowed to punch?
         if (Input.GetButtonDown("Xbox_B") && canPunch)
         {
             Debug.Log("Punch");
 
+            // If yes, is the player carrying anything?
             if (carryingObject != null)
             {
+                // If yes, then throw whatever the player is carrying
                 carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.forward * throwingOffset);
                 carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.up * throwingOffset);
                 carryingObject = null;
             }
 
 
+            // Is there something in front of the player to punch at?
             if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
             {
+                // If yes, is it a king Bob omb?
                 if (hit.collider.gameObject.tag == "King Bobomb" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
                 {
+                    // If yes, then pick it up
                     carryingObject = hit.collider.gameObject;
                     hit.collider.gameObject.GetComponent<KingBobomb>().isProne = true;
                 }
 
+                // If yes, is it a destroyable object?
                 if (hit.collider.gameObject.tag == "Destroyable" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
                 {
+                    // If yes, then destroy that object
                     Destroy(hit.collider.gameObject);
                 }
             }
+
+            // Start the punch cooldown afterwards
             StartCoroutine(StartPunchCooldown());
         }
 
+
+        // Is the player pressing the left trigger down?
         if (Input.GetAxis("Xbox_LT") > 0)
         {
+            // If yes, has the trigger already been down?
             if (!isTriggerDown)
             {
                 isTriggerDown = true;
+
+                // If yes, is the A button down as well and is the player grounded?
                 if (Input.GetButtonDown("Xbox_A") && isGrounded)
                 {
+                    // If yes, has the player put any sort of effort into moving?
                     if (Mathf.Abs(inputAmountX) > 0 || Mathf.Abs(inputAmountY) > 0)
                     {
+                        // If yes, then perform a long jump
                         Debug.Log("Long Jump");
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 10 * Vector3.up * strongJumpMaxIndex);
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
@@ -143,6 +168,7 @@ public class PlayerScript : MonoBehaviour
                     }
                     else
                     {
+                        // If no, then perform a backflip
                         Debug.Log("Backflip");
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 10 * -transform.forward);
@@ -153,13 +179,17 @@ public class PlayerScript : MonoBehaviour
                         canDoStrongerJump = false;
                     }
                 }
+
+                // if no, is the player in the air?
                 else if (!isGrounded)
                 {
+                    // If yes, then perform a ground pound
                     Debug.Log("Ground pound");
                     isGroundPounding = true; 
                 }
                 else
                 {
+                    // If no, then simply perform a crouch
                     Debug.Log("Crouch");
                 }
             }
@@ -167,11 +197,13 @@ public class PlayerScript : MonoBehaviour
         else
         {
             isTriggerDown = false;
-            // Jump if the character is grounded
+            // Is the A button down?
             if (Input.GetButtonDown("Xbox_A"))
             {
+                // If yes, are they grounded?
                 if (isGrounded)
                 {
+                    // If yes, then check if they have done any sudden movements and then opposite movements and then perform a backward sommersault if applicable
                     if (inputAmountX < 0)
                     {
                         if (inputAmountX < lastDirectionX && lastDirectionX > 0)
@@ -229,14 +261,17 @@ public class PlayerScript : MonoBehaviour
                         }
                     }
 
+                    // If no to all, can they do a stronger jump?
                     if (canDoStrongerJump && strongerJumpKey <= strongJumpMaxIndex)
                     {
+                        // If yes, then perform a stronger jump
                         strongerJumpKey++;
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * strongerJumpKey * jumpForce);
                         GetComponent<Particle3D>().position.y += 0.5f;
                     }
                     else
                     {
+                        // If no, then perform just a regular jump
                         strongerJumpKey = 0;
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce);
                         GetComponent<Particle3D>().position.y += 0.5f;
@@ -245,8 +280,10 @@ public class PlayerScript : MonoBehaviour
                     airTriggeredByJump = true;
                     canDoStrongerJump = false;
                 }
+                // If all else fails, can the player do a wall jump?
                 else if (canWallJump)
                 {
+                    // If yes, then calculate the normal between the two points and jump accordingly
                     Vector3 normal = transform.position - GetComponent<Particle3D>().collidingGameObject.transform.position;
                     GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * new Vector3(normal.normalized.x, 0, 0) * strongJumpMaxIndex);
                     GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
@@ -261,19 +298,24 @@ public class PlayerScript : MonoBehaviour
     // This function checks all physics based values
     void CheckForPhysicsChange()
     {
+        // Is the player carrying an object?
         if (carryingObject != null)
         {
+            // If yes, then change the position of the carrying object to wherever the player is
             carryingObject.GetComponent<Particle3D>().position = transform.position + transform.InverseTransformDirection(carryingOffset);
         }
 
         RaycastHit hit;
 
+        // Is the player ground pounding?
         if (isGroundPounding)
         {
+            // If yes, then increase vertical velocity
             GetComponent<Particle3D>().gravitationalConstant = originalGravitationalConstant * groundPoundGravityMultiplier;
         }
         else
         {
+            // If no, then keep regular vertical velocity
             GetComponent<Particle3D>().gravitationalConstant = originalGravitationalConstant;
         }
 
@@ -289,19 +331,25 @@ public class PlayerScript : MonoBehaviour
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit) && (!isAttemptingToJump || GetComponent<Particle3D>().velocity.y < 0))
         {
+            // Is the colliding ground a tilting bridge?
             if (hit.collider.gameObject.tag == "TiltingBridge")
             {
+                // If yes, then apply a rotational force to the bridge
                 hit.collider.GetComponent<Particle3D>().ApplyTorque(new Vector3(0, 0, -hit.collider.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(new Vector3(hit.point.x, hit.collider.transform.position.y, hit.point.z)).x * GetComponent<Particle3D>().mass * Time.deltaTime));
             }
 
+            // Is the colliding ground a destroyable block and is the player ground pounding?
             if (hit.collider.gameObject.tag == "Destroyable" && isGroundPounding)
             {
+                // If yes, then destroy the tile
                 Destroy(hit.collider.gameObject);
                 return;
             }
 
+            // Is the colliding ground a goomba?
             if (hit.collider.gameObject.tag == "Goomba")
             {
+                // If yes, then bounce off of the goomba and destroy it
                 GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * strongJumpMaxIndex);
                 StartCoroutine(hit.collider.gameObject.GetComponent<Goomba>().CommenceDeath());
             }
@@ -312,6 +360,7 @@ public class PlayerScript : MonoBehaviour
                 GetComponent<Particle3D>().velocity.y = 0;
             }
 
+            // Reposition object to be on top of colliding ground
             GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit;
 
             // Set all values so player sticks to ground
@@ -321,8 +370,10 @@ public class PlayerScript : MonoBehaviour
             isGrounded = true;
             isGroundPounding = false;
 
+            // Is the colliding object an obstavle?
             if (hit.collider.gameObject.tag == "Obstacle" && airTriggeredByJump)
             {
+                // If yes, then create a stronger jump window
                 StartCoroutine(StartStrongerJumpWindow());
             }
 
@@ -335,19 +386,26 @@ public class PlayerScript : MonoBehaviour
             isGrounded = false;
         }
 
+        // Is the player colliding with any vertical surfaces?
         if (Physics.Raycast(transform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
         {
+            // Does the colliding object happen to be an already colliding object?
             if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject)
             {
+                // If no then prevent the player from going inside of it
                 GetComponent<Particle3D>().velocity.z = 0;
                 GetComponent<Particle3D>().velocity.x = 0;
                 GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+
+                // Is the player in the air?
                 if (!isGrounded)
                 {
+                    // If yes, then the player can wall jump
                     canWallJump = true;
                 }
                 else
                 {
+                    // If no then the player cannot wall jump
                     canWallJump = false;
                 }
             }
@@ -380,12 +438,15 @@ public class PlayerScript : MonoBehaviour
             canWallJump = false;
         }
 
+        // Has the player collided with anything below them?
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 2.1f))
         {
+            // If yes, then set it to the colliding gameobject
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
         }
         else
         {
+            // If no, then set the colliding game object to null
             GetComponent<Particle3D>().collidingGameObject = null;
         }
     }
@@ -417,7 +478,7 @@ public class PlayerScript : MonoBehaviour
 
 
 
-
+    // This function takes the input of the last frame and stores it
     IEnumerator TakeLastInput()
     {
         while(true)

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class BallSpawner : MonoBehaviour
 {
+    // Game Objects
     public GameObject ball;
+
+    // Floats
     public float timeToSpawnNextBall = 20;
 
     // Start is called before the first frame update
@@ -13,6 +16,8 @@ public class BallSpawner : MonoBehaviour
         StartCoroutine(StartSpawningBalls());
     }
 
+    // This function waits a given amount of time and then instantiates a rolling
+    // ball at the given transform of the attached Game object
     IEnumerator StartSpawningBalls()
     {
         while(true)
