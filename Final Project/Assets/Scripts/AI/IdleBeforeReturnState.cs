@@ -20,6 +20,7 @@ public class IdleBeforeReturnState : State
 
     public override void OnEnterState()
     {
+        isDoneWithIdle = false;
         originalOrientation = GetComponentInParent<Particle3D>().rotation;
         StartCoroutine(StartIdleCooldown());
     }

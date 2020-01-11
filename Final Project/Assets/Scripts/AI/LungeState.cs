@@ -5,11 +5,11 @@ using UnityEngine;
 public class LungeState : State
 {
     Vector3 player;
+    public float waitToLunge = 2.0f;
+    bool canLunge = false;
 
     public override States CheckForTransition()
     {
-        Debug.Log(Vector3.Distance(transform.parent.position, GetComponentInParent<Chainchomp>().pole.transform.position));
-        Debug.Log(GetComponentInParent<Chainchomp>().distanceToMoveFromPole);
 
         if (Vector3.Distance(transform.parent.position, GetComponentInParent<Chainchomp>().pole.transform.position) > GetComponentInParent<Chainchomp>().distanceToStop)
         {
@@ -21,17 +21,28 @@ public class LungeState : State
 
     public override void OnEnterState()
     {
-        GetComponentInParent<Chainchomp>().isAttacking = true;
+        canLunge = false;
         player = GameObject.Find("Player").transform.position;
         Vector3 position = new Vector3(player.x, transform.position.y, player.z);
         transform.parent.LookAt(position);
         GetComponentInParent<Particle3D>().rotation = transform.parent.rotation;
+        StartCoroutine(WaitToLunge());
     }
 
     public override void OnExitState() { }
 
     public override void UpdateState()
     {
-        GetComponentInParent<Chainchomp>().MoveInALungeDirection(transform.parent.forward);
+        if (canLunge)
+        {
+            GetComponentInParent<Chainchomp>().isAttacking = true;
+            GetComponentInParent<Chainchomp>().MoveInALungeDirection(transform.parent.forward);
+        }
+    }
+
+    IEnumerator WaitToLunge()
+    {
+        yield return new WaitForSeconds(waitToLunge);
+        canLunge = true;
     }
 }

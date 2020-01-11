@@ -21,12 +21,12 @@ public class ReturnState : State
 
     public override void OnEnterState()
     {
+        GetComponentInParent<Chainchomp>().isAttacking = false;
         pole = GetComponentInParent<Chainchomp>().pole;
     }
 
     public override void OnExitState()
     {
-        GetComponentInParent<Chainchomp>().isAttacking = false;
     }
 
     public override void UpdateState()
