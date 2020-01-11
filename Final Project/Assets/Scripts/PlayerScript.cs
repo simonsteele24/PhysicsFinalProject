@@ -331,6 +331,8 @@ public class PlayerScript : MonoBehaviour
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit) && (!isAttemptingToJump || GetComponent<Particle3D>().velocity.y < 0))
         {
+            Debug.Log("Here");
+
             // Is the colliding ground a tilting bridge?
             if (hit.collider.gameObject.tag == "TiltingBridge")
             {
@@ -361,12 +363,13 @@ public class PlayerScript : MonoBehaviour
             }
 
             // Reposition object to be on top of colliding ground
-            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit;
+            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit - 0.1f;
 
             // Set all values so player sticks to ground
             //GetComponent<Particle3D>().isUsingGravity = false;
             isAttemptingToJump = false;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+            GetComponent<Particle3D>().velocity.y = 0;
             isGrounded = true;
             isGroundPounding = false;
 

@@ -41084,7 +41084,7 @@ MonoBehaviour:
   damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
-  tempRot: {x: 12, y: 12, z: 12}
+  tempRot: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: 0, z: 0}
   transformMatrix:
@@ -46915,7 +46915,6 @@ GameObject:
   - component: {fileID: 4908874326387435257}
   - component: {fileID: 4908874326387435256}
   - component: {fileID: 4908874326387435258}
-  - component: {fileID: 4908874326387435259}
   m_Layer: 0
   m_Name: bobomb battlefeild.031
   m_TagString: Untagged
@@ -47104,19 +47103,6 @@ MonoBehaviour:
   joint: {fileID: 0}
   isAttemptingToMove: 0
   hasTempRotation: 0
---- !u!114 &4908874326387435259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4908874326387435255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frictionValue: 0
 --- !u!1 &4910367796446113038
 GameObject:
   m_ObjectHideFlags: 0
@@ -57700,7 +57686,7 @@ MonoBehaviour:
   damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
-  tempRot: {x: 5, y: 5, z: 5}
+  tempRot: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: 0, z: 0}
   transformMatrix:
@@ -61916,7 +61902,7 @@ MonoBehaviour:
   damping: 1
   centreOfMass: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
-  tempRot: {x: 0, y: 0, z: 10}
+  tempRot: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: 0, z: 0}
   transformMatrix:
@@ -82130,7 +82116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cf105fe136d454fa71d7f03eab4d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionValue: 0
+  frictionValue: 10
 --- !u!114 &9059610956394230744
 MonoBehaviour:
   m_ObjectHideFlags: 0
