@@ -40,6 +40,9 @@ public class PlayerScript : MonoBehaviour
     // GameObjects
     GameObject carryingObject;
 
+    // Transforms
+    public Transform playerTorsoTransform;
+
     // Vector3's
     public Vector3 carryingOffset;
     
@@ -79,7 +82,7 @@ public class PlayerScript : MonoBehaviour
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
         // Move if nothing is in the way of the player
-        if (!Physics.Raycast(transform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit))
+        if (!Physics.Raycast(playerTorsoTransform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit))
         {
             // Is the player grounded?
             if (isGrounded)
@@ -119,7 +122,7 @@ public class PlayerScript : MonoBehaviour
 
 
             // Is there something in front of the player to punch at?
-            if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
+            if (Physics.Raycast(playerTorsoTransform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
             {
                 // If yes, is it a king Bob omb?
                 if (hit.collider.gameObject.tag == "King Bobomb" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
@@ -363,7 +366,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             // Reposition object to be on top of colliding ground
-            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit - 0.1f;
+            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit - (raycastCheckHit * 0.75f);
 
             // Set all values so player sticks to ground
             //GetComponent<Particle3D>().isUsingGravity = false;
@@ -390,10 +393,10 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Is the player colliding with any vertical surfaces?
-        if (Physics.Raycast(transform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
+        if (Physics.Raycast(playerTorsoTransform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
         {
             // Does the colliding object happen to be an already colliding object?
-            if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject)
+            if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject && hit.collider.gameObject.tag != "Ball Wall")
             {
                 // If no then prevent the player from going inside of it
                 GetComponent<Particle3D>().velocity.z = 0;
@@ -417,7 +420,7 @@ public class PlayerScript : MonoBehaviour
                 canWallJump = false;
             }
         }
-        else if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
+        else if (Physics.Raycast(playerTorsoTransform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
         {
             if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject)
             {
