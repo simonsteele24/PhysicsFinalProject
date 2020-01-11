@@ -22,16 +22,19 @@ public class ChainchompAnimationController : MonoBehaviour
     public float mouthOffset = 0.5f;
     public float mouthSpeed = 10.0f;
 
+    public float upperMouthWideOpen;
+    public float lowerMouthWideOpen;
+
     // Transforms
-    Transform upperMouthOrientation;
-    Transform lowerMouthOrientation;
+    Quaternion upperMouthOrientation;
+    Quaternion lowerMouthOrientation;
 
     // Start is called before the first frame update
     void Start()
     {
         // Get the starting orientation of the upper and lower mouth
-        upperMouthOrientation = upperMouth.transform;
-        lowerMouthOrientation = lowerMouth.transform;
+        upperMouthOrientation = upperMouth.transform.rotation;
+        lowerMouthOrientation = lowerMouth.transform.rotation;
     }
 
     // Update is called once per frame
@@ -59,10 +62,8 @@ public class ChainchompAnimationController : MonoBehaviour
                 break;
             default:
                 // Set the mouth to be wide open, ready to bite
-                upperMouth.transform.position = upperMouthOrientation.position;
-                upperMouth.transform.rotation = upperMouthOrientation.rotation;
-                lowerMouth.transform.position = lowerMouthOrientation.position;
-                lowerMouth.transform.rotation = lowerMouthOrientation.rotation;
+                upperMouth.transform.localEulerAngles = new Vector3(upperMouthWideOpen, transform.localEulerAngles.y, transform.localEulerAngles.z);
+                lowerMouth.transform.localEulerAngles = new Vector3(lowerMouthWideOpen, transform.localEulerAngles.y, transform.localEulerAngles.z);
                 break;
         }
     }

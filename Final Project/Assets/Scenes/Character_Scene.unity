@@ -7113,6 +7113,8 @@ MonoBehaviour:
   angleOfWalk: 20
   mouthOffset: 0.5
   mouthSpeed: 13
+  upperMouthWideOpen: -20
+  lowerMouthWideOpen: 20
 --- !u!1 &157947027845835087
 GameObject:
   m_ObjectHideFlags: 0
@@ -38319,15 +38321,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157629389128323516}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.062397067, y: -0, z: -0, w: 0.99805146}
+  m_LocalPosition: {x: 0, y: 0.010633469, z: -0.0024967194}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 1487061510}
   - {fileID: 188709884}
   m_Father: {fileID: 1555363100}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -7.155, y: 0, z: 0}
 --- !u!1 &3787694184254824730
 GameObject:
   m_ObjectHideFlags: 0
