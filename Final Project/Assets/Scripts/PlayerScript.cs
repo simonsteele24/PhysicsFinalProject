@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public float lastDirectionY;
     public float punchDistance;
     public float throwingOffset = 20;
+    public float wallJumpForce = 250;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
@@ -46,6 +47,7 @@ public class PlayerScript : MonoBehaviour
 
     // Vector3's
     public Vector3 carryingOffset;
+    Vector3 collidingPoint;
     
 
     // Start is called before the first frame update
@@ -180,8 +182,8 @@ public class PlayerScript : MonoBehaviour
                     {
                         // If yes, then perform a long jump
                         Debug.Log("Long Jump");
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 10 * Vector3.up * strongJumpMaxIndex);
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 500 * transform.GetChild(0).forward);
                         GetComponent<Particle3D>().position.y += 0.5f;
 
                         isAttemptingToJump = true;
@@ -192,8 +194,8 @@ public class PlayerScript : MonoBehaviour
                     {
                         // If no, then perform a backflip
                         Debug.Log("Backflip");
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 10 * -transform.forward);
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 500 * Vector3.up * strongJumpMaxIndex);
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * -transform.GetChild(0).forward);
                         GetComponent<Particle3D>().position.y += 0.5f;
 
                         isAttemptingToJump = true;
@@ -284,7 +286,7 @@ public class PlayerScript : MonoBehaviour
                     }
 
                     // If no to all, can they do a stronger jump?
-                    if (canDoStrongerJump && strongerJumpKey <= strongJumpMaxIndex)
+                    if (canDoStrongerJump && strongerJumpKey < strongJumpMaxIndex)
                     {
                         // If yes, then perform a stronger jump
                         strongerJumpKey++;
@@ -306,9 +308,10 @@ public class PlayerScript : MonoBehaviour
                 else if (canWallJump)
                 {
                     // If yes, then calculate the normal between the two points and jump accordingly
-                    Vector3 normal = transform.position - GetComponent<Particle3D>().collidingGameObject.transform.position;
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * new Vector3(normal.normalized.x, 0, 0) * strongJumpMaxIndex);
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
+                    Vector3 normal = transform.position - collidingPoint;
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * wallJumpForce * new Vector3(normal.normalized.x, 0, normal.normalized.z) * strongJumpMaxIndex);
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * wallJumpForce * Vector3.up * strongJumpMaxIndex);
+                    transform.GetChild(0).transform.rotation = Quaternion.Euler(transform.GetChild(0).transform.eulerAngles.x, transform.GetChild(0).transform.eulerAngles.y + 180, transform.GetChild(0).transform.eulerAngles.z);
                 }
             }
         }
@@ -385,7 +388,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             // Make sure that we set velocity to zero if the force of gravity is being applied
-            if (GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0)
+            if ((GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0))
             {
                 GetComponent<Particle3D>().velocity.y = 0;
             }
@@ -402,7 +405,7 @@ public class PlayerScript : MonoBehaviour
             isGroundPounding = false;
 
             // Is the colliding object an obstavle?
-            if (hit.collider.gameObject.tag == "Obstacle" && airTriggeredByJump)
+            if (airTriggeredByJump)
             {
                 // If yes, then create a stronger jump window
                 StartCoroutine(StartStrongerJumpWindow());
@@ -433,6 +436,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     // If yes, then the player can wall jump
                     canWallJump = true;
+                    collidingPoint = hit.point;
                 }
                 else
                 {
@@ -453,6 +457,7 @@ public class PlayerScript : MonoBehaviour
                 if (!isGrounded)
                 {
                     canWallJump = true;
+                    collidingPoint = hit.point;
                 }
                 else
                 {
