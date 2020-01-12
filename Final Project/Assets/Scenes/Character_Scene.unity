@@ -10716,7 +10716,7 @@ GameObject:
   - component: {fileID: 545929901993834696}
   m_Layer: 0
   m_Name: bobomb battlefeild.017
-  m_TagString: Untagged
+  m_TagString: Slideable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25901,7 +25901,7 @@ GameObject:
   - component: {fileID: 2301168923588664354}
   m_Layer: 0
   m_Name: bobomb battlefeild.018
-  m_TagString: Untagged
+  m_TagString: Slideable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32840,7 +32840,7 @@ GameObject:
   - component: {fileID: 3141650472245303096}
   m_Layer: 0
   m_Name: bobomb battlefeild.079
-  m_TagString: Untagged
+  m_TagString: Slideable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37083,7 +37083,7 @@ GameObject:
   - component: {fileID: 3629945677150054132}
   m_Layer: 0
   m_Name: bobomb battlefeild.080
-  m_TagString: Untagged
+  m_TagString: Slideable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40250,7 +40250,7 @@ GameObject:
   - component: {fileID: 4057284778281648414}
   m_Layer: 0
   m_Name: bobomb battlefeild.019
-  m_TagString: Untagged
+  m_TagString: Slideable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52397,7 +52397,7 @@ GameObject:
   - component: {fileID: 5692626418991312041}
   m_Layer: 0
   m_Name: bobomb battlefeild.020
-  m_TagString: Untagged
+  m_TagString: Slideable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52679,7 +52679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8019543601298015793}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58.28, y: 19.06, z: 61.28}
+  m_LocalPosition: {x: 54.1, y: 18.5, z: 54.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2092873724}

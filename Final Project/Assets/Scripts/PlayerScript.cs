@@ -35,6 +35,7 @@ public class PlayerScript : MonoBehaviour
     bool airTriggeredByJump = false;
     bool canPunch = true;
     bool isTriggerDown = false;
+    bool isSliding = false;
     public bool canWallJump = false;
 
     // GameObjects
@@ -68,8 +69,6 @@ public class PlayerScript : MonoBehaviour
     void CheckForInput()
     {
         RaycastHit hit;
-
-        // Get input
         inputAmountY = Input.GetAxis("Xbox_LeftStick_X");
         inputAmountX = -Input.GetAxis("Xbox_LeftStick_Y");
 
@@ -81,26 +80,46 @@ public class PlayerScript : MonoBehaviour
         GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded || (!isAttemptingToJump && (GetComponent<Particle3D>().collidingGameObject != null && !canWallJump)));
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
+        if (isSliding)
+        {
+            GetComponent<Particle3D>().AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, GetComponent<Particle3D>().gravitationalConstant, 0), GetComponent<Particle3D>().collidingGameObject.transform.right * 20));
+        }
+
         // Move if nothing is in the way of the player
         if (!Physics.Raycast(playerTorsoTransform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit))
         {
-            // Is the player grounded?
-            if (isGrounded)
+            if (!isSliding)
             {
-                // If yes, then move the player in the direction given by controller input
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
+                // Is the player grounded?
+                if (isGrounded)
+                {
+                    // If yes, then move the player in the direction given by controller input
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
+                }
+                else
+                {
+                    // If no, then move the player in the direction given by controller input but directed by a jump speed
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
+                }
+
+                // Has the player put in any sort of input?
+                if (inputAmountX != 0 || inputAmountY != 0)
+                {
+                    // If yes, then rotate the object appropriatly
+                    transform.GetChild(0).localEulerAngles = new Vector3(0, (Mathf.Atan2(inputAmountX, -inputAmountY) * (180 / Mathf.PI)) + (Camera.main.transform.localEulerAngles.y + 90), 0);
+                }
             }
             else
             {
-                // If no, then move the player in the direction given by controller input but directed by a jump speed
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
-            }
+                // If yes, then move the player in the direction given by controller input
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().collidingGameObject.transform.TransformDirection(new Vector3(0, 0, inputAmountY).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
 
-            // Has the player put in any sort of input?
-            if (inputAmountX != 0 || inputAmountY != 0)
-            {
-                // If yes, then rotate the object appropriatly
-                transform.GetChild(0).localEulerAngles = new Vector3(0, (Mathf.Atan2(inputAmountX, -inputAmountY) * (180 / Mathf.PI)) + (Camera.main.transform.localEulerAngles.y + 90), 0);
+                // Has the player put in any sort of input?
+                if (inputAmountY != 0)
+                {
+                    // If yes, then rotate the object appropriatly
+                    transform.GetChild(0).localEulerAngles = new Vector3(0, (Mathf.Atan2(-inputAmountY,0) * (180 / Mathf.PI)) + (GetComponent<Particle3D>().collidingGameObject.transform.localEulerAngles.y + 90), 0);
+                }
             }
 
             GetComponent<Particle3D>().isAttemptingToMove = true;
@@ -301,6 +320,8 @@ public class PlayerScript : MonoBehaviour
     // This function checks all physics based values
     void CheckForPhysicsChange()
     {
+        isSliding = false;
+
         // Is the player carrying an object?
         if (carryingObject != null)
         {
@@ -334,7 +355,11 @@ public class PlayerScript : MonoBehaviour
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit) && (!isAttemptingToJump || GetComponent<Particle3D>().velocity.y < 0))
         {
-            Debug.Log("Here");
+
+            if (hit.collider.gameObject.tag == "Slideable")
+            {
+                isSliding = true;
+            }
 
             // Is the colliding ground a tilting bridge?
             if (hit.collider.gameObject.tag == "TiltingBridge")
