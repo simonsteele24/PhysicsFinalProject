@@ -30,7 +30,11 @@ public class ChaseState : State
     public override void OnEnterState()
     {
         player = GameObject.Find("Player");
+        GetComponentInParent<Goomba>().isChasing = true;
     }
 
-    public override void OnExitState()  { }
+    public override void OnExitState()
+    {
+        GetComponentInParent<Goomba>().isChasing = false;
+    }
 }

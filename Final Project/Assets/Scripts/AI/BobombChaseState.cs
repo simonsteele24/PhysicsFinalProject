@@ -25,18 +25,20 @@ public class BobombChaseState : State
     {
         Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
-        GetComponentInParent<Goomba>().SprintInADirection(transform.forward, chaseSpeed);
+        GetComponentInParent<Bobomb>().SprintInADirection(transform.forward, chaseSpeed);
     }
 
     public override void OnEnterState()
     {
         player = GameObject.Find("Player");
+        GetComponentInParent<Bobomb>().isChasing = true;
         StartCoroutine(StartBombLifetime());
     }
 
     public override void OnExitState()
     {
         player = null;
+        GetComponentInParent<Bobomb>().isChasing = false;
     }
 
     IEnumerator StartBombLifetime()

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goomba : MonoBehaviour
+public class Bobomb : MonoBehaviour
 {
-    public Animator goombaAnimator;
-    public float walkSpeedAnimationMultiplier = 10.0f;
+    public ParticleSystem smoke;
+    public Animator bobombAnimator;
+    public float walkSpeedAnimationMultiplier = 5.0f;
     public float sprintSpeedMultiplier = 2.0f;
     public float movementSpeed;
     public float raycastCheckHit = 1;
@@ -14,6 +15,11 @@ public class Goomba : MonoBehaviour
     public bool isGrounded = true;
     public bool isDying = false;
     public bool isChasing = false;
+
+    private void Start()
+    {
+        smoke.Pause();
+    }
 
     public void MoveInADirection(Vector3 direction)
     {
@@ -30,13 +36,14 @@ public class Goomba : MonoBehaviour
     {
         if (isChasing)
         {
-            goombaAnimator.SetFloat("AnimWalkSpeed", new Vector3(GetComponent<Particle3D>().velocity.x, 0, GetComponent<Particle3D>().velocity.z).magnitude * sprintSpeedMultiplier);
+            smoke.Play();
+            bobombAnimator.SetFloat("AnimWalkSpeed", new Vector3(GetComponent<Particle3D>().velocity.x, 0, GetComponent<Particle3D>().velocity.z).magnitude * sprintSpeedMultiplier);
         }
         else
         {
-            goombaAnimator.SetFloat("AnimWalkSpeed", new Vector3(GetComponent<Particle3D>().velocity.x, 0, GetComponent<Particle3D>().velocity.z).magnitude * walkSpeedAnimationMultiplier);
+            bobombAnimator.SetFloat("AnimWalkSpeed", new Vector3(GetComponent<Particle3D>().velocity.x, 0, GetComponent<Particle3D>().velocity.z).magnitude * walkSpeedAnimationMultiplier);
         }
-        
+
         RaycastHit hit;
 
         // See if player is colliding with ground
