@@ -5,6 +5,7 @@ using UnityEngine;
 public class ChaseState : State
 {
     public float distanceToLeavePlayer = 10;
+    public float alertJumpStrength = 20;
     public float chaseSpeed;
     GameObject player;
 
@@ -24,12 +25,17 @@ public class ChaseState : State
     {
         Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
-        GetComponentInParent<Goomba>().SprintInADirection(transform.forward, chaseSpeed);
+        GetComponentInParent<Particle3D>().rotation = transform.rotation;
+        if (GetComponentInParent<Goomba>().isGrounded)
+        {
+            GetComponentInParent<Goomba>().SprintInADirection(transform.forward, chaseSpeed);
+        }
     }
 
     public override void OnEnterState()
     {
         player = GameObject.Find("Player");
+        GetComponentInParent<Particle3D>().AddForce(GetComponentInParent<Particle3D>().mass * Vector3.up * alertJumpStrength);
         GetComponentInParent<Goomba>().isChasing = true;
     }
 

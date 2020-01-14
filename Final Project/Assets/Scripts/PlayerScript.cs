@@ -358,6 +358,7 @@ public class PlayerScript : MonoBehaviour
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit) && (!isAttemptingToJump || GetComponent<Particle3D>().velocity.y < 0))
         {
+            Debug.Log("Here");
 
             if (hit.collider.gameObject.tag == "Slideable")
             {
@@ -383,7 +384,7 @@ public class PlayerScript : MonoBehaviour
             if (hit.collider.gameObject.tag == "Goomba")
             {
                 // If yes, then bounce off of the goomba and destroy it
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * strongJumpMaxIndex);
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * 100 * strongJumpMaxIndex);
                 StartCoroutine(hit.collider.gameObject.GetComponent<Goomba>().CommenceDeath());
             }
 
@@ -394,7 +395,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             // Reposition object to be on top of colliding ground
-            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit - (raycastCheckHit * 0.75f);
+            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit - 0.1f;
 
             // Set all values so player sticks to ground
             //GetComponent<Particle3D>().isUsingGravity = false;
@@ -475,7 +476,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Has the player collided with anything below them?
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 2.1f))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit * 10))
         {
             // If yes, then set it to the colliding gameobject
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;

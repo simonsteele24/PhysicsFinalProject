@@ -9,6 +9,57 @@ ModelImporter:
   - first:
       74: 7241536103757253492
     second: Armature|Mario_Run
+  - first:
+      74: 5225545845245031378
+    second: Armature|Mario_BackJump
+  - first:
+      74: -975425117271871724
+    second: Armature|Mario_Crouch
+  - first:
+      74: -8602737652566479575
+    second: Armature|Mario_Crouch_Up
+  - first:
+      74: 1566029239436769304
+    second: Armature|Mario_GroundPound
+  - first:
+      74: 925495475937545290
+    second: Armature|Mario_Idle
+  - first:
+      74: -190047689782373316
+    second: Armature|Mario_Jump_Double
+  - first:
+      74: 3620439043797034187
+    second: Armature|Mario_Jump_Double_Down
+  - first:
+      74: 750267767735725811
+    second: Armature|Mario_Jump_Triple
+  - first:
+      74: -3968942247949345617
+    second: Armature|Mario_Long_Jump
+  - first:
+      74: 6646765334227019775
+    second: Armature|Mario_Pickup
+  - first:
+      74: 1914564272465346334
+    second: Armature|Mario_Pickup_Walk
+  - first:
+      74: 246242587708954145
+    second: Armature|Mario_Prewall
+  - first:
+      74: -7771444922256885838
+    second: Armature|Mario_Punch
+  - first:
+      74: 2569777892379550196
+    second: Armature|Mario_Sideflip
+  - first:
+      74: 4662237560643543516
+    second: Armature|Mario_Slide
+  - first:
+      74: 1197413391131629363
+    second: Armature|Mario_Throw
+  - first:
+      74: 7375611809476364554
+    second: Armature|Mario_WallKick
   externalObjects:
   - first:
       type: UnityEngine:Material

@@ -5,6 +5,7 @@ using UnityEngine;
 public class BobombChaseState : State
 {
     public float distanceToLeavePlayer = 10;
+    public float alertJumpStrength = 300;
     public float bombLifetime = 5;
     public float chaseSpeed;
     GameObject player;
@@ -25,13 +26,19 @@ public class BobombChaseState : State
     {
         Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
-        GetComponentInParent<Bobomb>().SprintInADirection(transform.forward, chaseSpeed);
+        GetComponentInParent<Particle3D>().rotation = transform.rotation;
+
+        if (GetComponentInParent<Bobomb>().isGrounded)
+        {
+            GetComponentInParent<Bobomb>().SprintInADirection(transform.forward, chaseSpeed);
+        }
     }
 
     public override void OnEnterState()
     {
         player = GameObject.Find("Player");
         GetComponentInParent<Bobomb>().isChasing = true;
+        GetComponentInParent<Particle3D>().AddForce(GetComponentInParent<Particle3D>().mass * Vector3.up * alertJumpStrength);
         StartCoroutine(StartBombLifetime());
     }
 

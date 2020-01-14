@@ -86,6 +86,10 @@ public class Goomba : MonoBehaviour
     {
         isDying = true;
         yield return new WaitForSeconds(deathLifeTime);
-        Destroy(gameObject);
+
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+        }
     }
 }

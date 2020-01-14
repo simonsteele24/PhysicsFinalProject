@@ -738,7 +738,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 3
-  gravitationalConstant: -0.9
+  gravitationalConstant: -20
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
@@ -1145,7 +1145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToLeavePlayer: 10
-  chaseSpeed: 15
+  alertJumpStrength: 600
+  chaseSpeed: 5
 --- !u!4 &308513923
 Transform:
   m_ObjectHideFlags: 0
@@ -1889,6 +1890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToLeavePlayer: 10
+  alertJumpStrength: 600
   bombLifetime: 5
   chaseSpeed: 0
 --- !u!4 &517306329
@@ -2042,6 +2044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToLeavePlayer: 10
+  alertJumpStrength: 300
   bombLifetime: 5
   chaseSpeed: 20
 --- !u!4 &571547203 stripped
@@ -3866,13 +3869,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152050274}
-  m_LocalRotation: {x: 0.15304591, y: -0.6903456, z: 0.15304591, w: 0.6903456}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 4.02, y: 2.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5714696953228947991}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 25, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &1152050278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9939,7 +9942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goombaAnimator: {fileID: 1525032630}
   walkSpeedAnimationMultiplier: 5
-  sprintSpeedMultiplier: 2
+  sprintSpeedMultiplier: 4
   movementSpeed: 1
   raycastCheckHit: 1
   movementCheckRaycatHit: 3
@@ -10054,7 +10057,7 @@ MonoBehaviour:
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
   mass: 3
-  gravitationalConstant: -0.9
+  gravitationalConstant: -20
   invMass: 0
   isGoingDownSlope: 0
   slope: {fileID: 0}
