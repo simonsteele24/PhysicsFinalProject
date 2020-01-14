@@ -44,6 +44,7 @@ public class PlayerScript : MonoBehaviour
 
     // Transforms
     public Transform playerTorsoTransform;
+    public Animator animator;
 
     // Vector3's
     public Vector3 carryingOffset;
@@ -78,8 +79,9 @@ public class PlayerScript : MonoBehaviour
         float sprintAmount = isGrounded ? sprintAmount = 1 + Input.GetAxis("Xbox_RT") : sprintAmount = 1;
 
         // Set all animations
-        GetComponentInChildren<Animator>().SetFloat("Forward", Mathf.Clamp(Mathf.Abs(inputAmountX) + Mathf.Abs(inputAmountY), 0, 1), 0.1f, Time.deltaTime);
-        GetComponentInChildren<Animator>().SetBool("OnGround", isGrounded || (!isAttemptingToJump && (GetComponent<Particle3D>().collidingGameObject != null && !canWallJump)));
+        animator.SetFloat("Forward", Mathf.Clamp(Mathf.Abs(inputAmountX) + Mathf.Abs(inputAmountY), 0, 1), 0.1f, Time.deltaTime);
+        animator.SetBool("isGrounded", isGrounded || (!isAttemptingToJump && (GetComponent<Particle3D>().collidingGameObject != null && !canWallJump)));
+        animator.SetBool("isCrouching", isTriggerDown);
         GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
 
         if (isSliding)
@@ -131,6 +133,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetButtonDown("Xbox_B") && canPunch)
         {
             Debug.Log("Punch");
+            animator.SetBool("isPunching", true);
 
             // If yes, is the player carrying anything?
             if (carryingObject != null)
@@ -509,6 +512,7 @@ public class PlayerScript : MonoBehaviour
     {
         canPunch = false;
         yield return new WaitForSeconds(punchCooldown);
+        animator.SetBool("isPunching", false);
         canPunch = true;
     }
 
