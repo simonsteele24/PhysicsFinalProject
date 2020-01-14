@@ -139,8 +139,7 @@ public class Particle3D : MonoBehaviour
                 }
             }
             else
-            {
-                //AddForce(ForceGenerator.GenerateForce_normal3D(new Vector3(0, gravitationalConstant * 2000, 0), -collidingGameObject.transform.up));
+            {   
             }
            
         }
@@ -148,11 +147,27 @@ public class Particle3D : MonoBehaviour
         // Check if particle is affected by any outside forces
         if (isUsingGravity)
         {
-            RaycastHit hit;
-            if (!Physics.Raycast(transform.position, Vector3.down, out hit, 1))
+            if (GetComponent<PlayerScript>() != null)
             {
-                AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, gravitationalConstant, Vector3.up));
+                RaycastHit hit;
+                if (!Physics.Raycast(transform.position, Vector3.down, out hit, 1))
+                {
+                    AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, gravitationalConstant, Vector3.up));
+                }
             }
+            else
+            {
+                if (collidingGameObject != null)
+                {
+                    AddForce(-collidingGameObject.transform.forward);
+                }
+                else
+                {
+                    AddForce(ForceGenerator.GenerateForce_Gravity3d(mass, gravitationalConstant, Vector3.up));
+                }
+            }
+
+            
         }
         if (enabledByDragForce)
         {

@@ -49,7 +49,7 @@ public class CollisionManager3D : MonoBehaviour
 
             // Based on collision hulls, calculate the rest of the values
             normal = (b.GetPosition() - a.GetPosition()).normalized;
-            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a,b, normal);
+            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a,b);
             penetration = _penetration;
         }
 
@@ -73,7 +73,7 @@ public class CollisionManager3D : MonoBehaviour
 
             // Based on collision hulls, calculate the rest of the values
             normal = _normal;
-            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a, b, normal);
+            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a, b);
             penetration = _penetration;
         }
 
@@ -125,7 +125,7 @@ public class CollisionManager3D : MonoBehaviour
             {
                 particles[i].ResetCollidingChecker();
                 particles[i].ResetColliding();
-                //particles[i].GetComponent<Particle3D>().collidingGameObject = null;
+                particles[i].GetComponent<Particle3D>().collidingGameObject = null;
             }
         }
 
@@ -575,10 +575,8 @@ public class CollisionManager3D : MonoBehaviour
         // Calculate the distance between both colliders
         Vector3 distance = relativeCentre - closestPointToCircle;
 
-        float penetration = a.GetDimensions().x  * (a.GetDimensions().x) - Vector3.Dot(distance, distance);
-
         // Are the Radii less than or equal to the distance between both circles?
-        if (penetration > 0)
+        if (Vector3.Dot(distance,distance) < a.GetDimensions().x * a.GetDimensions().x)
         {
             // If yes, then inform the parents of the complex shape object (if applicable)
             ReportCollisionToParent(a, b);
@@ -589,8 +587,10 @@ public class CollisionManager3D : MonoBehaviour
             return null;
         }
 
+        float penetration = a.GetDimensions().x - Mathf.Sqrt(Vector3.Dot(distance, distance));
+        Vector3 closestPointWorld = b.GetComponent<Particle3D>().transformMatrix.MultiplyPoint(closestPointToCircle);
         // Return result
-        return new CollisionInfo(a, b, penetration,  (closestPointToCircle - relativeCentre).normalized, Vector3.zero);
+        return new CollisionInfo(a, b, penetration,  (closestPointWorld - a.GetPosition()).normalized, Vector3.zero);
     }
 
 

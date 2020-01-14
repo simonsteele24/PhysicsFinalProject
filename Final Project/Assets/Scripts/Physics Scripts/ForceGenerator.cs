@@ -49,7 +49,7 @@ public class ForceGenerator : MonoBehaviour
 
     // The following function generates a sliding force based on a gravitional
     // force and a normalized surface direction 
-    public static Vector3 GenerateForce_sliding(Vector3 f_gravity, Vector3 f_normal)
+    public static Vector3 GenerateForce_sliding3D(Vector3 f_gravity, Vector3 f_normal)
     {
         Vector3 f_sliding = f_gravity + f_normal;
         return f_sliding;

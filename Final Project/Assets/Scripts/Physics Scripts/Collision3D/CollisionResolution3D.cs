@@ -5,13 +5,14 @@ using UnityEngine;
 public class CollisionResolution3D : MonoBehaviour
 {
     // This function gets the seperating velocity of two particles
-    public static float CalculateSeparatingVelocity(CollisionHull3D shapeA, CollisionHull3D shapeB, Vector3 contactNormal)
+    public static float CalculateSeparatingVelocity(CollisionHull3D shapeA, CollisionHull3D shapeB)
     {
         // Find all required values for calculation
-        Vector3 differenceOfVelocity = (shapeB.gameObject.GetComponent<Particle3D>().velocity - shapeA.gameObject.GetComponent<Particle3D>().velocity);
+        Vector3 differenceOfVelocity = (shapeA.gameObject.GetComponent<Particle3D>().velocity - shapeB.gameObject.GetComponent<Particle3D>().velocity) * -1;
+        Vector3 differenceOfPosition = (shapeA.GetPosition() - shapeB.GetPosition()).normalized;
 
         // Return the dot product of both velocity and position
-        return Vector3.Dot(differenceOfVelocity, contactNormal);
+        return Vector3.Dot(differenceOfVelocity, differenceOfPosition);
     }
 
 
@@ -26,12 +27,8 @@ public class CollisionResolution3D : MonoBehaviour
             // Are the two particles moving towards each other
             if (collisions[i].separatingVelocity > 0)
             {
-                if (collisions[i].a.GetHasResolution() == false && collisions[i].b.GetHasResolution() == false)
-                {
-                    // If yes, then resolve collision
-                    ResolvePenetration(collisions[i]);
-                }
-                
+                // If yes, then resolve collision
+                ResolvePenetration(collisions[i]);
                 ResolveVelocities(collisions[i], dt);
             }
         }
@@ -46,11 +43,11 @@ public class CollisionResolution3D : MonoBehaviour
     {
         // Get the new seperating velocity
         float newSeperatingVelocity = -collision.separatingVelocity * CollisionManager.UNIVERSAL_COEFFICIENT_OF_RESTITUTION;
-        //newSeperatingVelocity = Mathf.Abs(newSeperatingVelocity);
 
         // Check the velocity buildup due to acceleration only.
         Vector3 accCausedVelocity = collision.a.GetComponent<Particle3D>().acceleration - collision.b.GetComponent<Particle3D>().acceleration;
         float accCausedSepVelocity = Vector3.Dot(accCausedVelocity, collision.normal) * Time.fixedDeltaTime;
+
 
 
         // If we’ve got a closing velocity due to aceleration buildup,
@@ -75,24 +72,16 @@ public class CollisionResolution3D : MonoBehaviour
             // If yes, exit the function
             return;
         }
-        
 
         // Get the impulse of the collision
         float impulse = deltaVelocity / totalInverseMass;
         Vector3 impulsePerIMass = collision.normal * impulse;
 
+        // Apply the new velocities to both particles
         collision.a.GetComponent<Particle3D>().velocity = collision.a.GetComponent<Particle3D>().velocity + impulsePerIMass * collision.a.GetComponent<Particle3D>().invMass;
         collision.b.GetComponent<Particle3D>().velocity = collision.b.GetComponent<Particle3D>().velocity + impulsePerIMass * -collision.b.GetComponent<Particle3D>().invMass;
-
-
-        collision.a.CheckColliding();
         collision.a.GetComponent<Particle3D>().collidingGameObject = collision.b.gameObject;
-        collision.b.CheckColliding();
         collision.b.GetComponent<Particle3D>().collidingGameObject = collision.a.gameObject;
-        // Apply the new velocities to both particles
-
-
-
     }
 
 
@@ -102,8 +91,6 @@ public class CollisionResolution3D : MonoBehaviour
     // This function resolves the penetration of a collision
     public static void ResolvePenetration(CollisionManager3D.CollisionInfo collision)
     {
-        Debug.Log("Resolved penetration");
-
         // Vector3's
         Vector3 particleMovementA;
         Vector3 particleMovementB;
@@ -135,36 +122,18 @@ public class CollisionResolution3D : MonoBehaviour
         else
         {
             // Determine the amount both object needs to move
-
-            if (collision.a.GetComponent<Particle3D>().isCharacterController)
-            {
-                particleMovementA = -movePerIMass * collision.a.GetComponent<Particle3D>().invMass * collision.a.GetComponent<Particle3D>().controllerLevitationValue;
-            }
-            else
-            {
-                particleMovementA = -movePerIMass * collision.a.GetComponent<Particle3D>().invMass;
-            }
-            
-            if (collision.b.GetComponent<Particle3D>().isCharacterController)
-            {
-                particleMovementB = movePerIMass * collision.b.GetComponent<Particle3D>().invMass * collision.b.GetComponent<Particle3D>().controllerLevitationValue;
-            }
-            else
-            {
-                particleMovementB = movePerIMass * collision.b.GetComponent<Particle3D>().invMass;
-            }
-
-            
+            particleMovementA = -movePerIMass * collision.a.GetComponent<Particle3D>().invMass;
+            particleMovementB = movePerIMass * collision.b.GetComponent<Particle3D>().invMass;
         }
 
         // Apply movement to particle A
         collision.a.transform.position += particleMovementA;
-        collision.a.GetComponent<Particle3D>().position += particleMovementA;
+        collision.a.GetComponent<Particle3D>().position = collision.a.transform.position;
         collision.a.SetPosition(collision.a.transform.position);
 
         // Apply movement to particle B
         collision.b.transform.position += particleMovementB;
-        collision.b.GetComponent<Particle3D>().position += particleMovementB;
+        collision.b.GetComponent<Particle3D>().position = collision.b.transform.position;
         collision.b.SetPosition(collision.b.transform.position);
     }
 

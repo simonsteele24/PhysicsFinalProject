@@ -427,7 +427,7 @@ MonoBehaviour:
   isHollow: 0
   angularVelocity: {x: 0, y: 0, z: 0}
   angularAcceleration: {x: 0, y: 0, z: 0}
-  mass: 300
+  mass: 3
   gravitationalConstant: -0.9
   invMass: 0
   isGoingDownSlope: 0

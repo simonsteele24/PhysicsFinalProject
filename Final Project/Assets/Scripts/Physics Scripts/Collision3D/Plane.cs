@@ -18,7 +18,7 @@ public class Plane : CollisionHull3D
         position = transform.position;
 
 
-        halfSize = new Vector3(transform.localScale.x / 2.0f, 0, transform.localScale.z / 2.0f);
+        halfSize = new Vector3(transform.localScale.x / 2.0f, transform.localScale.y / 2.0f, transform.localScale.z / 2.0f);
         minCorner = -halfSize;
         maxCorner = halfSize;
 
