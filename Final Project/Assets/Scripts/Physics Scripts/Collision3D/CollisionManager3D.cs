@@ -49,12 +49,12 @@ public class CollisionManager3D : MonoBehaviour
 
             // Based on collision hulls, calculate the rest of the values
             normal = (b.GetPosition() - a.GetPosition()).normalized;
-            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a,b);
+            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a,b, a.GetPosition(), b.GetPosition());
             penetration = _penetration;
         }
 
         // This function intializes the collision info class based on given information
-        public CollisionInfo(CollisionHull3D _a, CollisionHull3D _b, float _penetration, Vector3 _normal, Vector3 _contactPoint)
+        public CollisionInfo(CollisionHull3D _a, CollisionHull3D _b, float _penetration, Vector3 _normal, Vector3 _contactPoint, float _seperatingVelocity)
         {
             // Is collision A's collision type have less priority to collision B? 
             if (_a.collisionType > _b.collisionType)
@@ -73,7 +73,7 @@ public class CollisionManager3D : MonoBehaviour
 
             // Based on collision hulls, calculate the rest of the values
             normal = _normal;
-            separatingVelocity = CollisionResolution3D.CalculateSeparatingVelocity(a, b);
+            separatingVelocity = _seperatingVelocity;
             penetration = _penetration;
         }
 
@@ -109,6 +109,7 @@ public class CollisionManager3D : MonoBehaviour
         _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.Sphere, CollisionHullType3D.AABB), CircleToABBCollision);
         _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.AABB, CollisionHullType3D.OBBB), AABBToOBBCollision);
         _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.Sphere, CollisionHullType3D.Plane), SphereToPlaneCollision);
+        _collisionTypeCollisionTestFunctions.Add(new CollisionPairKey3D(CollisionHullType3D.Plane, CollisionHullType3D.Plane), PlaneToPlaneCollision);
     }
 
 
@@ -423,7 +424,7 @@ public class CollisionManager3D : MonoBehaviour
 
             // If all axis are overlaping, then we have a collision
             ReportCollisionToParent(a, b);
-            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps),normal,vertex);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps),normal,vertex,CollisionResolution3D.CalculateSeparatingVelocity(a,b,a.GetPosition(),b.GetPosition()));
 
         }
         else if (bestIndex > 6)
@@ -445,7 +446,7 @@ public class CollisionManager3D : MonoBehaviour
 
             // If all axis are overlaping, then we have a collision
             ReportCollisionToParent(a, b);
-            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
         }
         else
         {
@@ -487,7 +488,7 @@ public class CollisionManager3D : MonoBehaviour
             Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions().x, pointOnTwoEdge, twoAxis, b.GetDimensions().x, bestIndex > 2);
 
             ReportCollisionToParent(a, b);
-            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
         }
     }
 
@@ -561,7 +562,7 @@ public class CollisionManager3D : MonoBehaviour
         }
 
         // Return full details of the Collision list if the two collide
-        return new CollisionInfo(a, b, penetration, (closestPointToCircle - relativeCentre).normalized, closestPointToCircle);
+        return new CollisionInfo(a, b, penetration, (closestPointToCircle - relativeCentre).normalized, closestPointToCircle, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
     }
 
 
@@ -590,7 +591,8 @@ public class CollisionManager3D : MonoBehaviour
         float penetration = a.GetDimensions().x - Mathf.Sqrt(Vector3.Dot(distance, distance));
         Vector3 closestPointWorld = b.GetComponent<Particle3D>().transformMatrix.MultiplyPoint(closestPointToCircle);
         // Return result
-        return new CollisionInfo(a, b, penetration,  (closestPointWorld - a.GetPosition()).normalized, Vector3.zero);
+        Debug.Log("Hitting");
+        return new CollisionInfo(a, b, penetration,  (closestPointWorld - a.GetPosition()).normalized, Vector3.zero, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), closestPointWorld));
     }
 
 
@@ -619,7 +621,16 @@ public class CollisionManager3D : MonoBehaviour
         }
 
         // Return full details of the Collision list if the two collide
-        return new CollisionInfo(a, b, penetration, (closestPointToCircle - relativeCentre).normalized, closestPointToCircle);
+        return new CollisionInfo(a, b, penetration, (closestPointToCircle - relativeCentre).normalized, closestPointToCircle, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
+    }
+
+
+
+
+
+    public static CollisionInfo PlaneToPlaneCollision(CollisionHull3D a, CollisionHull3D b)
+    {
+        return null;
     }
 
 
@@ -738,7 +749,7 @@ public class CollisionManager3D : MonoBehaviour
 
             // If all axis are overlaping, then we have a collision
             ReportCollisionToParent(a, b);
-            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
 
         }
         else if (bestIndex > 5)
@@ -760,7 +771,7 @@ public class CollisionManager3D : MonoBehaviour
 
             // If all axis are overlaping, then we have a collision
             ReportCollisionToParent(a, b);
-            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), normal, vertex, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
         }
         else
         {
@@ -802,7 +813,7 @@ public class CollisionManager3D : MonoBehaviour
             Vector3 contactPoint = GetCollisionPoint(pointOnOneEdge, oneAxis, a.GetDimensions().x, pointOnTwoEdge, twoAxis, b.GetDimensions().x, bestIndex > 2);
 
             ReportCollisionToParent(a, b);
-            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint);
+            return new CollisionInfo(a, b, CollisionResolution.GetFinalPenetration(overlaps), axis, contactPoint, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
         }
     }
 

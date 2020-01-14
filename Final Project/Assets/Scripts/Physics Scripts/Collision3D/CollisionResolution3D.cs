@@ -5,11 +5,11 @@ using UnityEngine;
 public class CollisionResolution3D : MonoBehaviour
 {
     // This function gets the seperating velocity of two particles
-    public static float CalculateSeparatingVelocity(CollisionHull3D shapeA, CollisionHull3D shapeB)
+    public static float CalculateSeparatingVelocity(CollisionHull3D shapeA, CollisionHull3D shapeB, Vector3 posA, Vector3 posB)
     {
         // Find all required values for calculation
         Vector3 differenceOfVelocity = (shapeA.gameObject.GetComponent<Particle3D>().velocity - shapeB.gameObject.GetComponent<Particle3D>().velocity) * -1;
-        Vector3 differenceOfPosition = (shapeA.GetPosition() - shapeB.GetPosition()).normalized;
+        Vector3 differenceOfPosition = (posA - posB).normalized;
 
         // Return the dot product of both velocity and position
         return Vector3.Dot(differenceOfVelocity, differenceOfPosition);

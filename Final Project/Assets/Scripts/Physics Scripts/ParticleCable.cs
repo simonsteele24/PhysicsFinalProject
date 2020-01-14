@@ -33,9 +33,9 @@ public class ParticleCable : MonoBehaviour
 
             AABB3D parentHull = parent.GetComponent<AABB3D>();
 
-            CollisionManager3D.CollisionInfo newCollision = new CollisionManager3D.CollisionInfo(GetComponent<AABB3D>(), parent.GetComponent<AABB3D>(), penetration, collisionNormal, Vector3.zero); ;
-            CollisionResolution3D.ResolvePenetration(newCollision);
-            CollisionResolution3D.ResolveVelocities(newCollision, Time.deltaTime);
+            //CollisionManager3D.CollisionInfo newCollision = new CollisionManager3D.CollisionInfo(GetComponent<AABB3D>(), parent.GetComponent<AABB3D>(), penetration, collisionNormal, Vector3.zero, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), b.GetPosition()));
+            //CollisionResolution3D.ResolvePenetration(newCollision);
+            //CollisionResolution3D.ResolveVelocities(newCollision, Time.deltaTime);
         }
     }
 }
