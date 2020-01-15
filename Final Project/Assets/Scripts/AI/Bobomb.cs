@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bobomb : MonoBehaviour
 {
     public ParticleSystem smoke;
+    public Transform bobombTorsoPosition;
     public Animator bobombAnimator;
     public float walkSpeedAnimationMultiplier = 5.0f;
     public float sprintSpeedMultiplier = 2.0f;
@@ -47,7 +48,7 @@ public class Bobomb : MonoBehaviour
         RaycastHit hit;
 
         // See if player is colliding with ground
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))
+        if (Physics.Raycast(bobombTorsoPosition.position, Vector3.down, out hit, raycastCheckHit))
         {
 
             // Make sure that we set velocity to zero if the force of gravity is being applied
@@ -56,10 +57,9 @@ public class Bobomb : MonoBehaviour
                 GetComponent<Particle3D>().velocity.y = 0;
             }
 
-            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit;
+            GetComponent<Particle3D>().position.y = hit.point.y;
 
             // Set all values so player sticks to ground
-            //GetComponent<Particle3D>().isUsingGravity = false;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             isGrounded = true;
         }

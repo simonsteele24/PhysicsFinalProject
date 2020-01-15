@@ -5,6 +5,7 @@ using UnityEngine;
 public class Goomba : MonoBehaviour
 {
     public Animator goombaAnimator;
+    public Transform goombaTorsoPosition;
     public float walkSpeedAnimationMultiplier = 10.0f;
     public float sprintSpeedMultiplier = 2.0f;
     public float movementSpeed;
@@ -40,7 +41,7 @@ public class Goomba : MonoBehaviour
         RaycastHit hit;
 
         // See if player is colliding with ground
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))
+        if (Physics.Raycast(goombaTorsoPosition.position, Vector3.down, out hit, raycastCheckHit))
         {
 
             // Make sure that we set velocity to zero if the force of gravity is being applied
@@ -49,7 +50,8 @@ public class Goomba : MonoBehaviour
                 GetComponent<Particle3D>().velocity.y = 0;
             }
 
-            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit;
+            GetComponent<Particle3D>().position.y = hit.point.y;
+            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
 
             // Set all values so player sticks to ground
             //GetComponent<Particle3D>().isUsingGravity = false;
@@ -58,6 +60,7 @@ public class Goomba : MonoBehaviour
         }
         else
         {
+            GetComponent<Particle3D>().collidingGameObject = null;
             // If in air, set all gravity values
             isGrounded = false;
         }
@@ -70,15 +73,6 @@ public class Goomba : MonoBehaviour
                 GetComponent<Particle3D>().velocity.x = 0;
                 GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             }
-        }
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 2.1f))
-        {
-            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
-        }
-        else
-        {
-            GetComponent<Particle3D>().collidingGameObject = null;
         }
     }
 

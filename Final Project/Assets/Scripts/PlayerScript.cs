@@ -359,10 +359,8 @@ public class PlayerScript : MonoBehaviour
         }
 
         // See if player is colliding with ground
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit) && (!isAttemptingToJump || GetComponent<Particle3D>().velocity.y < 0))
+        if (Physics.Raycast(playerTorsoTransform.transform.position, Vector3.down, out hit, raycastCheckHit) && (!isAttemptingToJump || GetComponent<Particle3D>().velocity.y < 0))
         {
-            Debug.Log("Here");
-
             if (hit.collider.gameObject.tag == "Slideable")
             {
                 isSliding = true;
@@ -398,7 +396,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             // Reposition object to be on top of colliding ground
-            GetComponent<Particle3D>().position.y = hit.point.y + raycastCheckHit - 0.1f;
+            GetComponent<Particle3D>().position.y = hit.point.y;
 
             // Set all values so player sticks to ground
             //GetComponent<Particle3D>().isUsingGravity = false;
@@ -421,6 +419,8 @@ public class PlayerScript : MonoBehaviour
         {
             // If in air, set all gravity values
             //GetComponent<Particle3D>().isUsingGravity = true;
+            // If no, then set the colliding game object to null
+            GetComponent<Particle3D>().collidingGameObject = null;
             isGrounded = false;
         }
 
@@ -476,18 +476,6 @@ public class PlayerScript : MonoBehaviour
         else
         {
             canWallJump = false;
-        }
-
-        // Has the player collided with anything below them?
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit * 10))
-        {
-            // If yes, then set it to the colliding gameobject
-            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
-        }
-        else
-        {
-            // If no, then set the colliding game object to null
-            GetComponent<Particle3D>().collidingGameObject = null;
         }
     }
 
