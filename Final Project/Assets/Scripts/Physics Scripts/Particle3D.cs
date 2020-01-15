@@ -111,6 +111,11 @@ public class Particle3D : MonoBehaviour
         // Add a frictional force if particle is on an object
         if (collidingGameObject != null)
         {
+            if (collidingGameObject.tag == "Despawn")
+            {
+                Destroy(gameObject);
+            }
+
             if (collidingGameObject.GetComponent<PhysicsMaterialScript>() != null)
             {
                 AddForce(ForceGenerator.GenerateForce_friction_kinetic(-velocity, velocity, collidingGameObject.GetComponent<PhysicsMaterialScript>().frictionValue));

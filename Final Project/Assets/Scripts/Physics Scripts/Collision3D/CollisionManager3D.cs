@@ -571,7 +571,7 @@ public class CollisionManager3D : MonoBehaviour
         // Find the relative centre by transforming the center of the circle to the local space of the AABB
         Vector3 relativeCentre = b.GetComponent<Particle3D>().invTransformMatrix.MultiplyPoint(a.GetPosition());
 
-        Vector3 closestPointToCircle = new Vector3(Math.Max(b.GetMinimumCorner().x, Math.Min(relativeCentre.x, b.GetMaximumCorner().x)), 0 , Math.Max(b.GetMinimumCorner().z, Math.Min(relativeCentre.z, b.GetMaximumCorner().z)));
+        Vector3 closestPointToCircle = new Vector3(Math.Max(b.GetMinimumCorner().x, Math.Min(relativeCentre.x, b.GetMaximumCorner().x)), Math.Max(b.GetMinimumCorner().y, Math.Min(relativeCentre.y, b.GetMaximumCorner().y)), Math.Max(b.GetMinimumCorner().z, Math.Min(relativeCentre.z, b.GetMaximumCorner().z)));
 
         // Calculate the distance between both colliders
         Vector3 distance = relativeCentre - closestPointToCircle;
@@ -591,7 +591,6 @@ public class CollisionManager3D : MonoBehaviour
         float penetration = a.GetDimensions().x - Mathf.Sqrt(Vector3.Dot(distance, distance));
         Vector3 closestPointWorld = b.GetComponent<Particle3D>().transformMatrix.MultiplyPoint(closestPointToCircle);
         // Return result
-        Debug.Log("Hitting");
         return new CollisionInfo(a, b, penetration,  (closestPointWorld - a.GetPosition()).normalized, Vector3.zero, CollisionResolution3D.CalculateSeparatingVelocity(a, b, a.GetPosition(), closestPointWorld));
     }
 
