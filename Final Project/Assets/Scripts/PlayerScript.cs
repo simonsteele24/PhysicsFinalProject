@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     public float punchDistance;
     public float throwingOffset = 20;
     public float wallJumpForce = 250;
+    public float forceOfKnockbackHits = 20;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
@@ -516,5 +517,16 @@ public class PlayerScript : MonoBehaviour
             lastDirectionY = inputAmountY;
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+
+
+    public void AddKnockBack(Vector3 pointOfHit)
+    {
+        Vector3 direction = (transform.position - pointOfHit).normalized;
+        GetComponent<Particle3D>().AddForce(direction * GetComponent<Particle3D>().mass * forceOfKnockbackHits);
+        GetComponent<Particle3D>().AddForce(Vector3.up * GetComponent<Particle3D>().mass * forceOfKnockbackHits);
+        GetComponent<Particle3D>().position.y += raycastCheckHit;
+        isAttemptingToJump = true;
     }
 }

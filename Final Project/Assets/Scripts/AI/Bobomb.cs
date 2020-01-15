@@ -6,6 +6,7 @@ public class Bobomb : MonoBehaviour
 {
     public ParticleSystem smoke;
     public Transform bobombTorsoPosition;
+    public Transform bobombBottom;
     public Animator bobombAnimator;
     public float walkSpeedAnimationMultiplier = 5.0f;
     public float sprintSpeedMultiplier = 2.0f;
@@ -13,6 +14,7 @@ public class Bobomb : MonoBehaviour
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public float deathLifeTime = 2;
+    public float distanceToHurtPlayer = 3;
     public bool isGrounded = true;
     public bool isDying = false;
     public bool isChasing = false;
@@ -66,6 +68,7 @@ public class Bobomb : MonoBehaviour
         else
         {
             // If in air, set all gravity values
+            GetComponent<Particle3D>().collidingGameObject = null;
             isGrounded = false;
         }
 
@@ -78,15 +81,6 @@ public class Bobomb : MonoBehaviour
                 GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             }
         }
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 2.1f))
-        {
-            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
-        }
-        else
-        {
-            GetComponent<Particle3D>().collidingGameObject = null;
-        }
     }
 
     public IEnumerator CommenceDeath()
@@ -94,5 +88,13 @@ public class Bobomb : MonoBehaviour
         isDying = true;
         yield return new WaitForSeconds(deathLifeTime);
         Destroy(gameObject);
+    }
+
+    public void Explode()
+    {
+        if (Vector3.Distance(GetComponentInChildren<BobombChaseState>().player.transform.position, transform.position) < distanceToHurtPlayer)
+        {
+            GetComponentInChildren<BobombChaseState>().player.GetComponent<PlayerController>().DamagePlayer(transform.position);
+        }
     }
 }

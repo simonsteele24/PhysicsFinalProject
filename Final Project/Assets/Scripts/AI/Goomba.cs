@@ -8,6 +8,7 @@ public class Goomba : MonoBehaviour
     public Transform goombaTorsoPosition;
     public float walkSpeedAnimationMultiplier = 10.0f;
     public float sprintSpeedMultiplier = 2.0f;
+    public float attackRadius = 2.0f;
     public float movementSpeed;
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
@@ -63,6 +64,14 @@ public class Goomba : MonoBehaviour
             GetComponent<Particle3D>().collidingGameObject = null;
             // If in air, set all gravity values
             isGrounded = false;
+        }
+
+        if (Physics.Raycast(goombaTorsoPosition.position, transform.forward, out hit, attackRadius))
+        {
+            if (hit.collider.tag == "Player")
+            {
+                hit.collider.GetComponent<PlayerController>().DamagePlayer(hit.point);
+            }
         }
 
         if (Physics.Raycast(transform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))

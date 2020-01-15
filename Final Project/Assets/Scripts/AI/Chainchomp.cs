@@ -10,6 +10,7 @@ public class Chainchomp : MonoBehaviour
     public float distanceToStop;
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
+    public float attackRadius = 2;
     public bool isGrounded = true;
     public bool isAttacking = false;
     public GameObject pole;
@@ -36,6 +37,14 @@ public class Chainchomp : MonoBehaviour
         }
 
         RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, attackRadius))
+        {
+            if (hit.collider.tag == "Player")
+            {
+                hit.collider.GetComponent<PlayerController>().DamagePlayer(hit.point);
+            }
+        }
 
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))

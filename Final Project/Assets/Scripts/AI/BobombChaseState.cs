@@ -8,7 +8,7 @@ public class BobombChaseState : State
     public float alertJumpStrength = 300;
     public float bombLifetime = 5;
     public float chaseSpeed;
-    GameObject player;
+    public GameObject player;
 
     public override States CheckForTransition()
     {
@@ -53,6 +53,7 @@ public class BobombChaseState : State
         yield return new WaitForSeconds(bombLifetime);
         if (player != null)
         {
+            GetComponentInParent<Bobomb>().Explode();
             Destroy(transform.parent.gameObject);
         }
     }
