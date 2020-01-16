@@ -155,7 +155,7 @@ public class PlayerScript : MonoBehaviour
                 {
                     // If yes, then pick it up
                     carryingObject = hit.collider.gameObject;
-                    hit.collider.gameObject.GetComponent<KingBobomb>().isProne = true;
+                    hit.collider.gameObject.GetComponent<KingBobomb>().SetIsProne(true);
                 }
 
                 // If yes, is it a destroyable object?

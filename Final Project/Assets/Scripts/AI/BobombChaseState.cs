@@ -1,55 +1,75 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BobombChaseState : State
 {
+    // Floats
     public float distanceToLeavePlayer = 10;
     public float alertJumpStrength = 300;
     public float bombLifetime = 5;
-    public float chaseSpeed;
+    public float chaseSpeed = 2;
+
+    // Game Objects
     public GameObject player;
 
+
+
+
+
+    // This function is triggered once per frame to check for transition of states
     public override States CheckForTransition()
     {
-        float distance = Mathf.Abs(Vector3.Distance(transform.parent.position, player.transform.position));
-
+        // Since the bobomb has been trigger, there is no going back
         return States.Chase;
     }
 
+
+
+
+
+    // This function is called once per frame 
     public override void UpdateState()
     {
         Vector3 position = new Vector3(player.transform.position.x, transform.parent.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
         GetComponentInParent<Particle3D>().rotation = transform.rotation;
 
-        if (GetComponentInParent<Bobomb>().isGrounded)
-        {
-            GetComponentInParent<Bobomb>().SprintInADirection(transform.forward, chaseSpeed);
-        }
+        GetComponentInParent<Bobomb>().SprintInADirection(transform.forward, chaseSpeed);
     }
 
+
+
+
+
+    // This function triggers when the state is entered
     public override void OnEnterState()
     {
         player = GameObject.Find("Player");
-        GetComponentInParent<Bobomb>().isChasing = true;
-        GetComponentInParent<Particle3D>().AddForce(GetComponentInParent<Particle3D>().mass * Vector3.up * alertJumpStrength);
-        StartCoroutine(StartBombLifetime());
+        StartCoroutine(StartDetonation());
     }
 
+
+
+
+
+    // This function triggers when the state is exited
     public override void OnExitState()
     {
         player = null;
-        GetComponentInParent<Bobomb>().isChasing = false;
     }
 
-    IEnumerator StartBombLifetime()
+
+
+
+
+    // This function starts when the bomb is ready to explode
+    IEnumerator StartDetonation()
     {
+        // Wait for bobomb lifetime cycle 
         yield return new WaitForSeconds(bombLifetime);
-        if (player != null)
-        {
-            GetComponentInParent<Bobomb>().Explode();
-            Destroy(transform.parent.gameObject);
-        }
+
+        // Explode the bomb
+        GetComponentInParent<Bobomb>().Explode();
+        Destroy(transform.parent.gameObject);
     }
 }

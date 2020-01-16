@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class KingBobombProneState : State
+﻿public class KingBobombProneState : State
 {
+    // This function is called every frame to check if the state needs to be changed
     public override States CheckForTransition()
     {
-        if (!GetComponentInParent<KingBobomb>().isProne)
+        if (!GetComponentInParent<KingBobomb>().CheckIfProne())
         {
             return States.Chase;
         }
