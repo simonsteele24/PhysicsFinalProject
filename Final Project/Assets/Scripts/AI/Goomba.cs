@@ -16,6 +16,7 @@ public class Goomba : MonoBehaviour
     public bool isGrounded = true;
     public bool isDying = false;
     public bool isChasing = false;
+    public bool isHopping = false;
 
     public void MoveInADirection(Vector3 direction)
     {
@@ -42,20 +43,10 @@ public class Goomba : MonoBehaviour
         RaycastHit hit;
 
         // See if player is colliding with ground
-        if (Physics.Raycast(goombaTorsoPosition.position, Vector3.down, out hit, raycastCheckHit))
+        if (Physics.Raycast(goombaTorsoPosition.position, Vector3.down, out hit, raycastCheckHit) && (!isHopping || GetComponent<Particle3D>().velocity.y < 0))
         {
-
-            // Make sure that we set velocity to zero if the force of gravity is being applied
-            if (GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0)
-            {
-                GetComponent<Particle3D>().velocity.y = 0;
-            }
-
             GetComponent<Particle3D>().position.y = hit.point.y;
-            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
-
-            // Set all values so player sticks to ground
-            //GetComponent<Particle3D>().isUsingGravity = false;
+            GetComponent<Particle3D>().velocity.y = 0;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             isGrounded = true;
         }

@@ -27,7 +27,7 @@ public class PlayerScript : MonoBehaviour
     // Integers
     public int strongJumpMaxIndex = 4;
     public int groundPoundGravityMultiplier = 2;
-    public int strongerJumpKey = 1;
+    public int strongerJumpKey = 0;
 
     // Booleans
     public bool isAttemptingToJump = false;
@@ -42,9 +42,11 @@ public class PlayerScript : MonoBehaviour
 
     // GameObjects
     GameObject carryingObject;
+    public GameObject cameraGameObject;
 
     // Transforms
     public Transform playerTorsoTransform;
+    public Transform playerMovementTransform;
     public Animator animator;
 
     // Vector3's
@@ -83,7 +85,9 @@ public class PlayerScript : MonoBehaviour
         animator.SetFloat("Forward", Mathf.Clamp(Mathf.Abs(inputAmountX) + Mathf.Abs(inputAmountY), 0, 1), 0.1f, Time.deltaTime);
         animator.SetBool("isGrounded", isGrounded || (!isAttemptingToJump && (GetComponent<Particle3D>().collidingGameObject != null && !canWallJump)));
         animator.SetBool("isCrouching", isTriggerDown);
-        GetComponentInChildren<Animator>().SetFloat("Jump", GetComponent<Particle3D>().velocity.y);
+        animator.SetInteger("JumpIndex", strongerJumpKey);
+        animator.SetFloat("Velocity", GetComponent<Particle3D>().velocity.y);
+        animator.SetBool("CanWallJump", canWallJump);
 
         if (isSliding)
         {
@@ -91,7 +95,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Move if nothing is in the way of the player
-        if (!Physics.Raycast(playerTorsoTransform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit))
+        if (!Physics.Raycast(playerMovementTransform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit) && !isTriggerDown)
         {
             if (!isSliding)
             {
@@ -99,25 +103,25 @@ public class PlayerScript : MonoBehaviour
                 if (isGrounded)
                 {
                     // If yes, then move the player in the direction given by controller input
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * cameraGameObject.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized));
                 }
                 else
                 {
                     // If no, then move the player in the direction given by controller input but directed by a jump speed
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * Camera.main.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpMovementSpeed * cameraGameObject.transform.TransformDirection(new Vector3(-inputAmountY, 0, -inputAmountX).normalized));
                 }
 
                 // Has the player put in any sort of input?
                 if (inputAmountX != 0 || inputAmountY != 0)
                 {
                     // If yes, then rotate the object appropriatly
-                    transform.GetChild(0).localEulerAngles = new Vector3(0, (Mathf.Atan2(inputAmountX, -inputAmountY) * (180 / Mathf.PI)) + (Camera.main.transform.localEulerAngles.y + 90), 0);
+                    transform.GetChild(0).localEulerAngles = new Vector3(0, (Mathf.Atan2(inputAmountX, -inputAmountY) * (180 / Mathf.PI)) + (cameraGameObject.transform.localEulerAngles.y + 90), 0);
                 }
             }
             else
             {
                 // If yes, then move the player in the direction given by controller input
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().collidingGameObject.transform.TransformDirection(new Vector3(0, 0, inputAmountY).normalized) /*GetComponent<Particle3D>().GetForwardVector()*/);
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * movementSpeed * sprintAmount * GetComponent<Particle3D>().collidingGameObject.transform.TransformDirection(new Vector3(0, 0, inputAmountY).normalized));
 
                 // Has the player put in any sort of input?
                 if (inputAmountY != 0)
@@ -133,7 +137,6 @@ public class PlayerScript : MonoBehaviour
         // Is the player pressing the punch button and are they allowed to punch?
         if (Input.GetButtonDown("Xbox_B") && canPunch)
         {
-            Debug.Log("Punch");
             animator.SetBool("isPunching", true);
 
             // If yes, is the player carrying anything?
@@ -144,13 +147,11 @@ public class PlayerScript : MonoBehaviour
                 carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.up * throwingOffset);
                 carryingObject = null;
             }
-
-
             // Is there something in front of the player to punch at?
-            if (Physics.Raycast(playerTorsoTransform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
+            if (Physics.Raycast(playerTorsoTransform.position, transform.GetChild(0).transform.forward, out hit, punchDistance))
             {
                 // If yes, is it a king Bob omb?
-                if (hit.collider.gameObject.tag == "King Bobomb" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
+                if (hit.collider.gameObject.tag == "King Bobomb")
                 {
                     // If yes, then pick it up
                     carryingObject = hit.collider.gameObject;
@@ -158,11 +159,16 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 // If yes, is it a destroyable object?
-                if (hit.collider.gameObject.tag == "Destroyable" && Vector3.Distance(transform.position, hit.collider.transform.position) < punchDistance)
+                if (hit.collider.gameObject.tag == "Destroyable")
                 {
                     // If yes, then destroy that object
                     Destroy(hit.collider.gameObject);
                 }
+                if (hit.collider.gameObject.tag == "Goomba")
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+
             }
 
             // Start the punch cooldown afterwards
@@ -173,13 +179,16 @@ public class PlayerScript : MonoBehaviour
         // Is the player pressing the left trigger down?
         if (Input.GetAxis("Xbox_LT") > 0)
         {
-            // If yes, has the trigger already been down?
-            if (!isTriggerDown)
+            if (!isTriggerDown && !isGrounded)
             {
-                isTriggerDown = true;
-
+                // If yes, then perform a ground pound
+                animator.SetTrigger("GroundPounding");
+                isGroundPounding = true;
+            }
+            else if (isGrounded && !isTriggerDown)
+            {
                 // If yes, is the A button down as well and is the player grounded?
-                if (Input.GetButtonDown("Xbox_A") && isGrounded)
+                if (Input.GetButtonDown("Xbox_A"))
                 {
                     // If yes, has the player put any sort of effort into moving?
                     if (Mathf.Abs(inputAmountX) > 0 || Mathf.Abs(inputAmountY) > 0)
@@ -194,33 +203,23 @@ public class PlayerScript : MonoBehaviour
                         airTriggeredByJump = true;
                         canDoStrongerJump = false;
                     }
-                    else
-                    {
+                }
+            }
+            isTriggerDown = true;
+                // If yes, is the A button down as well and is the player grounded?
+                if (Input.GetButtonDown("Xbox_A") && isGrounded)
+                {
                         // If no, then perform a backflip
-                        Debug.Log("Backflip");
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 500 * Vector3.up * strongJumpMaxIndex);
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * -transform.GetChild(0).forward);
                         GetComponent<Particle3D>().position.y += 0.5f;
 
+                        animator.SetTrigger("Backflipping");
+
                         isAttemptingToJump = true;
                         airTriggeredByJump = true;
                         canDoStrongerJump = false;
-                    }
                 }
-
-                // if no, is the player in the air?
-                else if (!isGrounded)
-                {
-                    // If yes, then perform a ground pound
-                    Debug.Log("Ground pound");
-                    isGroundPounding = true; 
-                }
-                else
-                {
-                    // If no, then simply perform a crouch
-                    Debug.Log("Crouch");
-                }
-            }
         }
         else
         {
@@ -236,7 +235,7 @@ public class PlayerScript : MonoBehaviour
                     {
                         if (inputAmountX < lastDirectionX && lastDirectionX > 0)
                         {
-                            Debug.Log("Backward Somersault");
+                            animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
                             GetComponent<Particle3D>().position.y += 0.5f;
@@ -250,7 +249,7 @@ public class PlayerScript : MonoBehaviour
                     {
                         if (inputAmountX > lastDirectionX && lastDirectionX < 0)
                         {
-                            Debug.Log("Backward Somersault");
+                            animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
                             GetComponent<Particle3D>().position.y += 0.5f;
@@ -264,7 +263,7 @@ public class PlayerScript : MonoBehaviour
                     {
                         if (inputAmountY > lastDirectionY && lastDirectionY < 0)
                         {
-                            Debug.Log("Backward Somersault");
+                            animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
                             GetComponent<Particle3D>().position.y += 0.5f;
@@ -278,7 +277,7 @@ public class PlayerScript : MonoBehaviour
                     {
                         if (inputAmountY < lastDirectionY && lastDirectionY > 0)
                         {
-                            Debug.Log("Backward Somersault");
+                            animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * transform.forward);
                             GetComponent<Particle3D>().position.y += 0.5f;
@@ -316,6 +315,7 @@ public class PlayerScript : MonoBehaviour
                     GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * wallJumpForce * new Vector3(normal.normalized.x, 0, normal.normalized.z) * strongJumpMaxIndex);
                     GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * wallJumpForce * Vector3.up * strongJumpMaxIndex);
                     transform.GetChild(0).transform.rotation = Quaternion.Euler(transform.GetChild(0).transform.eulerAngles.x, transform.GetChild(0).transform.eulerAngles.y + 180, transform.GetChild(0).transform.eulerAngles.z);
+                    animator.SetTrigger("WallJumping");
                 }
             }
         }
@@ -426,7 +426,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Is the player colliding with any vertical surfaces?
-        if (Physics.Raycast(playerTorsoTransform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
+        if (Physics.Raycast(playerMovementTransform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
         {
             // Does the colliding object happen to be an already colliding object?
             if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject && hit.collider.gameObject.tag != "Ball Wall")
@@ -454,7 +454,7 @@ public class PlayerScript : MonoBehaviour
                 canWallJump = false;
             }
         }
-        else if (Physics.Raycast(playerTorsoTransform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
+        else if (Physics.Raycast(playerMovementTransform.position, transform.GetChild(0).transform.forward, out hit, movementCheckRaycatHit))
         {
             if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject)
             {

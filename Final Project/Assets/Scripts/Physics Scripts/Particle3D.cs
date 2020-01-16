@@ -120,33 +120,6 @@ public class Particle3D : MonoBehaviour
             {
                 AddForce(ForceGenerator.GenerateForce_friction_kinetic(-velocity, velocity, collidingGameObject.GetComponent<PhysicsMaterialScript>().frictionValue));
             }
-            
-            if (GetComponent<PlayerScript>() != null)
-            {
-                if (collidingGameObject.GetComponent<Particle3D>().hasTempRotation)
-                {
-                    if (collidingGameObject.GetComponent<Particle3D>().tempRot.x > GetComponent<PlayerScript>().angleThreshold)
-                    {
-                        AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, gravitationalConstant, 0), slidingMultiplier * -collidingGameObject.transform.forward));
-                    }
-                    else if (collidingGameObject.GetComponent<Particle3D>().tempRot.x < -GetComponent<PlayerScript>().angleThreshold)
-                    {
-                        AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, gravitationalConstant, 0), slidingMultiplier * collidingGameObject.transform.forward));
-                    }
-                    else if (collidingGameObject.GetComponent<Particle3D>().tempRot.z > GetComponent<PlayerScript>().angleThreshold)
-                    {
-                        AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, gravitationalConstant, 0), slidingMultiplier * -collidingGameObject.transform.right));
-                    }
-                    else if (collidingGameObject.GetComponent<Particle3D>().tempRot.z < -GetComponent<PlayerScript>().angleThreshold)
-                    {
-                        AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, gravitationalConstant, 0), slidingMultiplier * collidingGameObject.transform.right));
-                    }
-                }
-            }
-            else
-            {   
-            }
-           
         }
 
         // Check if particle is affected by any outside forces

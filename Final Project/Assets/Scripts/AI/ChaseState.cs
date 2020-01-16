@@ -36,6 +36,7 @@ public class ChaseState : State
     {
         player = GameObject.Find("Player");
         GetComponentInParent<Particle3D>().AddForce(GetComponentInParent<Particle3D>().mass * Vector3.up * alertJumpStrength);
+        GetComponentInParent<Goomba>().isHopping = true;
         GetComponentInParent<Goomba>().isChasing = true;
     }
 

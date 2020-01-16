@@ -14,17 +14,12 @@ public class BobombChaseState : State
     {
         float distance = Mathf.Abs(Vector3.Distance(transform.parent.position, player.transform.position));
 
-        if (distance > distanceToLeavePlayer)
-        {
-            return States.Idle;
-        }
-
         return States.Chase;
     }
 
     public override void UpdateState()
     {
-        Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        Vector3 position = new Vector3(player.transform.position.x, transform.parent.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
         GetComponentInParent<Particle3D>().rotation = transform.rotation;
 
