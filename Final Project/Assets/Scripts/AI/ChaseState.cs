@@ -1,47 +1,71 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ChaseState : State
 {
-    public float distanceToLeavePlayer = 10;
+    // Floats
+    public float distanceToStopChasing = 10;
     public float alertJumpStrength = 20;
     public float chaseSpeed;
-    GameObject player;
 
+    // Gameobjects
+    GameObject player;
+    Goomba goombaScript;
+
+
+
+
+
+    // This function is called once per frame and checks for a change in state
     public override States CheckForTransition()
     {
+        // Check if distance is out of chasing range
         float distance = Mathf.Abs(Vector3.Distance(transform.parent.position, player.transform.position));
-
-        if (distance > distanceToLeavePlayer)
+        if (distance > distanceToStopChasing)
         {
+            // If yes, then go back to idle
             return States.Idle;
         }
 
+        // If no, then continue to chase
         return States.Chase;
     }
 
+
+
+
+
+    // This function is called once per frame to update the object based on state behaviour
     public override void UpdateState()
     {
+        // Look at the player
         Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
         GetComponentInParent<Particle3D>().rotation = transform.rotation;
-        if (GetComponentInParent<Goomba>().isGrounded)
+
+        // Is the object grounded?
+        if (goombaScript.GetGroundedState())
         {
-            GetComponentInParent<Goomba>().SprintInADirection(transform.forward, chaseSpeed);
+            // Move forward, towards the player
+            goombaScript.SprintInADirection(transform.forward, chaseSpeed);
         }
     }
 
+
+
+
+
+    // This function is called whenever the state is entered
     public override void OnEnterState()
     {
         player = GameObject.Find("Player");
+        goombaScript = GetComponentInParent<Goomba>();
         GetComponentInParent<Particle3D>().AddForce(GetComponentInParent<Particle3D>().mass * Vector3.up * alertJumpStrength);
-        GetComponentInParent<Goomba>().isHopping = true;
-        GetComponentInParent<Goomba>().isChasing = true;
+        goombaScript.SetHoppingState(true);
+        goombaScript.SetChasingState(true);
     }
 
     public override void OnExitState()
     {
-        GetComponentInParent<Goomba>().isChasing = false;
+        GetComponentInParent<Goomba>().SetChasingState(false);
     }
 }

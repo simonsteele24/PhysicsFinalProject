@@ -382,13 +382,7 @@ public class PlayerScript : MonoBehaviour
                 return;
             }
 
-            // Is the colliding ground a goomba?
-            if (hit.collider.gameObject.tag == "Goomba")
-            {
-                // If yes, then bounce off of the goomba and destroy it
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * 100 * strongJumpMaxIndex);
-                StartCoroutine(hit.collider.gameObject.GetComponent<Goomba>().CommenceDeath());
-            }
+           
 
             // Make sure that we set velocity to zero if the force of gravity is being applied
             if ((GetComponent<Particle3D>().velocity.y < 0 && GetComponent<Particle3D>().velocity.y != 0))
@@ -406,6 +400,19 @@ public class PlayerScript : MonoBehaviour
             GetComponent<Particle3D>().velocity.y = 0;
             isGrounded = true;
             isGroundPounding = false;
+
+            // Is the colliding ground a goomba?
+            if (hit.collider.gameObject.tag == "Goomba")
+            {
+                if (!hit.collider.GetComponent<Goomba>().GetDyingState())
+                {
+                    // If yes, then bounce off of the goomba and destroy it
+                    Debug.Log("Here");
+                    isAttemptingToJump = true;
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * 300);
+                    StartCoroutine(hit.collider.gameObject.GetComponent<Goomba>().CommenceDeath());
+                }
+            }
 
             // Is the colliding object an obstavle?
             if (airTriggeredByJump)

@@ -34,6 +34,20 @@ public class Bobomb : MonoBehaviour
 
 
 
+    // Acessors
+    public bool GetGroundedState() { return isGrounded; }
+    public bool GetDyingState() { return isDying; }
+    public bool GetChasingState() { return isChasing; }
+
+    // Mutators
+    public void SetGroundedState(bool _isGrounded) { isGrounded = _isGrounded; }
+    public void SetDyingState(bool _isDying) { isDying = _isDying; }
+    public void SetChasingState(bool _isChasing) { isChasing = _isChasing; }
+
+
+
+
+
 
     private void Start()
     {

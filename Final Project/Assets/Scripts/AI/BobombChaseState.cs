@@ -30,10 +30,12 @@ public class BobombChaseState : State
     // This function is called once per frame 
     public override void UpdateState()
     {
+        // Look at the player
         Vector3 position = new Vector3(player.transform.position.x, transform.parent.position.y, player.transform.position.z);
         transform.parent.LookAt(position);
         GetComponentInParent<Particle3D>().rotation = transform.rotation;
 
+        // Sprint forward in that direction
         GetComponentInParent<Bobomb>().SprintInADirection(transform.forward, chaseSpeed);
     }
 

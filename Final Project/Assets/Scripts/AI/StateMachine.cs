@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+// AI States Enum
 public enum States
 {
     Idle,
@@ -14,10 +13,17 @@ public enum States
     Throw
 }
 
-public class GoombaController : MonoBehaviour
+public class StateMachine : MonoBehaviour
 {
+    // States
     public State[] states;
+
+    // States enum
     public States currentState;
+
+
+
+
 
     // Start is called before the first frame update
     void Start()

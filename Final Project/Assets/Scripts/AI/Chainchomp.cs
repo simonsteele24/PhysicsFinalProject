@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Chainchomp : MonoBehaviour
 {
+    // Floats
     public float movementSpeed = 1;
     public float lungeMovementSpeed = 10;
     public float distanceToMoveFromPole = 10;
@@ -11,24 +12,47 @@ public class Chainchomp : MonoBehaviour
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public float attackRadius = 2;
+
+    // Booleans
     public bool isGrounded = true;
     public bool isAttacking = false;
+
+    // Gameobjects
     public GameObject pole;
 
+    // Raycast hits
+    RaycastHit hit;
+
+
+
+
+
+    // This function adds a force to the object in a given direction
     public void MoveInADirection(Vector3 direction)
     {
         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * direction * movementSpeed);
     }
 
+
+
+
+
+    // This function adds a lunging force in a given direction
     public void MoveInALungeDirection(Vector3 direction)
     {
         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * direction * lungeMovementSpeed);
     }
 
+
+
+
+
     private void Update()
     {
+        // Is the Chainchomp outside of the range of the chain?
         if (Mathf.Abs(Vector3.Distance(transform.position, pole.transform.position)) > distanceToMoveFromPole)
         {
+            // If so, move them back into chain range
             Vector3 direction = (pole.transform.position - transform.position).normalized;
             Vector3 newPos = transform.position * (distanceToMoveFromPole - Mathf.Abs(Vector3.Distance(transform.position, pole.transform.position)));
             transform.position = newPos;
@@ -36,12 +60,12 @@ public class Chainchomp : MonoBehaviour
             GetComponent<Particle3D>().velocity = Vector3.zero;
         }
 
-        RaycastHit hit;
-
+        // Is the player within attack radius and hittable?
         if (Physics.Raycast(transform.position, transform.forward, out hit, attackRadius))
         {
             if (hit.collider.tag == "Player")
             {
+                // If yes, then damage the player
                 hit.collider.GetComponent<PlayerController>().DamagePlayer(hit.point);
             }
         }
@@ -57,10 +81,12 @@ public class Chainchomp : MonoBehaviour
 
             // Set all values so player sticks to ground
             GetComponent<Particle3D>().isUsingGravity = false;
+            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
         }
         else
         {
             // If in air, set all gravity values
+            GetComponent<Particle3D>().collidingGameObject = null;
             GetComponent<Particle3D>().isUsingGravity = true;
             isGrounded = false;
         }
@@ -73,15 +99,6 @@ public class Chainchomp : MonoBehaviour
                 GetComponent<Particle3D>().velocity.x = 0;
                 GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             }
-        }
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, 2.1f))
-        {
-            GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
-        }
-        else
-        {
-            GetComponent<Particle3D>().collidingGameObject = null;
         }
     }
 }
