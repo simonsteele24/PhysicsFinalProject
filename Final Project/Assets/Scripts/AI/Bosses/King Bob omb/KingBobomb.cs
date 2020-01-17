@@ -59,6 +59,7 @@ public class KingBobomb : MonoBehaviour
 
             // Set all values so player sticks to ground
             GetComponent<Particle3D>().isUsingGravity = false;
+            GetComponent<Particle3D>().position.y = hit.point.y + 0.1f;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             // Is the bobomb prone?
             if (isProne && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().carryingObject == null)

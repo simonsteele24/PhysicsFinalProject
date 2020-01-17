@@ -21,6 +21,7 @@ public class PlayerScript : MonoBehaviour
     public float wallJumpForce = 250;
     public float forceOfKnockbackHits = 20;
     public float proneCooldown;
+    public float longJumpWindow = 1;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
@@ -41,6 +42,7 @@ public class PlayerScript : MonoBehaviour
     bool isSliding = false;
     public bool canWallJump = false;
     public bool isProne = false;
+    public bool canLongJump = false;
 
     // GameObjects
     public GameObject carryingObject;
@@ -188,7 +190,7 @@ public class PlayerScript : MonoBehaviour
                 animator.SetTrigger("GroundPounding");
                 isGroundPounding = true;
             }
-            else if (isGrounded && !isTriggerDown)
+            else if (isGrounded && canLongJump)
             {
                 // If yes, is the A button down as well and is the player grounded?
                 if (Input.GetButtonDown("Xbox_A"))
@@ -208,7 +210,12 @@ public class PlayerScript : MonoBehaviour
                     }
                 }
             }
-            isTriggerDown = true;
+            if (!isTriggerDown)
+            {
+                StartCoroutine(LongjumpWindow());
+                isTriggerDown = true;
+            }
+            
                 // If yes, is the A button down as well and is the player grounded?
                 if (Input.GetButtonDown("Xbox_A") && isGrounded)
                 {
@@ -558,5 +565,16 @@ public class PlayerScript : MonoBehaviour
     {
         yield return new WaitForSeconds(proneCooldown);
         isProne = false;
+    }
+
+
+
+
+
+    IEnumerator LongjumpWindow()
+    {
+        canLongJump = true;
+        yield return new WaitForSeconds(longJumpWindow);
+        canLongJump = false;
     }
 }

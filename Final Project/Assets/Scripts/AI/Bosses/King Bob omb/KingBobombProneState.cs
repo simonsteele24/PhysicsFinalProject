@@ -23,7 +23,10 @@ public class KingBobombProneState : State
 
     public override void UpdateState()
     {
-        transform.parent.rotation = Quaternion.Euler(transform.parent.localEulerAngles.x, GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).eulerAngles.y, transform.parent.localEulerAngles.z);
+        if (GameObject.Find("Player").GetComponent<PlayerScript>().carryingObject != null)
+        {
+            transform.parent.rotation = Quaternion.Euler(transform.parent.localEulerAngles.x, GameObject.FindGameObjectWithTag("Player").transform.GetChild(0).eulerAngles.y, transform.parent.localEulerAngles.z);
+        }
         GetComponentInParent<Particle3D>().rotation = transform.parent.rotation;
     }
 }

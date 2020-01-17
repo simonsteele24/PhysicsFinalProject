@@ -7,6 +7,7 @@ public class KingBobombChaseState : State
     public float rotationUpdateValue = 2;
     public float distanceToLeavePlayer = 10;
     public float distanceToThrowPlayer = 1;
+    public float bossplaneY;
 
     // Gameobjects
     GameObject player;
@@ -19,15 +20,21 @@ public class KingBobombChaseState : State
     public override States CheckForTransition()
     {
         // Is the player actively on the boss plane?
-        if (player.transform.position.y < GetComponentInParent<KingBobomb>().bossPlane.transform.transform.position.y && player.GetComponent<Particle3D>().collidingGameObject != GetComponentInParent<KingBobomb>().bossPlane)
+        if (player.transform.position.y < bossplaneY && player.GetComponent<Particle3D>().collidingGameObject != GetComponentInParent<KingBobomb>().bossPlane)
         {
             // If no, then keep chasing
             return States.Idle;
         }
 
+        // Is the king currently prone?
+        if (GetComponentInParent<KingBobomb>().CheckIfProne())
+        {
+            // If yes, then keep him prone
+            return States.Prone;
+        }
+
         // Find the distance to the player
         float distance = Mathf.Abs(Vector3.Distance(transform.parent.position, player.transform.position));
-
         // Is the distance less than what we need to throw the player?
         if (distance < distanceToThrowPlayer)
         {
@@ -39,13 +46,6 @@ public class KingBobombChaseState : State
             {
                 return States.Throw;
             }
-        }
-
-        // Is the king currently prone?
-        if (GetComponentInParent<KingBobomb>().CheckIfProne())
-        {
-            // If yes, then keep him prone
-            return States.Prone;
         }
 
         // If all else is not true, then keep chasing
@@ -71,6 +71,7 @@ public class KingBobombChaseState : State
     public override void OnEnterState()
     {
         // Find the player gameobject and update position
+        bossplaneY = transform.parent.position.y;
         player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(UpdatePosition());
     }

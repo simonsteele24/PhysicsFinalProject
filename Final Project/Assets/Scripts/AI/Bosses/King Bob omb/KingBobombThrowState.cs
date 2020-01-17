@@ -46,6 +46,7 @@ public class KingBobombThrowState : State
     {
         // Set the player and ready the throw
         player = GameObject.Find("Player");
+        player.GetComponent<Particle3D>().isUsingGravity = false;
         GetComponentInParent<KingBobomb>().bossAnimator.SetTrigger("Pickup");
         playerParticle = player.GetComponent<Particle3D>();
         StartCoroutine(ConductThrowingSequence());
@@ -73,7 +74,8 @@ public class KingBobombThrowState : State
         if (isHoldingPlayer)
         {
             // If yes, then set the player's position to the king's hands
-            player.GetComponent<Particle3D>().position = transform.parent.position + transform.InverseTransformDirection(playerHoldingOffset);
+            player.transform.position = transform.parent.position + (Vector3.up * playerHoldingOffset.y) + (transform.parent.forward * playerHoldingOffset.x);
+            player.GetComponent<Particle3D>().position = player.transform.position;
         }
     }
 
@@ -90,6 +92,7 @@ public class KingBobombThrowState : State
         // Throw player and wait
         GetComponentInParent<KingBobomb>().bossAnimator.SetTrigger("Throw");
         isHoldingPlayer = false;
+        player.GetComponent<Particle3D>().isUsingGravity = true;
         playerParticle.AddForce(playerParticle.mass * transform.forward * horizontalThrowingDistance);
         playerParticle.AddForce(playerParticle.mass * transform.up * verticalThrowingDistance);
         yield return new WaitForSeconds(durationToTransition);
