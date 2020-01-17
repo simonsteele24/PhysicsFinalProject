@@ -12,7 +12,7 @@ public class IdleState : State
     {
         float distance = Mathf.Abs(Vector3.Distance(transform.parent.position, player.transform.position));
 
-        if (distance < distanceToChasePlayer)
+        if (distance < distanceToChasePlayer && !player.GetComponent<PlayerScript>().isProne)
         {
             return States.Chase;
         }

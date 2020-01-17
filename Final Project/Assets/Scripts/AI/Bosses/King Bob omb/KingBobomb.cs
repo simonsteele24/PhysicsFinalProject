@@ -10,10 +10,14 @@ public class KingBobomb : MonoBehaviour
 
     // Booleans
     bool isGrounded = true;
-    bool isProne = false;
+    public bool isProne = false;
 
     // Gameobjects
     public GameObject bossPlane;
+    public GameObject star;
+
+    // Animation Controller
+    public Animator bossAnimator;
 
     // Raycast hits
     RaycastHit hit;
@@ -56,9 +60,8 @@ public class KingBobomb : MonoBehaviour
             // Set all values so player sticks to ground
             GetComponent<Particle3D>().isUsingGravity = false;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
-
             // Is the bobomb prone?
-            if (isProne)
+            if (isProne && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().carryingObject == null)
             {
                 // If so, then damage him
                 isProne = false;
@@ -99,6 +102,7 @@ public class KingBobomb : MonoBehaviour
         health--;
         if (health == 0)
         {
+            star.SetActive(true);
             Destroy(gameObject);
         }
     }

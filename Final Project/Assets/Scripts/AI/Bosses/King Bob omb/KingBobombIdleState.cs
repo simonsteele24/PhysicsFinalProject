@@ -31,6 +31,7 @@ public class KingBobombIdleState : State
     public override void OnEnterState()
     {
         player = GameObject.Find("Player");
+        GetComponentInParent<KingBobomb>().bossAnimator.SetTrigger("Idle");
     }
 
     public override void OnExitState() { }

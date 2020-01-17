@@ -51,7 +51,7 @@ public class Bobomb : MonoBehaviour
 
     private void Start()
     {
-        smoke.Stop();
+        smoke.Pause();
     }
 
 
@@ -61,7 +61,6 @@ public class Bobomb : MonoBehaviour
     // This function moves the object in a given direction
     public void MoveInADirection(Vector3 direction)
     {
-        smoke.Stop();
         bobombAnimator.SetFloat("AnimWalkSpeed", new Vector3(GetComponent<Particle3D>().velocity.x, 0, GetComponent<Particle3D>().velocity.z).magnitude * walkSpeedAnimationMultiplier);
         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * direction * movementSpeed);
     }

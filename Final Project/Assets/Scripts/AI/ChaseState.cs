@@ -20,7 +20,7 @@ public class ChaseState : State
     {
         // Check if distance is out of chasing range
         float distance = Mathf.Abs(Vector3.Distance(transform.parent.position, player.transform.position));
-        if (distance > distanceToStopChasing)
+        if (distance > distanceToStopChasing || player.GetComponent<PlayerScript>().isProne)
         {
             // If yes, then go back to idle
             return States.Idle;

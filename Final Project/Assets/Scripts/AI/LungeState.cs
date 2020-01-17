@@ -10,6 +10,13 @@ public class LungeState : State
 
     public override States CheckForTransition()
     {
+        if (!canLunge)
+        {
+            player = GameObject.Find("Player").transform.position;
+            Vector3 position = new Vector3(player.x, transform.position.y, player.z);
+            transform.parent.LookAt(position);
+            GetComponentInParent<Particle3D>().rotation = transform.parent.rotation;
+        }
 
         if (Vector3.Distance(transform.parent.position, GetComponentInParent<Chainchomp>().pole.transform.position) > GetComponentInParent<Chainchomp>().distanceToStop)
         {
@@ -22,10 +29,6 @@ public class LungeState : State
     public override void OnEnterState()
     {
         canLunge = false;
-        player = GameObject.Find("Player").transform.position;
-        Vector3 position = new Vector3(player.x, transform.position.y, player.z);
-        transform.parent.LookAt(position);
-        GetComponentInParent<Particle3D>().rotation = transform.parent.rotation;
         StartCoroutine(WaitToLunge());
     }
 

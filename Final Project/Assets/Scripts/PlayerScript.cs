@@ -20,6 +20,7 @@ public class PlayerScript : MonoBehaviour
     public float throwingOffset = 20;
     public float wallJumpForce = 250;
     public float forceOfKnockbackHits = 20;
+    public float proneCooldown;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
@@ -39,9 +40,10 @@ public class PlayerScript : MonoBehaviour
     bool isTriggerDown = false;
     bool isSliding = false;
     public bool canWallJump = false;
+    public bool isProne = false;
 
     // GameObjects
-    GameObject carryingObject;
+    public GameObject carryingObject;
     public GameObject cameraGameObject;
 
     // Transforms
@@ -52,7 +54,8 @@ public class PlayerScript : MonoBehaviour
     // Vector3's
     public Vector3 carryingOffset;
     Vector3 collidingPoint;
-    
+
+   
 
     // Start is called before the first frame update
     void Start()
@@ -95,7 +98,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Move if nothing is in the way of the player
-        if (!Physics.Raycast(playerMovementTransform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit) && !isTriggerDown)
+        if (!Physics.Raycast(playerMovementTransform.position, new Vector3(inputAmountX, 0, inputAmountY).normalized, out hit, movementCheckRaycatHit) && !isTriggerDown && !isProne)
         {
             if (!isSliding)
             {
@@ -135,7 +138,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         // Is the player pressing the punch button and are they allowed to punch?
-        if (Input.GetButtonDown("Xbox_B") && canPunch)
+        if (Input.GetButtonDown("Xbox_B") && canPunch && !isProne)
         {
             animator.SetBool("isPunching", true);
 
@@ -143,7 +146,7 @@ public class PlayerScript : MonoBehaviour
             if (carryingObject != null)
             {
                 // If yes, then throw whatever the player is carrying
-                carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.forward * throwingOffset);
+                carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.GetChild(0).forward * throwingOffset);
                 carryingObject.GetComponent<Particle3D>().AddForce(carryingObject.GetComponent<Particle3D>().mass * transform.up * throwingOffset);
                 carryingObject = null;
             }
@@ -177,7 +180,7 @@ public class PlayerScript : MonoBehaviour
 
 
         // Is the player pressing the left trigger down?
-        if (Input.GetAxis("Xbox_LT") > 0)
+        if (Input.GetAxis("Xbox_LT") > 0 && !isProne)
         {
             if (!isTriggerDown && !isGrounded)
             {
@@ -210,7 +213,7 @@ public class PlayerScript : MonoBehaviour
                 if (Input.GetButtonDown("Xbox_A") && isGrounded)
                 {
                         // If no, then perform a backflip
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 500 * Vector3.up * strongJumpMaxIndex);
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * Vector3.up * (strongJumpMaxIndex + 1));
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * -transform.GetChild(0).forward);
                         GetComponent<Particle3D>().position.y += 0.5f;
 
@@ -225,7 +228,7 @@ public class PlayerScript : MonoBehaviour
         {
             isTriggerDown = false;
             // Is the A button down?
-            if (Input.GetButtonDown("Xbox_A"))
+            if (Input.GetButtonDown("Xbox_A") && !isProne)
             {
                 // If yes, are they grounded?
                 if (isGrounded)
@@ -293,7 +296,7 @@ public class PlayerScript : MonoBehaviour
                     {
                         // If yes, then perform a stronger jump
                         strongerJumpKey++;
-                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * strongerJumpKey * jumpForce);
+                        GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * (strongerJumpKey + 1) * jumpForce);
                         GetComponent<Particle3D>().position.y += 0.5f;
                     }
                     else
@@ -313,7 +316,7 @@ public class PlayerScript : MonoBehaviour
                     // If yes, then calculate the normal between the two points and jump accordingly
                     Vector3 normal = transform.position - collidingPoint;
                     GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * wallJumpForce * new Vector3(normal.normalized.x, 0, normal.normalized.z) * strongJumpMaxIndex);
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * wallJumpForce * Vector3.up * strongJumpMaxIndex);
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce * (strongJumpMaxIndex + 1));
                     transform.GetChild(0).transform.rotation = Quaternion.Euler(transform.GetChild(0).transform.eulerAngles.x, transform.GetChild(0).transform.eulerAngles.y + 180, transform.GetChild(0).transform.eulerAngles.z);
                     animator.SetTrigger("WallJumping");
                 }
@@ -407,7 +410,6 @@ public class PlayerScript : MonoBehaviour
                 if (!hit.collider.GetComponent<Goomba>().GetDyingState())
                 {
                     // If yes, then bounce off of the goomba and destroy it
-                    Debug.Log("Here");
                     isAttemptingToJump = true;
                     GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * 300);
                     StartCoroutine(hit.collider.gameObject.GetComponent<Goomba>().CommenceDeath());
@@ -442,6 +444,11 @@ public class PlayerScript : MonoBehaviour
                 GetComponent<Particle3D>().velocity.z = 0;
                 GetComponent<Particle3D>().velocity.x = 0;
                 GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+
+                if (hit.collider.tag == "Star")
+                {
+                    GameManager.manager.RestartLevel();
+                }
 
                 // Is the player in the air?
                 if (!isGrounded)
@@ -532,8 +539,24 @@ public class PlayerScript : MonoBehaviour
     {
         Vector3 direction = (transform.position - pointOfHit).normalized;
         GetComponent<Particle3D>().AddForce(direction * GetComponent<Particle3D>().mass * forceOfKnockbackHits);
-        GetComponent<Particle3D>().AddForce(Vector3.up * GetComponent<Particle3D>().mass * forceOfKnockbackHits);
         GetComponent<Particle3D>().position.y += raycastCheckHit;
+
+        if (isGrounded)
+        {
+            GetComponent<Particle3D>().AddForce(Vector3.up * GetComponent<Particle3D>().mass * forceOfKnockbackHits);
+        }
         isAttemptingToJump = true;
+        isProne = true;
+        StartCoroutine(ProneCooldown());
+    }
+
+
+
+
+
+    IEnumerator ProneCooldown()
+    {
+        yield return new WaitForSeconds(proneCooldown);
+        isProne = false;
     }
 }

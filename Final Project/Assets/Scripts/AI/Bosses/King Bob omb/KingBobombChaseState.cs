@@ -60,6 +60,7 @@ public class KingBobombChaseState : State
     public override void UpdateState()
     {
         GetComponentInParent<KingBobomb>().MoveInADirection(transform.forward);
+        GetComponentInParent<KingBobomb>().bossAnimator.SetTrigger("Walking");
     }
 
 
