@@ -22,6 +22,7 @@ public class PlayerScript : MonoBehaviour
     public float forceOfKnockbackHits = 20;
     public float proneCooldown;
     public float longJumpWindow = 1;
+    public float upwardVector = 1;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
@@ -51,6 +52,7 @@ public class PlayerScript : MonoBehaviour
     // Transforms
     public Transform playerTorsoTransform;
     public Transform playerMovementTransform;
+    public Transform headTransform;
     public Animator animator;
 
     // Vector3's
@@ -367,6 +369,12 @@ public class PlayerScript : MonoBehaviour
             {
                 GetComponent<Particle3D>().velocity.y = GetComponent<Particle3D>().collidingGameObject.GetComponent<Particle3D>().velocity.y;
             }
+        }
+
+        if (Physics.Raycast(headTransform.transform.position, Vector3.up, out hit, upwardVector))
+        {
+            GetComponent<Particle3D>().velocity.y = 0;
+            GetComponent<Particle3D>().position.y = hit.point.y - (headTransform.position.y - transform.position.y) - upwardVector - 0.1f;
         }
 
         // See if player is colliding with ground
