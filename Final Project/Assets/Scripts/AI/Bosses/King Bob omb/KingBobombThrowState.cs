@@ -47,6 +47,7 @@ public class KingBobombThrowState : State
         // Set the player and ready the throw
         player = GameObject.Find("Player");
         player.GetComponent<Particle3D>().isUsingGravity = false;
+        player.GetComponent<PlayerScript>().isProne = true;
         GetComponentInParent<KingBobomb>().bossAnimator.SetTrigger("Pickup");
         playerParticle = player.GetComponent<Particle3D>();
         StartCoroutine(ConductThrowingSequence());
@@ -61,6 +62,7 @@ public class KingBobombThrowState : State
     {
         isReadyToTransition = false;
         isHoldingPlayer = false;
+        player.GetComponent<PlayerScript>().isProne = false;
     }
 
 

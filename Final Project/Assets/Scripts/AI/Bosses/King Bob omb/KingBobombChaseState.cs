@@ -7,6 +7,7 @@ public class KingBobombChaseState : State
     public float rotationUpdateValue = 2;
     public float distanceToLeavePlayer = 10;
     public float distanceToThrowPlayer = 1;
+    public float rotationSpeed = 0.1f;
     public float bossplaneY;
 
     // Gameobjects
@@ -61,6 +62,12 @@ public class KingBobombChaseState : State
     {
         GetComponentInParent<KingBobomb>().MoveInADirection(transform.forward);
         GetComponentInParent<KingBobomb>().bossAnimator.SetTrigger("Walking");
+
+        Vector3 dir = player.transform.position - transform.parent.position;
+        dir.y = 0; // keep the direction strictly horizontal
+        Quaternion rot = Quaternion.LookRotation(dir);
+
+        GetComponentInParent<Particle3D>().rotation = Quaternion.Slerp(transform.parent.rotation, rot, Time.deltaTime * rotationSpeed);
     }
 
 
@@ -73,7 +80,6 @@ public class KingBobombChaseState : State
         // Find the player gameobject and update position
         bossplaneY = transform.parent.position.y;
         player = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(UpdatePosition());
     }
 
 
@@ -85,24 +91,5 @@ public class KingBobombChaseState : State
     {
         // Set player to null
         player = null;
-    }
-
-
-
-
-
-    // This function updates the rotation of the object to look toward the player after a certain amount of time
-    IEnumerator UpdatePosition()
-    {
-        // Is the player valid?
-        while (player != null)
-        {
-            // If yes, then find the position of the player and look towards them
-            Vector3 position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-            transform.parent.LookAt(position);
-            GetComponentInParent<Particle3D>().rotation = transform.parent.rotation;
-
-            yield return new WaitForSeconds(rotationUpdateValue);
-        }
     }
 }

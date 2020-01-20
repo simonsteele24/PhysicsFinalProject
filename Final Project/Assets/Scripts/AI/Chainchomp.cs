@@ -12,6 +12,7 @@ public class Chainchomp : MonoBehaviour
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public float attackRadius = 2;
+    public float hitRadius = 1.5f;
 
     // Booleans
     public bool isGrounded = true;
@@ -49,15 +50,27 @@ public class Chainchomp : MonoBehaviour
 
     private void Update()
     {
+        Vector3 direction;
+
         // Is the Chainchomp outside of the range of the chain?
         if (Mathf.Abs(Vector3.Distance(transform.position, pole.transform.position)) > distanceToMoveFromPole)
         {
             // If so, move them back into chain range
-            Vector3 direction = (pole.transform.position - transform.position).normalized;
+            direction = (pole.transform.position - transform.position).normalized;
             Vector3 newPos = transform.position * (distanceToMoveFromPole - Mathf.Abs(Vector3.Distance(transform.position, pole.transform.position)));
             transform.position = newPos;
             GetComponent<Particle3D>().position = transform.position;
             GetComponent<Particle3D>().velocity = Vector3.zero;
+        }
+
+        direction = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
+
+        if (Physics.Raycast(transform.position, direction.normalized, out hit, hitRadius))
+        {
+            if (hit.collider.tag == "Player")
+            {
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().DamagePlayer(transform.position);
+            }
         }
 
         // Is the player within attack radius and hittable?

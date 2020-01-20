@@ -97,7 +97,7 @@ public class Goomba : MonoBehaviour
         // Is the goomba colliding with the player?
         if (Physics.Raycast(goombaTorsoPosition.position, transform.forward, out hit, attackRadius))
         {
-            if (hit.collider.tag == "Player")
+            if (hit.collider.tag == "Player" && !isDying)
             {
                 // If yes, then add damage to the player
                 hit.collider.GetComponent<PlayerController>().DamagePlayer(hit.point);
@@ -105,7 +105,7 @@ public class Goomba : MonoBehaviour
         }
 
         // Has the Goomba collided with the wall?
-        if (Physics.Raycast(transform.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
+        if (Physics.Raycast(goombaTorsoPosition.position, new Vector3(GetComponent<Particle3D>().velocity.normalized.x, 0, GetComponent<Particle3D>().velocity.normalized.z), out hit, movementCheckRaycatHit))
         {
             // If so, has the goomba already collided with said wall?
             if (hit.collider.gameObject != GetComponent<Particle3D>().collidingGameObject)

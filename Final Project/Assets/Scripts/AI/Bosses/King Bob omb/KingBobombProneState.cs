@@ -5,7 +5,7 @@ public class KingBobombProneState : State
     // This function is called every frame to check if the state needs to be changed
     public override States CheckForTransition()
     {
-        if (!GetComponentInParent<KingBobomb>().CheckIfProne())
+        if (!GetComponentInParent<KingBobomb>().CheckIfProne() && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().carryingObject == null && GetComponentInParent<KingBobomb>().CheckIfGrounded() && GetComponentInParent<Particle3D>().collidingGameObject != GameObject.FindGameObjectWithTag("Player"))
         {
             return States.Chase;
         }

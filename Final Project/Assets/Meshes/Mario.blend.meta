@@ -4,12 +4,6 @@ ModelImporter:
   serializedVersion: 26
   internalIDToNameTable:
   - first:
-      74: -7584393095269884871
-    second: Armature|Mario_Jump
-  - first:
-      74: 7241536103757253492
-    second: Armature|Mario_Run
-  - first:
       74: 5225545845245031378
     second: Armature|Mario_BackJump
   - first:
@@ -19,11 +13,23 @@ ModelImporter:
       74: -8602737652566479575
     second: Armature|Mario_Crouch_Up
   - first:
+      74: -8019301845500655528
+    second: Armature|Mario_Dead
+  - first:
+      74: -686664104204615585
+    second: Armature|Mario_Dead.001
+  - first:
+      74: -8081440981393626539
+    second: Armature|Mario_GetUp
+  - first:
       74: 1566029239436769304
     second: Armature|Mario_GroundPound
   - first:
       74: 925495475937545290
     second: Armature|Mario_Idle
+  - first:
+      74: -7584393095269884871
+    second: Armature|Mario_Jump
   - first:
       74: -190047689782373316
     second: Armature|Mario_Jump_Double
@@ -34,8 +40,14 @@ ModelImporter:
       74: 750267767735725811
     second: Armature|Mario_Jump_Triple
   - first:
+      74: -4059154988450879364
+    second: Armature|Mario_Knockback
+  - first:
       74: -3968942247949345617
     second: Armature|Mario_Long_Jump
+  - first:
+      74: -4571360825660680709
+    second: Armature|Mario_OnBack
   - first:
       74: 6646765334227019775
     second: Armature|Mario_Pickup
@@ -49,41 +61,24 @@ ModelImporter:
       74: -7771444922256885838
     second: Armature|Mario_Punch
   - first:
+      74: 7241536103757253492
+    second: Armature|Mario_Run
+  - first:
       74: 2569777892379550196
     second: Armature|Mario_Sideflip
   - first:
       74: 4662237560643543516
     second: Armature|Mario_Slide
   - first:
+      74: -4255267963515783336
+    second: Armature|Mario_StarGet
+  - first:
       74: 1197413391131629363
     second: Armature|Mario_Throw
   - first:
       74: 7375611809476364554
     second: Armature|Mario_WallKick
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Body__m_Body
-    second: {fileID: 6699156537824952830, guid: 0aeea00481216f54f81cb7acad51e65c,
-      type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Body__m_Eye
-    second: {fileID: 345796966621183815, guid: 0aeea00481216f54f81cb7acad51e65c, type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pupil__m_PupilL
-    second: {fileID: -2594792797107923084, guid: 0aeea00481216f54f81cb7acad51e65c,
-      type: 3}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Pupil__m_PupilR
-    second: {fileID: 6625085192960132990, guid: 0aeea00481216f54f81cb7acad51e65c,
-      type: 3}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -175,6 +170,64 @@ ModelImporter:
       internalID: 0
       firstFrame: 0
       lastFrame: 5
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Mario_Dead
+      takeName: Armature|Mario_Dead
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Mario_GetUp
+      takeName: Armature|Mario_GetUp
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -373,11 +426,69 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
+      name: Armature|Mario_Knockback
+      takeName: Armature|Mario_Knockback
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 5
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Armature|Mario_Long_Jump
       takeName: Armature|Mario_Long_Jump
       internalID: 0
       firstFrame: 0
       lastFrame: 8
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Mario_OnBack
+      takeName: Armature|Mario_OnBack
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -581,6 +692,35 @@ ModelImporter:
       internalID: 0
       firstFrame: 0
       lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Mario_StarGet
+      takeName: Armature|Mario_StarGet
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 17
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

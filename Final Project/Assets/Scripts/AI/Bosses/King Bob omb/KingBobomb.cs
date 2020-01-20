@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class KingBobomb : MonoBehaviour
 {
@@ -7,10 +8,12 @@ public class KingBobomb : MonoBehaviour
     public float raycastCheckHit = 1;
     public float movementCheckRaycatHit = 3;
     public float health = 3;
+    public float timeToWaitUntilDeath = 3;
 
     // Booleans
-    bool isGrounded = true;
+    public bool isGrounded = true;
     public bool isProne = false;
+    public bool isDying = false;
 
     // Gameobjects
     public GameObject bossPlane;
@@ -18,6 +21,7 @@ public class KingBobomb : MonoBehaviour
 
     // Animation Controller
     public Animator bossAnimator;
+    public Vector3 bossPlaneAxis;
 
     // Raycast hits
     RaycastHit hit;
@@ -48,6 +52,16 @@ public class KingBobomb : MonoBehaviour
 
     private void Update()
     {
+        bossAnimator.SetBool("isProne", isProne);
+
+        if (transform.position.y < bossPlaneAxis.y)
+        {
+            Debug.Log("Here");
+            
+            GetComponent<Particle3D>().position = bossPlaneAxis + Vector3.up * 4;
+            transform.position = GetComponent<Particle3D>().position;
+        }
+
         // See if player is colliding with ground
         if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastCheckHit))
         {
@@ -61,8 +75,10 @@ public class KingBobomb : MonoBehaviour
             GetComponent<Particle3D>().isUsingGravity = false;
             GetComponent<Particle3D>().position.y = hit.point.y + 0.1f;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
+            isGrounded = true;
+
             // Is the bobomb prone?
-            if (isProne && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().carryingObject == null)
+            if (isProne && GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().carryingObject == null && !isDying)
             {
                 // If so, then damage him
                 isProne = false;
@@ -104,7 +120,19 @@ public class KingBobomb : MonoBehaviour
         if (health == 0)
         {
             star.SetActive(true);
-            Destroy(gameObject);
+            StartCoroutine(WaitToDestroyBobomb());
         }
+    }
+
+
+
+
+
+    IEnumerator WaitToDestroyBobomb()
+    {
+        isDying = true;
+        isProne = true;
+        yield return new WaitForSeconds(timeToWaitUntilDeath);
+        Destroy(gameObject);
     }
 }

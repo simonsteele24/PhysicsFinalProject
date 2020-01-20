@@ -18,7 +18,7 @@ public class LungeState : State
             GetComponentInParent<Particle3D>().rotation = transform.parent.rotation;
         }
 
-        if (Vector3.Distance(transform.parent.position, GetComponentInParent<Chainchomp>().pole.transform.position) > GetComponentInParent<Chainchomp>().distanceToStop)
+        if (Vector3.Distance(transform.parent.position, GetComponentInParent<Chainchomp>().pole.transform.position) > GetComponentInParent<Chainchomp>().distanceToStop || GetComponentInParent<Particle3D>().velocity == Vector3.zero)
         {
             return States.IdleBeforeReturn;
         }

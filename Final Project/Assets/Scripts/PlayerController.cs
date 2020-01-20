@@ -19,10 +19,12 @@ public class PlayerController : MonoBehaviour
             healthText.text = health.ToString();
             if (health <= 0)
             {
+                GetComponent<PlayerScript>().animator.SetTrigger("isDead");
+                GetComponent<PlayerScript>().animator.SetTrigger("Knockbacking");
+                GetComponent<PlayerScript>().isDead = true;
                 GameManager.manager.RestartLevel();
             }
             GetComponent<PlayerScript>().AddKnockBack(knockbackPosition);
-            Debug.Log("Ooph");
         }        
     }
 
