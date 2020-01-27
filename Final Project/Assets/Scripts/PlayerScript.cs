@@ -23,6 +23,16 @@ public class PlayerScript : MonoBehaviour
     public float proneCooldown;
     public float longJumpWindow = 1;
     public float upwardVector = 1;
+    float enemyJumpForce = 300;
+    float slidingForce = 100;
+    float jumpingOffset = 0.5f;
+    float knockbackOffset = 1.0f;
+    float lastInputTakenCooldown = 0.1f;
+    float raycastRemoveOffset = 0.1f;
+    float goombaJumpOffset = 1;
+    float backFlipBackForce = 50;
+    float longjumpUpwardforce = 50;
+    float longjumpHorizontalforce = 50;
     float originalGravitationalConstant;
     float inputAmountX;
     float inputAmountY;
@@ -102,7 +112,7 @@ public class PlayerScript : MonoBehaviour
 
         if (isSliding)
         {
-            GetComponent<Particle3D>().AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, GetComponent<Particle3D>().gravitationalConstant, 0), GetComponent<Particle3D>().collidingGameObject.transform.right * 100));
+            GetComponent<Particle3D>().AddForce(ForceGenerator.GenerateForce_sliding(new Vector3(0, GetComponent<Particle3D>().gravitationalConstant, 0), GetComponent<Particle3D>().collidingGameObject.transform.right * slidingForce));
         }
 
         // Move if nothing is in the way of the player
@@ -202,9 +212,9 @@ public class PlayerScript : MonoBehaviour
                 // If yes, is the A button down as well and is the player grounded?
                 // If yes, then perform a long jump
                 animator.SetTrigger("LongJumping");
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * Vector3.up * strongJumpMaxIndex);
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 500 * transform.GetChild(0).forward);
-                GetComponent<Particle3D>().position.y += 0.5f;
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * longjumpUpwardforce * Vector3.up * strongJumpMaxIndex);
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * longjumpHorizontalforce * transform.GetChild(0).forward);
+                GetComponent<Particle3D>().position.y += jumpingOffset;
 
                 isAttemptingToJump = true;
                 airTriggeredByJump = true;
@@ -214,8 +224,8 @@ public class PlayerScript : MonoBehaviour
             {
                 // If no, then perform a backflip
                 GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * Vector3.up * (strongJumpMaxIndex + 1));
-                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * 50 * -transform.GetChild(0).forward);
-                GetComponent<Particle3D>().position.y += 0.5f;
+                GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * backFlipBackForce * -transform.GetChild(0).forward);
+                GetComponent<Particle3D>().position.y += jumpingOffset;
 
                 animator.SetTrigger("Backflipping");
 
@@ -246,7 +256,7 @@ public class PlayerScript : MonoBehaviour
                             animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * transform.GetChild(0).forward);
-                            GetComponent<Particle3D>().position.y += 0.5f;
+                            GetComponent<Particle3D>().position.y += jumpingOffset;
 
                             isAttemptingToJump = true;
                             airTriggeredByJump = true;
@@ -260,7 +270,7 @@ public class PlayerScript : MonoBehaviour
                             animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * transform.GetChild(0).forward);
-                            GetComponent<Particle3D>().position.y += 0.5f;
+                            GetComponent<Particle3D>().position.y += jumpingOffset;
 
                             isAttemptingToJump = true;
                             airTriggeredByJump = true;
@@ -274,7 +284,7 @@ public class PlayerScript : MonoBehaviour
                             animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * transform.GetChild(0).forward);
-                            GetComponent<Particle3D>().position.y += 0.5f;
+                            GetComponent<Particle3D>().position.y += jumpingOffset;
 
                             isAttemptingToJump = true;
                             airTriggeredByJump = true;
@@ -288,7 +298,7 @@ public class PlayerScript : MonoBehaviour
                             animator.SetTrigger("SideJumping");
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * Vector3.up * strongJumpMaxIndex);
                             GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * jumpForce * transform.GetChild(0).forward);
-                            GetComponent<Particle3D>().position.y += 0.5f;
+                            GetComponent<Particle3D>().position.y += jumpingOffset;
 
                             isAttemptingToJump = true;
                             airTriggeredByJump = true;
@@ -302,14 +312,14 @@ public class PlayerScript : MonoBehaviour
                         // If yes, then perform a stronger jump
                         strongerJumpKey++;
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * (strongerJumpKey + 1) * jumpForce);
-                        GetComponent<Particle3D>().position.y += 0.5f;
+                        GetComponent<Particle3D>().position.y += jumpingOffset;
                     }
                     else
                     {
                         // If no, then perform just a regular jump
                         strongerJumpKey = 0;
                         GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().Mass * Vector3.up * jumpForce);
-                        GetComponent<Particle3D>().position.y += 0.5f;
+                        GetComponent<Particle3D>().position.y += jumpingOffset;
                     }
                     isAttemptingToJump = true;
                     airTriggeredByJump = true;
@@ -371,7 +381,7 @@ public class PlayerScript : MonoBehaviour
         if (Physics.Raycast(headTransform.transform.position, Vector3.up, out hit, upwardVector))
         {
             GetComponent<Particle3D>().velocity.y = 0;
-            GetComponent<Particle3D>().position.y = hit.point.y - (headTransform.position.y - transform.position.y) - upwardVector - 0.1f;
+            GetComponent<Particle3D>().position.y = hit.point.y - (headTransform.position.y - transform.position.y) - upwardVector - raycastRemoveOffset;
         }
 
         // See if player is colliding with ground
@@ -409,7 +419,6 @@ public class PlayerScript : MonoBehaviour
             GetComponent<Particle3D>().position.y = hit.point.y;
 
             // Set all values so player sticks to ground
-            //GetComponent<Particle3D>().isUsingGravity = false;
             isAttemptingToJump = false;
             GetComponent<Particle3D>().collidingGameObject = hit.collider.gameObject;
             GetComponent<Particle3D>().velocity.y = 0;
@@ -423,8 +432,8 @@ public class PlayerScript : MonoBehaviour
                 {
                     // If yes, then bounce off of the goomba and destroy it
                     isAttemptingToJump = true;
-                    GetComponent<Particle3D>().position.y += 1;
-                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * 300);
+                    GetComponent<Particle3D>().position.y += goombaJumpOffset;
+                    GetComponent<Particle3D>().AddForce(GetComponent<Particle3D>().mass * Vector3.up * enemyJumpForce);
                     StartCoroutine(hit.collider.gameObject.GetComponent<Goomba>().CommenceDeath());
                 }
             }
@@ -542,7 +551,7 @@ public class PlayerScript : MonoBehaviour
         {
             lastDirectionX = inputAmountX;
             lastDirectionY = inputAmountY;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(lastInputTakenCooldown);
         }
     }
 
@@ -554,7 +563,7 @@ public class PlayerScript : MonoBehaviour
         Vector3 pointPos = new Vector3(pointOfHit.x, 0, pointOfHit.z);
         Vector3 direction = (newPos - pointPos).normalized;
         GetComponent<Particle3D>().AddForce(direction * GetComponent<Particle3D>().mass * forceOfKnockbackHits);
-        GetComponent<Particle3D>().position.y += 1;
+        GetComponent<Particle3D>().position.y += knockbackOffset;
         animator.SetTrigger("Knockbacking");
 
         if (isGrounded)

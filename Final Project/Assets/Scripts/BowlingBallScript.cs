@@ -27,5 +27,10 @@ public class BowlingBallScript : MonoBehaviour
                 player.GetComponent<PlayerController>().DamagePlayer(transform.position);
             }
         }
+
+        if (GetComponent<Particle3D>().collidingGameObject.tag == "Despawn")
+        {
+            Destroy(gameObject);
+        }
     }
 }
