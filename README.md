@@ -15,7 +15,7 @@ Controls
 - (Press B when picking up) Throw
 - (LT + A when sprinting) Long Jump
 - (LT when in the air) Ground Pound 
-
+- (Press A and quickly change direction) Side Jump
 
 Rules
 
