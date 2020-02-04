@@ -20,3 +20,11 @@ Controls
 Rules
 
 - Get to the top of the mountain and defeat King Bobomb to get the star
+
+
+
+Credits:
+
+All Envrionmental and Enemy Models / Textures: alecpike
+
+Mario Rig: Cmanflip
